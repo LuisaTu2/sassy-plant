@@ -1,8 +1,9 @@
 import numpy as np
 import sounddevice as sd
+from openai import OpenAI
+
 from constants import MODEL_GPT, MODEL_GPT_MINI_TTS, OPENAI_API_KEY
 from llm_client import LLMClient
-from openai import OpenAI
 from types_plant import AudioOutputType, PlantState, Voice
 
 

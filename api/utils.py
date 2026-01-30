@@ -1,7 +1,8 @@
 import asyncio
+import datetime
 import random
 
-from types_plant import PlantMood, PlantState
+from types_plant import PlantData, PlantMood, PlantState
 
 
 def get_plant_mood(plant_state):
@@ -25,3 +26,13 @@ async def read_sensors(plant_state: PlantState):
         plant_state["mood"] = plant_mood
         print("plant state: ", plant_state["mood"].value)
         await asyncio.sleep(0.1)  # simulate 1-second sensor interval
+
+
+def simulate_readings():
+    # data: list[PlantData] = []
+    # for _ in range(20):
+    return {
+        "soil_moisture": random.randint(0, 1000),
+        "timestamp": datetime.datetime.now().isoformat(),
+    }
+    # data.append(datum)

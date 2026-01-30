@@ -1,0 +1,28 @@
+#root {
+  /* max-width: 1280px; */
+  margin: 0;
+  padding: 0;
+  /* padding: 2rem; */
+  /* text-align: center; */
+}
+
+.app {
+  /* width: 80%; */
+  /* margin-left: 10%; */
+  /* background-color: rgb(207, 198, 216); */
+}
+
+.title {
+  font-size: 2rem;
+  text-align: center;
+  margin: 15px 0;
+  color: rgba(70, 151, 79, 0.75);
+  font-weight: 600;
+}
+
+.footer {
+  position: fixed;
+  bottom: 50px;
+  margin-left: 10%;
+  font-size: 1rem;
+}

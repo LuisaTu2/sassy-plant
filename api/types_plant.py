@@ -18,6 +18,11 @@ class PlantState(BaseModel):
     mood: PlantMood
 
 
+class PlantData(BaseModel):
+    soil_moisture: int
+    timestamp: str
+
+
 class Voice(Enum):
     ALLOY = "alloy"
     ASH = "ash"
