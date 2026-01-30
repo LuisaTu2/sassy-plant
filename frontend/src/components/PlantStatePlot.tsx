@@ -43,6 +43,7 @@ const PlantStatePlot = ({ data }: StatePlotProps) => {
             type="monotone"
             dataKey="soil_moisture"
             stroke="#4caf50"
+            strokeWidth={"10px"}
             dot={false}
             isAnimationActive={false}
           />

@@ -18,9 +18,34 @@ class PlantState(BaseModel):
     mood: PlantMood
 
 
-class PlantData(BaseModel):
-    soil_moisture: int
+class MessageType(Enum):
+    READING = "reading"
+    AUDIO = "audio"
+
+
+class Reading(BaseModel):
     timestamp: str
+    soil_moisture: int
+    light: str | None
+
+
+class ReadingMessage(BaseModel):
+    type: MessageType.READING.value
+    payload: Reading
+
+
+class AudioType(Enum):
+    MP3 = "mp3"  # default response format for general use cases
+    OPUS = "opus"  # for internet streaming and communications, low latency
+    ACC = "acc"  #  for digital audio compression, preferred by YouTube, Androis, iOS
+    FLAC = "flac"  # for lossless audio compression, favoured by audio enthusiasts for archiving
+    WAV = "wav"  # uncompressed WAV audio, suitable for low-latency applications to avoid decoding overhead
+    PCM = "pcm"  # similar to WAV but contains the raw samples in 24kHz (16-bit signed, low-endian), without the header.
+
+
+class AudioMessage(BaseModel):
+    type: MessageType.AUDIO.value
+    payload: AudioType
 
 
 class Voice(Enum):
@@ -37,12 +62,3 @@ class Voice(Enum):
     VERSE = "verse"
     MARIN = "marin"
     CEDAR = "cedar"
-
-
-class AudioOutputType(Enum):
-    MP3 = "mp3"  # default response format for general use cases
-    OPUS = "opus"  # for internet streaming and communications, low latency
-    ACC = "acc"  #  for digital audio compression, preferred by YouTube, Androis, iOS
-    FLAC = "flac"  # for lossless audio compression, favoured by audio enthusiasts for archiving
-    WAV = "wav"  # uncompressed WAV audio, suitable for low-latency applications to avoid decoding overhead
-    PCM = "pcm"  # similar to WAV but contains the raw samples in 24kHz (16-bit signed, low-endian), without the header.

@@ -92,26 +92,27 @@ input:disabled + .slider:before {
   background: #ccc;
   border-radius: 3px;
   outline: none;
+  margin: none;
 }
 
 .tick-slider::-webkit-slider-thumb {
   appearance: none;
   width: 20px;
   height: 20px;
-  background: #9bb59b;
+  background: #8a5cd3;
   cursor: pointer;
   border-radius: 50%;
-  border: 2px solid #333;
+  border: 1px solid #b3b0b0;
   margin-top: -7px; /* center thumb on track */
 }
 
 .tick-slider::-moz-range-thumb {
   width: 20px;
   height: 20px;
-  background: #626b62;
+  background: #8a5cd3;
   cursor: pointer;
   border-radius: 50%;
-  border: 2px solid #b3b0b0;
+  border: 1px solid #b3b0b0;
 }
 
 .tick-slider-ticks {

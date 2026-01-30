@@ -1,8 +1,19 @@
 import asyncio
+import base64
 import datetime
+import json
 import random
 
-from types_plant import PlantData, PlantMood, PlantState
+from fastapi import WebSocket
+
+from types_plant import (
+    PlantMood,
+    PlantState,
+    ReadingMessage,
+    AudioMessage,
+    AudioType,
+    MessageType,
+)
 
 
 def get_plant_mood(plant_state):
@@ -28,11 +39,38 @@ async def read_sensors(plant_state: PlantState):
         await asyncio.sleep(0.1)  # simulate 1-second sensor interval
 
 
-def simulate_readings():
-    # data: list[PlantData] = []
-    # for _ in range(20):
+def simulate_reading():
     return {
         "soil_moisture": random.randint(0, 1000),
         "timestamp": datetime.datetime.now().isoformat(),
     }
-    # data.append(datum)
+
+
+async def simulate_and_send_readings(websocket: WebSocket):
+    first_reading = None
+    last_reading = None
+    for i in range(20):
+        plant_data = simulate_reading()
+        if i == 0:
+            first_reading = plant_data
+        if i == 19:
+            last_reading = plant_data
+        message: ReadingMessage = {
+            "type": MessageType.READING.value,
+            "payload": plant_data,
+        }
+        print("message: ", message)
+        await websocket.send_text(json.dumps(message))
+        await asyncio.sleep(0.1)
+    print(first_reading, last_reading)
+    return first_reading, last_reading
+
+
+async def send_audio(response, ws):
+    audio_bytes = response.read()  # WAV bytes
+    audio_b64 = base64.b64encode(audio_bytes).decode("utf-8")
+    message: AudioMessage = {
+        "type": MessageType.AUDIO.value,
+        "payload": {"audio": audio_b64, "format": AudioType.WAV.value},
+    }
+    await ws.send_text(json.dumps(message))
