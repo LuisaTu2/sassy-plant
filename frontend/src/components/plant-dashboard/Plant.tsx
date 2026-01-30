@@ -6,8 +6,9 @@ interface PlantProps {
 
 const Plant = ({ isTalking }: PlantProps) => {
   return (
-    <div className="notifications-section">
-      <span className={isTalking ? "plant jump" : "plant"}>🪴</span>
+    <div className="plant-section">
+      <div className={isTalking ? "plant jump" : "plant"}>🪴</div>
+      <div className="plant-greetings">Hello!</div>
     </div>
   );
 };

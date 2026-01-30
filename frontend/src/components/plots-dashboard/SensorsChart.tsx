@@ -8,7 +8,7 @@ import {
   Legend,
 } from "recharts";
 import ChartTooltip from "./ChartTooltip";
-import "./PlantStatePlot.css";
+import "./SensorsChart.css";
 
 type Point = {
   timestamp: string;
@@ -30,10 +30,10 @@ interface StatePlotProps {
 }
 
 // Dashboard component as a constant arrow function
-const PlantStatePlot = ({ data }: StatePlotProps) => {
+const SensorsChart = ({ data }: StatePlotProps) => {
   return (
-    <div className="plant-state-graph">
-      <h2 className="plant-state-graph-title">plant state tracker</h2>
+    <div className="sensors-chart-graph">
+      <h2 className="sensors-chart-title">sensors chart</h2>
 
       <ResponsiveContainer width="100%" height={400}>
         <LineChart data={data}>
@@ -55,4 +55,4 @@ const PlantStatePlot = ({ data }: StatePlotProps) => {
   );
 };
 
-export default PlantStatePlot;
+export default SensorsChart;

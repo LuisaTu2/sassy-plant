@@ -1,4 +1,4 @@
-.plant-state-graph {
+.sensors-chart {
   background-color: aliceblue;
   /* width: 100%; */
   border-radius: 5px;
@@ -6,7 +6,7 @@
   padding: 10px;
 }
 
-.plant-state-graph-title {
+.sensors-chart-title {
   width: 100%;
   /* background-color: aqua; */
   text-align: center;

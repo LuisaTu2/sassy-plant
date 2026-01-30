@@ -1,12 +1,12 @@
 import "./App.css";
-import Panel from "./components/Panel";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
     <>
       <div className="app">
-        <div className="title">sassy plant</div>
-        <Panel />
+        <div className="title">the &middot; sassy &middot; plant</div>
+        <Dashboard />
       </div>
       <div className="footer">made with plant in canada by</div>
     </>

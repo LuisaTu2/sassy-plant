@@ -1,0 +1,211 @@
+.plant-settings-form {
+  position: fixed;
+  top: 95px;
+  right: 0%;
+  width: 350px;
+  /* height: 100%; */
+  /* background: #4569a4; */
+  background: linear-gradient(to bottom, #dae5e0 0%, #89b8a3 100%);
+  color: #416455;
+  /* box-shadow: -2px 0 12px rgba(0, 0, 0, 0.25); */
+  transform: translateX(100%);
+  transition:
+    transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 0.5s ease-in-out;
+  padding: 1.5rem;
+  overflow-y: auto;
+  z-index: 1000;
+
+  border-radius: 5px;
+}
+.plant-settings-form.open-form {
+  transform: translateX(0);
+  right: 10%;
+}
+
+.close-btn-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  margin-bottom: 10px;
+  z-index: 800;
+}
+.close-btn {
+  height: 30px;
+  padding-right: 0;
+  width: 30px;
+  align-items: end;
+  background-color: none;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #708c80;
+  border: none;
+  background-color: transparent;
+}
+.close-btn:hover {
+  cursor: pointer;
+}
+
+.settings-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.plant-settings-input {
+  margin-top: 0.25rem;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.plant-settings-input-label {
+  width: 40%;
+  margin-top: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* FORM STYLING  */
+/* Form fields styling */
+.plant-settings-form input,
+.plant-settings-form select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  background-color: #d9e8e1; /* dark blue */
+  border: 1px solid #b5c1bc;
+  border-radius: 6px;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Focus state */
+.plant-settings-form input:focus,
+.plant-settings-form select:focus {
+  border-color: #86a992; /* greenish highlight */
+  box-shadow: 0 0 5px #82878444;
+}
+
+/* Hover state */
+.plant-settings-form input:hover,
+.plant-settings-form select:hover {
+  border-color: #86a992;
+}
+
+.plant-settings-form select,
+.name-input {
+  color: #226547;
+  background-color: #e2eee9;
+}
+
+/* Options dropdown */
+.plant-settings-form select option {
+  background-color: #bccbc5;
+}
+
+/* Placeholder text for input */
+.plant-settings-form input::placeholder {
+  /* color: #b0b8c1; */
+  color: black;
+}
+
+/* Labels */
+.plant-settings-form label {
+  /* font-weight: 600; */
+}
+
+/* Submit button */
+.plant-settings-form button[type="submit"] {
+  color: #506451;
+  background-color: #9bcd9d;
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.plant-settings-form button[type="submit"]:hover {
+  background-color: #4d5f4d;
+  color: #9bcd9d;
+}
+
+/* TICK SLIDER NAMESPACE */
+.tick-slider-container {
+  width: 300px;
+  margin: 1rem 0;
+}
+
+.tick-slider-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #86a992;
+}
+
+.tick-slider {
+  width: 100%;
+  appearance: none;
+  height: 6px;
+  /* background: #ccc; */
+  background: linear-gradient(180deg, #acb4b0 0%, #d9dedb 50%, #528566 100%);
+  /* box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2); */
+  border-radius: 3px;
+  border: none;
+  outline: none;
+  margin: none;
+}
+
+.tick-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  /* background: linear-gradient(145deg, #3484bd, #b7d0e3); */
+  background: radial-gradient(circle at 30% 30%, #b7e1e3 0%, #6398bf 70%);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.4),
+    0 2px 6px rgba(188, 187, 187, 0.3);
+  cursor: pointer;
+  border-radius: 50%;
+  border: 0.5px solid #aadad6;
+  margin-top: -5px; /* center thumb on track */
+  margin-left: -4px;
+}
+
+.tick-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  /* background: #29c3b6; */
+  background: linear-gradient(145deg, #5bac7e, #7dd4a0);
+  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid #b3b0b0;
+}
+
+.tick-slider-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+}
+
+.tick-slider-ticks span {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.tick-slider-ticks span::before {
+  content: "";
+  width: 2px;
+  height: 8px;
+  background: #86a992;
+  margin-bottom: 2px;
+}

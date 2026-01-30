@@ -16,13 +16,17 @@
   font-size: 2rem;
   text-align: center;
   margin: 15px 0;
-  color: rgba(70, 151, 79, 0.75);
+  color: rgb(33, 224, 154);
   font-weight: 600;
 }
 
 .footer {
-  position: fixed;
-  bottom: 50px;
+  /* position: fixed; */
+  margin-top: 30px;
   margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 15px;
   font-size: 1rem;
+  color: aliceblue;
+  text-align: right;
 }

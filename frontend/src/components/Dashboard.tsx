@@ -1,10 +1,9 @@
-import "./Panel.css";
-import Controls from "./Controls";
-import PlantStatePlot from "./PlantStatePlot";
+import "./Dashboard.css";
+import Controls from "./plots-dashboard/Controls";
 import { useEffect, useState } from "react";
-import { sampleData } from "./samples";
 import type { PlantState, MessageType, Audio } from "./types";
-import Plant from "./Plant";
+import SensorsChart from "./plots-dashboard/SensorsChart";
+import PlantDashboard from "./plant-dashboard/PlantDashboard";
 
 const playAudioFromBase64 = (b64: string): Promise<void> => {
   const binary = atob(b64);
@@ -25,9 +24,9 @@ const playAudioFromBase64 = (b64: string): Promise<void> => {
   });
 };
 
-const Panel: React.FC = () => {
+const Dashboard: React.FC = () => {
   const [connected, setConnected] = useState<boolean>(false);
-  const [data, setData] = useState<PlantState[]>(sampleData);
+  const [data, setData] = useState<PlantState[]>([]);
   const [isTalking, setIsTalking] = useState<boolean>(false);
   const MAX_POINTS = 200;
 
@@ -70,12 +69,12 @@ const Panel: React.FC = () => {
   }, [connected]);
 
   return (
-    <div className="panel">
-      <PlantStatePlot data={data} />
+    <div className="dashboard">
+      <PlantDashboard isTalking={isTalking} setIsTalking={setIsTalking} />
+      <SensorsChart data={data} />
       <Controls connected={connected} setConnected={setConnected} />
-      <Plant isTalking={isTalking} />
     </div>
   );
 };
 
-export default Panel;
+export default Dashboard;

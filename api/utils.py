@@ -59,10 +59,8 @@ async def simulate_and_send_readings(websocket: WebSocket):
             "type": MessageType.READING.value,
             "payload": plant_data,
         }
-        print("message: ", message)
         await websocket.send_text(json.dumps(message))
         await asyncio.sleep(0.1)
-    print(first_reading, last_reading)
     return first_reading, last_reading
 
 

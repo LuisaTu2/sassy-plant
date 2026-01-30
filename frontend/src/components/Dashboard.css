@@ -1,6 +1,7 @@
-.panel {
+.dashboard {
+  width: 80%;
   background-color: rgb(225, 234, 229);
   margin-top: 30px;
   margin-left: 10%;
-  width: 80%;
+  border-radius: 10px;
 }
