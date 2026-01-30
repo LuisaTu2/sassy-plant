@@ -3,9 +3,10 @@ import Controls from "./Controls";
 import PlantStatePlot from "./PlantStatePlot";
 import { useEffect, useState } from "react";
 import { sampleData } from "./samples";
-import type { PlantState, Message, MessageType, Audio } from "./types";
+import type { PlantState, MessageType, Audio } from "./types";
+import Plant from "./Plant";
 
-function playAudioFromBase64(b64: string) {
+const playAudioFromBase64 = (b64: string): Promise<void> => {
   const binary = atob(b64);
   const len = binary.length;
   const buffer = new Uint8Array(len);
@@ -17,13 +18,17 @@ function playAudioFromBase64(b64: string) {
   const blob = new Blob([buffer], { type: "audio/wav" });
   const url = URL.createObjectURL(blob);
 
-  const audio = new Audio(url);
-  audio.play();
-}
+  return new Promise((resolve) => {
+    const audio = new Audio(url);
+    audio.play();
+    audio.onended = () => resolve();
+  });
+};
 
 const Panel: React.FC = () => {
   const [connected, setConnected] = useState<boolean>(false);
   const [data, setData] = useState<PlantState[]>(sampleData);
+  const [isTalking, setIsTalking] = useState<boolean>(false);
   const MAX_POINTS = 200;
 
   const activateWebSocket = () => {
@@ -40,9 +45,11 @@ const Panel: React.FC = () => {
           const plantState = message["payload"] as PlantState;
           setData((prev) => [...prev.slice(-MAX_POINTS + 1), plantState]);
         } else {
-          if (messageType === "voice") {
-            playAudioFromBase64((message.payload as Audio).audio);
-          }
+          (async () => {
+            setIsTalking(true);
+            await playAudioFromBase64((message.payload as Audio).audio);
+            setIsTalking(false);
+          })();
         }
       } catch (err) {
         console.error("Failed to parse WebSocket message:", err);
@@ -66,6 +73,7 @@ const Panel: React.FC = () => {
     <div className="panel">
       <PlantStatePlot data={data} />
       <Controls connected={connected} setConnected={setConnected} />
+      <Plant isTalking={isTalking} />
     </div>
   );
 };

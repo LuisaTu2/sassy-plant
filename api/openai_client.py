@@ -100,11 +100,11 @@ class OpenAIClient(LLMClient):
         if not self.client:
             raise Exception("unable to initialize openai client")
         try:
-            print("plant state: ", plant_state)
             text = self.get_sassy_answer(
                 plant_state,
                 user_input,
             )
+            print("text: ", text)
             return self.get_audiob64(text)
         except Exception as e:
             raise Exception("plant is unable to chat right now: ", e)
