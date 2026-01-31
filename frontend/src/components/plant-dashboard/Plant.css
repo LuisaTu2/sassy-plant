@@ -34,6 +34,10 @@
   overflow: hidden;
 }
 
+.sassy {
+  font-size: 1rem;
+}
+
 @media screen and (min-width: 768px) {
   .plant-section {
     display: flex;
@@ -43,16 +47,17 @@
   .plant {
     width: 45%;
     padding-right: 5%;
-    text-align: right;
   }
 
   .plant-greetings {
     /* padding-top: 5%; */
-    /* width: 40%; */
-    font-size: 3rem;
+    width: 40%;
     font-weight: 400;
     align-items: center;
     /* background-color: yellowgreen; */
+  }
+  .sassy {
+    font-size: 1.2rem;
   }
 }
 

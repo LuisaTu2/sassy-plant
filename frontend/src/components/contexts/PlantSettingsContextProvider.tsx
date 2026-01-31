@@ -20,6 +20,7 @@ export const PlantSettingsProvider = ({
   const [sassiness, setSassiness] = useState<SassLevel>(SASS_LEVELS[1]);
   const [isTalking, setIsTalking] = useState<boolean>(false);
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
+  const [sassyText, setSassyText] = useState<string>("");
 
   return (
     <PlantSettingsContext.Provider
@@ -30,12 +31,14 @@ export const PlantSettingsProvider = ({
         sassiness,
         isTalking,
         isFormOpen,
+        sassyText,
         setName,
         setPlantType,
         setVoice,
         setSassiness,
         setIsTalking,
         setIsFormOpen,
+        setSassyText,
       }}
     >
       {children}

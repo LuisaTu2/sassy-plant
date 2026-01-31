@@ -9,7 +9,7 @@ import SensorsChart from "./SensorsChart";
 
 const ChartsDashboard = () => {
   const { connected, data, setConnected, setData } = useChartSettings();
-  const { setIsTalking } = usePlantSettings();
+  const { setIsTalking, setSassyText } = usePlantSettings();
   const MAX_POINTS = 200;
 
   const activateWebSocket = () => {
@@ -28,6 +28,9 @@ const ChartsDashboard = () => {
         } else {
           (async () => {
             setIsTalking(true);
+            const text = message["payload"]["text"];
+            console.log("text: ", text);
+            setSassyText(text);
             await playAudioFromBase64((message.payload as Audio).audio);
             setIsTalking(false);
           })();

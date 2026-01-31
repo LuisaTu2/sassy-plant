@@ -20,12 +20,14 @@ interface PlantSettings {
   sassiness: SassLevel;
   isTalking: boolean;
   isFormOpen: boolean;
+  sassyText: string;
   setName: Dispatch<SetStateAction<string>>;
   setPlantType: Dispatch<SetStateAction<PlantType>>;
   setVoice: Dispatch<SetStateAction<VoiceType>>;
   setSassiness: Dispatch<SetStateAction<SassLevel>>;
   setIsTalking: Dispatch<SetStateAction<boolean>>;
   setIsFormOpen: Dispatch<SetStateAction<boolean>>;
+  setSassyText: Dispatch<SetStateAction<string>>;
 }
 
 const noop: Dispatch<SetStateAction<string>> = () => {};
@@ -41,12 +43,14 @@ const defaultSettings = {
   sassiness: SASS_LEVELS[0],
   isTalking: false,
   isFormOpen: false,
+  sassyText: "",
   setName: noop,
   setVoice: noopVoice,
   setPlantType: noopPlantType,
   setSassiness: noopSass,
   setIsTalking: noopBool,
   setIsFormOpen: noopBool,
+  setSassyText: noop,
 };
 export const PlantSettingsContext =
   createContext<PlantSettings>(defaultSettings);

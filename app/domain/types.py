@@ -12,7 +12,7 @@ class PlantMood(Enum):
     ANGRY = "angry"
 
 
-class PlantState(BaseModel):
+class PlantReading(BaseModel):
     soil_moisture: int
     light: int
     mood: PlantMood
@@ -74,23 +74,23 @@ class PlantType(Enum):
     SNAKE_PLANT = "snake plant"
 
 
-class VoiceType(Enum):
-    ALLOY = "alloy"
-    ASH = "ash"
-    BALLAD = "ballad"
-    CORAL = "coral"
-    ECHO = "echo"
-    FABLE = "fable"
-    NOVA = "nova"
-    ONYX = "onyx"
-    SAGE = "sage"
-    SHIMMER = "shimmer"
-    VERSE = "verse"
-    MARIN = "marin"
-    CEDAR = "cedar"
+# class VoiceType(Enum):
+#     ALLOY = "alloy"
+#     ASH = "ash"
+#     BALLAD = "ballad"
+#     CORAL = "coral"
+#     ECHO = "echo"
+#     FABLE = "fable"
+#     NOVA = "nova"
+#     ONYX = "onyx"
+#     SAGE = "sage"
+#     SHIMMER = "shimmer"
+#     VERSE = "verse"
+#     MARIN = "marin"
+#     CEDAR = "cedar"
 
 
-class SassLevel(Enum):
+class Sassiness(Enum):
     LOW = "low"
     MILD = "mild"
     MEDIUM = "medium"
@@ -102,4 +102,12 @@ class PlantSettings(BaseModel):
     name: str
     plant_type: PlantType
     voice: Voice
-    sassiness: SassLevel
+    sassiness: Sassiness
+
+
+current_plant_settings: dict = {
+    "name": "Maria",
+    "plant_type": "BASIL",
+    "voice": "ALLOY",
+    "sassiness": "HIGH",
+}

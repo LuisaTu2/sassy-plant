@@ -6,19 +6,20 @@ import random
 
 from fastapi import WebSocket
 
-from types_plant import (
+from domain.types import (
     AudioMessage,
     AudioType,
     MessageType,
     PlantMood,
-    PlantState,
+    PlantReading,
     ReadingMessage,
+    Sassiness,
 )
 
 
-def get_plant_mood(plant_state):
+def get_plant_mood(plant_reading: PlantReading):
     # Simple mood logic based on soil
-    soil_moisture = plant_state["soil_moisture"]
+    soil_moisture = plant_reading["soil_moisture"]
     mood: PlantMood = PlantMood.HAPPY
     if soil_moisture < 300:
         mood = PlantMood.ANGRY
@@ -29,28 +30,14 @@ def get_plant_mood(plant_state):
     return mood
 
 
-async def read_sensors(plant_state: PlantState):
-    for _ in range(10):
-        plant_state["soil_moisture"] = random.randint(0, 1000)
-        plant_state["light"] = random.randint(0, 1000)
-        plant_mood: PlantMood = get_plant_mood(plant_state)
-        plant_state["mood"] = plant_mood
-        print("plant state: ", plant_state["mood"].value)
-        await asyncio.sleep(0.1)  # simulate 1-second sensor interval
-
-
-def simulate_reading():
-    return {
-        "soil_moisture": random.randint(0, 1000),
-        "timestamp": datetime.datetime.now().isoformat(),
-    }
-
-
 async def simulate_and_send_readings(websocket: WebSocket):
     first_reading = None
     last_reading = None
     for i in range(20):
-        plant_data = simulate_reading()
+        plant_data = {
+            "soil_moisture": random.randint(0, 1000),
+            "timestamp": datetime.datetime.now().isoformat(),
+        }
         if i == 0:
             first_reading = plant_data
         if i == 19:
@@ -72,3 +59,33 @@ async def send_audio(response, ws):
         "payload": {"audio": audio_b64, "format": AudioType.WAV.value},
     }
     await ws.send_text(json.dumps(message))
+
+
+def temperature_sassiness_mapping(sassiness: Sassiness):
+    match sassiness:
+        case Sassiness.LOW.value:
+            return 0.2
+        case Sassiness.MILD.value:
+            return 0.4
+        case Sassiness.MEDIUM.value:
+            return 0.5
+        case Sassiness.HIGH.value:
+            return 0.7
+        case Sassiness.EXTRA.value:
+            return 1.5
+    pass
+
+
+# text = "Hola soy tu sassy plantita 😏"
+# plant_reading: PlantReading = {
+#     "soil_moisture": 0,
+#     "light": 0,
+#     "mood": PlantMood.EXTRA_SASSY.value,
+# }
+
+# current_settings: PlantSettings = {
+#     "name": "Maria",
+#     "plant_type": PlantType.BASIL.value,
+#     "voice": Voice.ALLOY.value,
+#     "sassiness": Sassiness.HIGH.value,
+# }
