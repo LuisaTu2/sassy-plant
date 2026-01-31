@@ -32,6 +32,13 @@ const ChartsDashboard = () => {
             console.log("text: ", text);
             setSassyText(text);
             await playAudioFromBase64((message.payload as Audio).audio);
+            console.log("she is done talking");
+            webSocket.send(
+              JSON.stringify({
+                type: "voice_done",
+              }),
+            );
+
             setIsTalking(false);
           })();
         }

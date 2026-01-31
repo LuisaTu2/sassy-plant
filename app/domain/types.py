@@ -3,10 +3,25 @@ from enum import Enum
 from pydantic import BaseModel
 
 
+# 850–950	Bone dry	🚨 Bad – severely thirsty
+# 700–850	Dry	⚠️ Needs water soon
+# 450–700	Moist	✅ Good / ideal
+# 300–450	Wet	😐 Okay short-term
+# < 300	Saturated	❌ Bad – risk of root rot
+
+
+class WaterState(Enum):
+    EXTRA_DRY = "extra dry"
+    DRY = "dry"
+    MOIST = "moist"
+    WET = "wet"
+    OVERWATERED = "overwatered"
+    UNCHANGED = "unchanged"
+
+
 class PlantMood(Enum):
     HAPPY = "happy"
     SAD = "sad"
-    THIRSTY = "thirsty"
     SLEEPY = "sleepy"
     EXTRA_SASSY = "extra_sassy"
     ANGRY = "angry"

@@ -74,18 +74,3 @@ def temperature_sassiness_mapping(sassiness: Sassiness):
         case Sassiness.EXTRA.value:
             return 1.5
     pass
-
-
-# text = "Hola soy tu sassy plantita 😏"
-# plant_reading: PlantReading = {
-#     "soil_moisture": 0,
-#     "light": 0,
-#     "mood": PlantMood.EXTRA_SASSY.value,
-# }
-
-# current_settings: PlantSettings = {
-#     "name": "Maria",
-#     "plant_type": PlantType.BASIL.value,
-#     "voice": Voice.ALLOY.value,
-#     "sassiness": Sassiness.HIGH.value,
-# }

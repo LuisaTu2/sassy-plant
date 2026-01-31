@@ -50,16 +50,37 @@ class OpenAIClient(LLMClient):
         print("OpenAI client initialized")
         return self.client
 
-    def get_sassy_answer(self, plant_reading: PlantReading, user_input=None):
+    def get_sassy_answer(
+        self,
+        # plant_reading: PlantReading = {},
+        user_input=None,
+        m1=0,
+        m2=0,
+        l1=0,
+        l2=0,
+        ml1="",
+        ml2="",
+        ll1="",
+        ll2="",
+        should_comment_on_water: bool = False,
+        should_comment_on_light: bool = True,
+    ):
         if not self.client:
             raise Exception("unable to initialize openai client")
         try:
             prompt = get_reading_based_prompt(
                 current_plant_settings["name"],
                 current_plant_settings["plant_type"],
-                plant_reading,
+                # plant_reading,
                 user_input,
+                ml1,
+                ml2,
+                ll1,
+                ll2,
+                should_comment_on_water,
+                should_comment_on_light,
             )
+            print("prompt:", prompt)
             res = self.client.chat.completions.create(
                 model=self.gpt_model,
                 messages=[{"role": "user", "content": prompt}],
