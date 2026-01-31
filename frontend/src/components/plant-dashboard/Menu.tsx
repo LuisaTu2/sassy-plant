@@ -1,16 +1,14 @@
+import { usePlantSettings } from "../contexts/PlantSettingsContext";
 import "./Menu.css";
 
-interface MenuProps {
-  showSettings: boolean;
-  setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const Menu = ({ showSettings, setShowSettings }: MenuProps) => {
+const Menu = () => {
+  const { isTalking, isFormOpen, setIsFormOpen } = usePlantSettings();
   return (
     <>
       <button
-        className={`menu-button ${showSettings ? "open" : ""}`}
-        onClick={() => setShowSettings(!showSettings)}
+        className={`menu-button ${isFormOpen ? "open" : ""}`}
+        onClick={() => setIsFormOpen(!isFormOpen)}
+        disabled={isTalking}
       >
         <span></span>
         <span></span>

@@ -62,3 +62,44 @@ class Voice(Enum):
     VERSE = "verse"
     MARIN = "marin"
     CEDAR = "cedar"
+
+
+class PlantType(Enum):
+    CACTUS = "cactus"
+    POTHOS = "pothos"
+    FERN = "fern"
+    SPIDER_PLANT = "spider plant"
+    BAMBOO = "bamboo"
+    BASIL = "basil"
+    SNAKE_PLANT = "snake plant"
+
+
+class VoiceType(Enum):
+    ALLOY = "alloy"
+    ASH = "ash"
+    BALLAD = "ballad"
+    CORAL = "coral"
+    ECHO = "echo"
+    FABLE = "fable"
+    NOVA = "nova"
+    ONYX = "onyx"
+    SAGE = "sage"
+    SHIMMER = "shimmer"
+    VERSE = "verse"
+    MARIN = "marin"
+    CEDAR = "cedar"
+
+
+class SassLevel(Enum):
+    LOW = "low"
+    MILD = "mild"
+    MEDIUM = "medium"
+    HIGH = "high"
+    EXTRA = "extra"
+
+
+class PlantSettings(BaseModel):
+    name: str
+    plant_type: PlantType
+    voice: Voice
+    sassiness: SassLevel

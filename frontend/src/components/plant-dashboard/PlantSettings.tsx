@@ -1,43 +1,75 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import "./PlantSettings.css";
 import {
+  type PlantType,
+  type VoiceType,
+  type SassLevel,
   PLANT_TYPES,
   SASS_LEVELS,
   VOICE_TYPES,
-  type PlantType,
-  type SassLevel,
-  type VoiceType,
-} from "./plant-settings";
+} from "../types";
+import { usePlantSettings } from "../contexts/PlantSettingsContext";
 
-interface PlantSettingsProps {
-  showSettings: boolean;
-  setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
-}
+const PlantSettings = () => {
+  const {
+    name,
+    plantType,
+    voice,
+    sassiness,
+    isFormOpen,
+    setName,
+    setPlantType,
+    setVoice,
+    setSassiness,
+    setIsFormOpen,
+  } = usePlantSettings();
 
-const PlantSettings = ({
-  showSettings,
-  setShowSettings,
-}: PlantSettingsProps) => {
-  const [name, setName] = useState<string>("");
-  const [plantType, setPlantType] = useState<PlantType>();
-  const [voice, setVoice] = useState<VoiceType>();
-  const [sassLevel, setSassLevel] = useState<SassLevel>();
   const plantSettingsRef = useRef<HTMLDivElement>(null);
-  const handleSubmit = () => {
-    console.log("show settings: ", setShowSettings);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const request_body = JSON.stringify({
+      name: name,
+      plant_type: plantType,
+      voice: voice,
+      sassiness,
+    });
+
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:9000/set-plant-settings/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: request_body,
+        },
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const result = await response.json();
+      console.log("result: ", result);
+    } catch (error) {
+      console.log("an error occurred", error);
+    } finally {
+      setIsFormOpen(false);
+    }
   };
 
+  // close settings on click outside of form
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         plantSettingsRef.current &&
         !plantSettingsRef.current.contains(event.target as Node)
       ) {
-        setShowSettings(false);
+        setIsFormOpen(false);
       }
     };
 
-    if (showSettings) {
+    if (isFormOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     } else {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -46,10 +78,11 @@ const PlantSettings = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showSettings, setShowSettings]);
+  }, [isFormOpen, setIsFormOpen]);
+
   return (
     <div
-      className={`plant-settings-form ${showSettings ? "open-form" : ""} `}
+      className={`plant-settings-form ${isFormOpen ? "open-form" : ""} `}
       ref={plantSettingsRef}
     >
       <div className="close-btn-wrapper">
@@ -57,10 +90,10 @@ const PlantSettings = ({
         <button
           className="close-btn"
           onClick={() => {
-            setShowSettings(false);
+            setIsFormOpen(false);
           }}
         >
-          X
+          &times;
         </button>
       </div>
 
@@ -112,10 +145,10 @@ const PlantSettings = ({
 
           <div>
             <label className="plant-settings-input">
-              <div className="plant-settings-input-label">sass level: </div>
+              <div className="plant-settings-input-label">sassiness: </div>
               <select
-                value={sassLevel}
-                onChange={(e) => setSassLevel(e.target.value as SassLevel)}
+                value={sassiness}
+                onChange={(e) => setSassiness(e.target.value as SassLevel)}
               >
                 {SASS_LEVELS.map((sl) => (
                   <option value={sl} key={sl}>
@@ -126,15 +159,7 @@ const PlantSettings = ({
             </label>
           </div>
         </div>
-        <button
-          type="submit"
-          onClick={(e) => {
-            e.preventDefault();
-            // setShowSettings(false);
-          }}
-        >
-          Save Settings
-        </button>
+        <button type="submit">Save Settings</button>
       </form>
     </div>
   );

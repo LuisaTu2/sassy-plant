@@ -1,33 +1,15 @@
-import "./Dashboard.css";
-import Controls from "./plots-dashboard/Controls";
-import { useEffect, useState } from "react";
-import type { PlantState, MessageType, Audio } from "./types";
-import SensorsChart from "./plots-dashboard/SensorsChart";
-import PlantDashboard from "./plant-dashboard/PlantDashboard";
+import { useEffect } from "react";
+import { useChartSettings } from "../contexts/ChartSettingsContext";
+import { usePlantSettings } from "../contexts/PlantSettingsContext";
+import type { MessageType, PlantState, Audio } from "../types";
+import { playAudioFromBase64 } from "../utils";
+import "./ChartsDashboard.css";
+import Controls from "./Controls";
+import SensorsChart from "./SensorsChart";
 
-const playAudioFromBase64 = (b64: string): Promise<void> => {
-  const binary = atob(b64);
-  const len = binary.length;
-  const buffer = new Uint8Array(len);
-
-  for (let i = 0; i < len; i++) {
-    buffer[i] = binary.charCodeAt(i);
-  }
-
-  const blob = new Blob([buffer], { type: "audio/wav" });
-  const url = URL.createObjectURL(blob);
-
-  return new Promise((resolve) => {
-    const audio = new Audio(url);
-    audio.play();
-    audio.onended = () => resolve();
-  });
-};
-
-const Dashboard: React.FC = () => {
-  const [connected, setConnected] = useState<boolean>(false);
-  const [data, setData] = useState<PlantState[]>([]);
-  const [isTalking, setIsTalking] = useState<boolean>(false);
+const ChartsDashboard = () => {
+  const { connected, data, setConnected, setData } = useChartSettings();
+  const { setIsTalking } = usePlantSettings();
   const MAX_POINTS = 200;
 
   const activateWebSocket = () => {
@@ -64,17 +46,16 @@ const Dashboard: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!connected) return;
-    activateWebSocket();
+    if (connected) {
+      activateWebSocket();
+    }
   }, [connected]);
-
   return (
-    <div className="dashboard">
-      <PlantDashboard isTalking={isTalking} setIsTalking={setIsTalking} />
+    <div className="charts-dasboard">
       <SensorsChart data={data} />
       <Controls connected={connected} setConnected={setConnected} />
     </div>
   );
 };
 
-export default Dashboard;
+export default ChartsDashboard;

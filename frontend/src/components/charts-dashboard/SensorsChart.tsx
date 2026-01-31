@@ -32,10 +32,10 @@ interface StatePlotProps {
 // Dashboard component as a constant arrow function
 const SensorsChart = ({ data }: StatePlotProps) => {
   return (
-    <div className="sensors-chart-graph">
-      <h2 className="sensors-chart-title">sensors chart</h2>
+    <div className="sensors-chart-graphs">
+      <div className="sensors-chart-title">SENSORS CHART</div>
 
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width="90%" height={400} className={"sensors-chart"}>
         <LineChart data={data}>
           <XAxis dataKey="timestamp" tickFormatter={formatTime} />
           <YAxis />
@@ -43,7 +43,7 @@ const SensorsChart = ({ data }: StatePlotProps) => {
             type="monotone"
             dataKey="soil_moisture"
             stroke="#4caf50"
-            strokeWidth={"10px"}
+            strokeWidth={"3px"}
             dot={false}
             isAnimationActive={false}
           />

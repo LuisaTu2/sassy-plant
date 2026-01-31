@@ -20,12 +20,20 @@
   font-weight: 600;
 }
 
+.dashboard {
+  width: 80%;
+  background-color: rgb(225, 234, 229);
+  margin-top: 20px;
+  margin-left: 10%;
+  border-radius: 10px;
+}
+
 .footer {
   /* position: fixed; */
-  margin-top: 30px;
+  margin-top: 20px;
   margin-left: 10%;
   margin-right: 10%;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   font-size: 1rem;
   color: aliceblue;
   text-align: right;

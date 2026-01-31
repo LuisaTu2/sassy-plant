@@ -1,4 +1,3 @@
-import type { Point } from "../types";
 import "./ChartTooltip.css";
 
 const ChartTooltip = ({
@@ -10,7 +9,7 @@ const ChartTooltip = ({
 }) => {
   if (!active || !payload || payload.length === 0) return null;
 
-  const point: Point = payload[0].payload as Point;
+  const point = payload[0].payload;
 
   return (
     <div className="tooltip-wrapper">

@@ -6,7 +6,7 @@ from openai import OpenAI
 
 from constants import MODEL_GPT, MODEL_GPT_MINI_TTS, OPENAI_API_KEY
 from llm_client import LLMClient
-from types_plant import AudioType, PlantState, Voice, PlantMood
+from types_plant import AudioType, PlantMood, PlantState, Voice
 
 
 class OpenAIClient(LLMClient):

@@ -1,0 +1,27 @@
+.sensors-chart-graphs {
+  /* background-color: rgb(24, 68, 107); */
+  width: 90%;
+  margin-left: 5%;
+  border-radius: 5px;
+  border: 2px solid rgb(236, 230, 230);
+  border-radius: 10px;
+}
+
+.sensors-chart-title {
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+  color: rgb(26, 112, 78);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.sensors-chart {
+  padding: 0;
+}
+
+@media screen and (min-width: 1200px) {
+  .sensors-chart-graphs {
+    width: 40%;
+  }
+}

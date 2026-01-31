@@ -1,12 +1,24 @@
 import json
 
 import uvicorn
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI, Request, WebSocket
+from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 
 from config import settings
 from openai_client import OpenAIClient
-from types_plant import PlantState, AudioType, PlantMood
+from types_plant import (
+    AudioType,
+    PlantMood,
+    PlantSettings,
+    PlantState,
+    PlantType,
+    SassLevel,
+    Voice,
+)
 from utils import simulate_and_send_readings
 
 app = FastAPI(title="sassy plant")
@@ -56,6 +68,35 @@ async def websocket_endpoint(ws: WebSocket):
         # optionally notify frontend
         # await ws.send_text(json.dumps({"type": "error", "payload": {"message": str(e)}}))
         raise Exception("unable to send voice audio: ", e)
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    # Log the errors to the console/logs
+    print(f"The client sent invalid data in the body: {exc.body}")
+    print(f"Detailed errors: {exc.errors()}")
+
+    # Return a JSON response to the client
+    return JSONResponse(
+        status_code=422,
+        content=jsonable_encoder({"detail": exc.errors(), "body": exc.body}),
+    )
+
+
+plant_settings: PlantSettings = {
+    "name": "Maria",
+    "plant_type": PlantType.BASIL.value,
+    "voice": Voice.ALLOY.value,
+    "sassiness": SassLevel.HIGH.value,
+}
+
+
+# 3. Define a POST path operation
+@app.post("/set-plant-settings")
+async def set_plant_settings(settings: PlantSettings):
+    plant_settings = settings
+    print("current plant settings: ", plant_settings)
+    return "ok"
 
 
 if __name__ == "__main__":

@@ -10,7 +10,7 @@ const Controls = ({ connected, setConnected }: ControlsProps) => {
   return (
     <div className="controls-section">
       <div className="control">
-        <span>enable plant state readings</span>
+        <span>enable sensor readings</span>
         <label className="toggle-switch">
           <input
             type="checkbox"
