@@ -2,16 +2,17 @@ import base64
 from abc import ABC, abstractmethod
 
 import numpy as np
-from clients.utils import get_reading_based_prompt
 import sounddevice as sd
 from openai import OpenAI
 
 from clients.constants import MODEL_GPT, MODEL_GPT_MINI_TTS, OPENAI_API_KEY
+from clients.utils import get_reading_based_prompt
 from domain.types import (
     AudioType,
     PlantMood,
     PlantReading,
     PlantType,
+    StateChange,
     Voice,
     current_plant_settings,
 )
@@ -52,33 +53,27 @@ class OpenAIClient(LLMClient):
 
     def get_sassy_answer(
         self,
-        # plant_reading: PlantReading = {},
+        state_change: StateChange,
         user_input=None,
         m1=0,
         m2=0,
         l1=0,
         l2=0,
-        ml1="",
-        ml2="",
-        ll1="",
-        ll2="",
-        should_comment_on_water: bool = False,
-        should_comment_on_light: bool = True,
     ):
         if not self.client:
             raise Exception("unable to initialize openai client")
         try:
             prompt = get_reading_based_prompt(
-                current_plant_settings["name"],
-                current_plant_settings["plant_type"],
-                # plant_reading,
-                user_input,
-                ml1,
-                ml2,
-                ll1,
-                ll2,
-                should_comment_on_water,
-                should_comment_on_light,
+                plant_name=current_plant_settings["name"],
+                plant_type=current_plant_settings["plant_type"],
+                state_change=state_change,
+                # water_state_1=state_change.water_state_1,
+                # water_state_2=state_change.water_state_2,
+                # light_state_1=state_change.light_state_1,
+                # light_state_2=state_change.light_state_2,
+                # has_water_state_changed=state_change.has_water_state_changed,
+                # has_light_state_changed=state_change.has_light_state_changed,
+                # user_input,
             )
             print("prompt:", prompt)
             res = self.client.chat.completions.create(
@@ -92,7 +87,7 @@ class OpenAIClient(LLMClient):
             raise Exception("unable to get sassy answer: ", e)
         return text
 
-    async def get_audio(
+    def get_audio(
         self,
         text,
     ):

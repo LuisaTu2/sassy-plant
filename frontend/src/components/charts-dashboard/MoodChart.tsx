@@ -8,7 +8,7 @@ import {
   Legend,
 } from "recharts";
 import ChartTooltip from "./ChartTooltip";
-import "./SensorsChart.css";
+import "./MoodChart.css";
 
 type Point = {
   timestamp: string;
@@ -29,28 +29,42 @@ interface StatePlotProps {
   data: Point[];
 }
 
-// Dashboard component as a constant arrow function
-const SensorsChart = ({ data }: StatePlotProps) => {
+const moodEmojiMap: Record<number, string> = {
+  0.2: "😢",
+  0.4: "😐",
+  0.6: "🙂",
+  0.8: "😄",
+  1: "🤩",
+};
+// Custom Y-axis tick renderer
+const EmojiYAxisTick: React.FC<any> = ({ x, y, payload }) => {
+  const emoji = moodEmojiMap[payload.value] ?? payload.value;
   return (
-    <div className="sensors-chart-graphs">
-      <div className="sensors-chart-title">SENSORS CHART</div>
+    <text x={x} y={y} textAnchor="end" dominantBaseline="middle" fontSize={16}>
+      {emoji}
+    </text>
+  );
+};
 
-      <ResponsiveContainer width="90%" height={400} className={"sensors-chart"}>
+// Dashboard component as a constant arrow function
+const MoodChart = ({ data }: StatePlotProps) => {
+  return (
+    <div className="mood-chart-wrapper">
+      <div className="mood-chart-title">MOOD CHART</div>
+
+      <ResponsiveContainer width="90%" height={400} className={"mood-chart"}>
         <LineChart data={data}>
           <XAxis dataKey="timestamp" tickFormatter={formatTime} />
-          <YAxis />
-          <Line
-            type="monotone"
-            dataKey="soil_moisture"
-            stroke="#2f7edd"
-            strokeWidth={"3px"}
-            dot={false}
-            isAnimationActive={false}
+          <YAxis
+            type="number"
+            domain={[0, 1]}
+            ticks={[0.2, 0.4, 0.6, 0.8, 1]} // force all ticks to render
+            tick={<EmojiYAxisTick />}
           />
           <Line
             type="monotone"
-            dataKey="light"
-            stroke="#ca7424"
+            dataKey="mood"
+            stroke="#9d23c6"
             strokeWidth={"3px"}
             dot={false}
             isAnimationActive={false}
@@ -63,4 +77,4 @@ const SensorsChart = ({ data }: StatePlotProps) => {
   );
 };
 
-export default SensorsChart;
+export default MoodChart;

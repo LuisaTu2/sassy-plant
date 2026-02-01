@@ -2,7 +2,6 @@ from enum import Enum
 
 from pydantic import BaseModel
 
-
 # 850–950	Bone dry	🚨 Bad – severely thirsty
 # 700–850	Dry	⚠️ Needs water soon
 # 450–700	Moist	✅ Good / ideal
@@ -17,6 +16,42 @@ class WaterState(Enum):
     WET = "wet"
     OVERWATERED = "overwatered"
     UNCHANGED = "unchanged"
+
+
+class WaterGradient(Enum):
+    EXTRA_DRY = "#FFFFFF"
+    DRY = "#B3D1FF"
+    MOIST = "#66A3FF"
+    WET = "#3366CC"
+    OVERWATERED = "#003399"
+
+
+# MOISTURE_GRADIENT_5 = [
+#     "#FFFFFF",  # very dry / start
+#     "#B3D1FF",  # light blue
+#     "#66A3FF",  # medium blue
+#     "#3366CC",  # rich blue
+#     "#003399",  # deep dark blue / fully wet
+# ]
+
+
+class LightState(Enum):
+    DARK = "dark"
+    VERY_LOW = "very low"
+    LOW = "low"
+    OK = "ok"
+    GREAT = "great"
+    INTENSE = "intense"
+    UNCHANGED = "unchanged"
+
+
+class LightGradient(Enum):
+    DARK = "#000000"
+    VERY_LOW = "#333333"
+    LOW = "#666666"
+    OK = "#999999"
+    GREAT = "#CCCCCC"
+    INTENSE = "#FFFFFF"
 
 
 class PlantMood(Enum):
@@ -39,9 +74,10 @@ class MessageType(Enum):
 
 
 class Reading(BaseModel):
-    timestamp: str
     soil_moisture: int
-    light: str | None
+    light: str
+    mood: str
+    timestamp: str
 
 
 class ReadingMessage(BaseModel):
@@ -126,3 +162,16 @@ current_plant_settings: dict = {
     "voice": "ALLOY",
     "sassiness": "HIGH",
 }
+
+
+from dataclasses import dataclass
+
+
+@dataclass
+class StateChange:
+    water_state_1: WaterState
+    water_state_2: WaterState
+    light_state_1: LightState
+    light_state_2: LightState
+    has_water_state_changed: bool
+    has_light_state_changed: bool

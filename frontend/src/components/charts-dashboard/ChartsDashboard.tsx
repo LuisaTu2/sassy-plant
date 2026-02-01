@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useChartSettings } from "../contexts/ChartSettingsContext";
 import { usePlantSettings } from "../contexts/PlantSettingsContext";
 import type { MessageType, PlantState, Audio } from "../types";
@@ -6,17 +6,20 @@ import { playAudioFromBase64 } from "../utils";
 import "./ChartsDashboard.css";
 import Controls from "./Controls";
 import SensorsChart from "./SensorsChart";
+import MoodChart from "./MoodChart";
 
 const ChartsDashboard = () => {
   const { connected, data, setConnected, setData } = useChartSettings();
   const { setIsTalking, setSassyText } = usePlantSettings();
-  const MAX_POINTS = 200;
+  const [isReading, setIsReading] = useState<boolean>(false);
+  const MAX_POINTS = 300;
+  const wsRef = useRef<WebSocket | null>(null);
 
-  const activateWebSocket = () => {
-    const webSocket = new WebSocket(
+  useEffect(() => {
+    wsRef.current = new WebSocket(
       `${import.meta.env.VITE_API_WS_URL}/ws/sensors`,
     );
-
+    const webSocket = wsRef.current;
     webSocket.onopen = () => console.log("Connected to WebSocket server");
     webSocket.onmessage = (event: MessageEvent) => {
       try {
@@ -32,10 +35,10 @@ const ChartsDashboard = () => {
             console.log("text: ", text);
             setSassyText(text);
             await playAudioFromBase64((message.payload as Audio).audio);
-            console.log("she is done talking");
+            console.log("stopped talking");
             webSocket.send(
               JSON.stringify({
-                type: "voice_done",
+                type: "stopped_talking",
               }),
             );
 
@@ -46,24 +49,46 @@ const ChartsDashboard = () => {
         console.error("Failed to parse WebSocket message:", err);
       }
     };
-    webSocket.onerror = (e: Event) => console.error("WebSocket error:", e);
-    webSocket.onclose = () => {
-      console.log("WebSocket closed");
-      setConnected(false);
-    };
 
-    return () => webSocket.close();
-  };
+    return () => {
+      webSocket.close();
+      console.log("WebSocket closed on unmount");
+    };
+  }, []); // renders only once
 
   useEffect(() => {
+    if (wsRef == null || wsRef.current == null) {
+      return;
+    }
     if (connected) {
-      activateWebSocket();
+      setIsReading(true);
+      wsRef.current &&
+        wsRef.current.send(
+          JSON.stringify({
+            type: "start_readings",
+          }),
+        );
+    } else {
+      if (isReading) {
+        setIsReading(false);
+        wsRef.current &&
+          wsRef.current.send(
+            JSON.stringify({
+              type: "stop_readings",
+            }),
+          );
+      }
     }
   }, [connected]);
+
   return (
-    <div className="charts-dasboard">
-      <SensorsChart data={data} />
+    <div className="charts-dashboard">
+      <div className="charts">
+        <SensorsChart data={data} />
+        <MoodChart data={data} />
+      </div>
       <Controls connected={connected} setConnected={setConnected} />
+      {/* <WebSocketComponent /> */}
     </div>
   );
 };

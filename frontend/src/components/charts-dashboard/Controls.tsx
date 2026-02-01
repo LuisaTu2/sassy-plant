@@ -15,7 +15,7 @@ const Controls = ({ connected, setConnected }: ControlsProps) => {
           <input
             type="checkbox"
             checked={connected}
-            disabled={connected}
+            // disabled={connected}
             onChange={() => setConnected(!connected)}
           />
           <span className="slider"></span>

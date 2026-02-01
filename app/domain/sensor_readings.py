@@ -1,11 +1,6 @@
-import json
 import math
 import random
-import datetime
 
-from domain.types import MessageType, ReadingMessage
-
-from fastapi import WebSocket
 
 # -------------------------
 # CONFIG
@@ -24,7 +19,7 @@ MOISTURE_NOISE = 6
 LUX_MIN = 8
 LUX_MAX = 1200
 LUX_NOISE = 20
-DAY_CYCLE_SECONDS = 5 * 60  # 5-minute compressed day
+DAY_CYCLE_SECONDS = 50 * 60  # 5-minute compressed day
 SUNRISE = 0.15
 SUNSET = 0.85
 
@@ -108,35 +103,36 @@ def uncover_sensor():
 # -------------------------
 # MAIN LOOP (demo)
 # -------------------------
-probe_moisture = True
-probe_light = False
-
-can_talk = False
 
 
-async def get_water_and_light_reading(ws: WebSocket, t):
-    # for t in range(20):  # ~10 minutes
-    if t == 5:
-        pour_water()  # simulate watering
-    # if t == 30:
-    # cover_sensor()  # simulate shade
-    # if t == 40:
-    # uncover_sensor()
+# async def get_water_and_light_reading(ws: WebSocket, t):
+#     if t == 50:
+#         pour_water()  # simulate watering
+#     # if t == 30:
+#     #     cover_sensor()  # simulate shade
+#     # if t == 90:
+#     #     uncover_sensor()
+#     # if t == 110:
+#     #     pour_water()
 
-    moisture_val = update_moisture()
-    light_val = update_light()
+#     moisture_val = update_moisture()
+#     light_val = update_light()
+#     mood = plant_mood_score_from_readings(moisture_val, light_val)
 
-    plant_data = {
-        "soil_moisture": moisture_val,
-        "light": light_val,
-        "timestamp": datetime.datetime.now().isoformat(),
-    }
-    message: ReadingMessage = {
-        "type": MessageType.READING.value,
-        "payload": plant_data,
-    }
+#     plant_data: Reading = {
+#         "soil_moisture": moisture_val / 1000,
+#         "light": light_val / 1400,
+#         "mood": mood / 100,
+#         "timestamp": datetime.datetime.now().isoformat(),
+#     }
+#     message: ReadingMessage = {
+#         "type": MessageType.READING.value,
+#         "payload": plant_data,
+#     }
 
-    print(f"[{t:02d}] moisture={moisture_val:4d}  light={light_val:4d} lux")
+#     # print(
+#     #     f"[{t:02d}] moisture={moisture_val:4d}  light={light_val:4d} lux {datetime.datetime.now()}"
+#     # )
 
-    await ws.send_text(json.dumps(message))
-    return moisture_val, light_val
+#     await ws.send_text(json.dumps(message))
+#     return moisture_val, light_val

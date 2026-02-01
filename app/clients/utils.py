@@ -1,4 +1,7 @@
-from domain.types import PlantMood, PlantReading, PlantType
+from domain.types import (
+    PlantType,
+    StateChange,
+)
 
 
 def get_generic_prompt(
@@ -19,47 +22,24 @@ def get_generic_prompt(
 def get_reading_based_prompt(
     plant_name: str,
     plant_type: PlantType,
-    # plant_reading: PlantReading = {},
-    user_input=None,
-    m2=0,
-    l1=0,
-    l2=0,
-    ml1="",
-    ml2="",
-    ll1="",
-    ll2="",
-    should_comment_on_water=False,
-    should_comment_on_light=True,
+    state_change: StateChange,
+    # user_input=None,
 ):
-    # mood = PlantMood.HAPPY
-    # soil = plant_reading["soil_moisture"]
-    # light = plant_reading["light"]
-    water_comment = (
-        f"""
-            Comment on change in water levels. You went from {ml1} to {ml2}. Adjust mood accordingly.
-        """
-        if should_comment_on_water
-        else ""
-    )
-    light_comment = (
-        f"""
-            Comment on how the light levels have changed. You went from {ll1} to {ll2}. Adjust mood accordingly.
-        """
-        if should_comment_on_light
-        else ""
-    )
-
-    prompt = (
-        f"""
+    prompt = f"""
             You are a virtual {plant_type} plant with a sassy personality.
-            Your name is {plant_name}.
+            Your name is {plant_name}. 2 or 3 sentences
             - Keep responses short and witty.
-            Human says: "{"When did I last water you"}"  # can be empty
             Plant responds in-character and complete sentences.
             """
-        + water_comment
-        + light_comment
-    )
+    if state_change.has_water_state_changed:
+        prompt += f"""
+            Comment on how water level has gone from {state_change.water_state_1} to {state_change.water_state_2}. Adjust mood accordingly.
+        """
+    if state_change.has_light_state_changed:
+        prompt += f"""
+            Comment on how the light level has gone from {state_change.light_state_1} to {state_change.light_state_2}. Adjust mood accordingly.
+        """
+
     return prompt
 
 
@@ -68,8 +48,7 @@ rules = """ Rules:
             - If soil is medium, be neutral.
             - If soil is high, be happy/playful.
             - Include references to light if relevant."""
-
-
+# - Human says: "{}"  # can be empty
 # Current mood: {mood}
 # Soil moisture: {soil}
 # Light level: {light}

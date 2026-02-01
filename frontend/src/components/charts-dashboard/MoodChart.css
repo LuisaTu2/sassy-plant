@@ -1,4 +1,4 @@
-.sensors-chart-graphs {
+.mood-chart-wrapper {
   /* background-color: rgb(24, 68, 107); */
   width: 90%;
   margin-top: 10px;
@@ -8,7 +8,7 @@
   border-radius: 10px;
 }
 
-.sensors-chart-title {
+.mood-chart-title {
   width: 100%;
   margin-top: 30px;
   margin-bottom: 30px;
@@ -17,12 +17,12 @@
   font-size: 0.9rem;
   font-weight: 600;
 }
-.sensors-chart {
+.mood-chart {
   padding: 0;
 }
 
 @media screen and (min-width: 768px) {
-  .sensors-chart-graphs {
+  .mood-chart-wrapper {
     width: 40%;
   }
 }
