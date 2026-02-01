@@ -2,13 +2,14 @@ import { usePlantSettings } from "../contexts/PlantSettingsContext";
 import "./Plant.css";
 
 const Plant = () => {
-  const { name, isTalking, sassyText } = usePlantSettings();
+  const { name, isTalking, sassyText, sassiness, plantType } =
+    usePlantSettings();
 
   return (
     <div className="plant-section">
       <div className={isTalking ? "plant jump" : "plant"}>🪴</div>
       <div className={`plant-greetings ${sassyText ? "sassy" : ""}`}>
-        {sassyText ? sassyText : `Hello, I'm ${name}!`}
+        {sassyText ? sassyText : `Hi, I'm ${name} a ${plantType}!`}
       </div>
     </div>
   );
