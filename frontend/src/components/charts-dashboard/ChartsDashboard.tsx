@@ -129,19 +129,12 @@ const ChartsDashboard = () => {
         <SensorsChart data={data} />
       </div>
       <Controls connected={connected} setConnected={setConnected} />
-      <div>
-        <button onClick={toggleListening}>
-          {isListening ? "Stop Listening" : "Start Listening"}
-        </button>
-
-        <div style={{ marginTop: "1rem" }}>
-          {/* {messages.map((msg: string, idx: int) => (
-            <div key={idx} style={{ padding: "0.5rem 0" }}>
-              {msg}
-            </div>
-          ))} */}
-        </div>
-      </div>
+      <button
+        onClick={toggleListening}
+        className={`mic-button ${isListening ? "talking" : ""}`}
+      >
+        {/* Optional: icon or leave blank for just the circle */}
+      </button>
     </div>
   );
 };
