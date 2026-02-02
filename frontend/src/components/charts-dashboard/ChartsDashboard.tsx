@@ -15,6 +15,11 @@ const ChartsDashboard = () => {
   const MAX_POINTS = 300;
   const wsRef = useRef<WebSocket | null>(null);
 
+  const [isListening, setIsListening] = useState(false);
+  const SpeechRecognition =
+    (window as any).SpeechRecognition ||
+    (window as any).webkitSpeechRecognition;
+
   useEffect(() => {
     wsRef.current = new WebSocket(
       `${import.meta.env.VITE_API_WS_URL}/ws/sensors`,
@@ -81,6 +86,42 @@ const ChartsDashboard = () => {
     }
   }, [connected]);
 
+  useEffect(() => {
+    if (isListening) {
+      const recognition = new SpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onresult = (event: any) => {
+        const text = event.results[0][0].transcript;
+        console.log("speech text: ", text);
+        // send text here
+        wsRef.current &&
+          wsRef.current.send(
+            JSON.stringify({
+              type: "user_voice_message",
+              text,
+            }),
+          );
+      };
+      recognition.onerror = (e: any) => {
+        console.error("Speech error", e);
+      };
+      recognition.start();
+    }
+  }, [isListening]);
+
+  const toggleListening = () => {
+    if (isListening) {
+      // stopListening();
+      setIsListening(false);
+    } else {
+      // startListening();
+      setIsListening(true);
+    }
+  };
+
   return (
     <div className="charts-dashboard">
       <div className="charts">
@@ -88,6 +129,19 @@ const ChartsDashboard = () => {
         <SensorsChart data={data} />
       </div>
       <Controls connected={connected} setConnected={setConnected} />
+      <div>
+        <button onClick={toggleListening}>
+          {isListening ? "Stop Listening" : "Start Listening"}
+        </button>
+
+        <div style={{ marginTop: "1rem" }}>
+          {/* {messages.map((msg: string, idx: int) => (
+            <div key={idx} style={{ padding: "0.5rem 0" }}>
+              {msg}
+            </div>
+          ))} */}
+        </div>
+      </div>
     </div>
   );
 };

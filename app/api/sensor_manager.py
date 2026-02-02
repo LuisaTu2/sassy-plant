@@ -4,6 +4,7 @@ import datetime
 import json
 from collections import deque
 
+from clients.utils import get_generic_prompt
 from fastapi import WebSocket
 
 # import json
@@ -103,6 +104,23 @@ class SensorManager:
             state_change.has_water_state_changed or state_change.has_light_state_changed
         ):
             asyncio.create_task(self.plant_talks(state_change))
+
+    async def answer_user_voice_message(self, user_voice_msg):
+        reply = llm_client.get_voice_msg_answer(user_voice_msg)
+        print("sassy reply: ", reply)
+        audio_b64 = await asyncio.to_thread(llm_client.get_audio, reply)
+        message = json.dumps(
+            {
+                "type": "voice",
+                "payload": {
+                    "audio": audio_b64,
+                    "format": AudioType.WAV.value,
+                    "text": reply,
+                },
+            }
+        )
+        await self.broadcast(message)
+        return reply
 
 
 sensor_manager = SensorManager()

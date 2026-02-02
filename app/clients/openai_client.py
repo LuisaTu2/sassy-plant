@@ -6,7 +6,7 @@ import sounddevice as sd
 from openai import OpenAI
 
 from clients.constants import MODEL_GPT, MODEL_GPT_MINI_TTS, OPENAI_API_KEY
-from clients.utils import get_reading_based_prompt
+from clients.utils import get_reading_based_prompt, get_generic_prompt
 from domain.types import (
     AudioType,
     PlantMood,
@@ -50,6 +50,25 @@ class OpenAIClient(LLMClient):
             raise Exception("Could not initialize OpenAI client: ", e)
         print("OpenAI client initialized")
         return self.client
+
+    def get_voice_msg_answer(self, user_voice_msg):
+        if not self.client:
+            raise Exception("unable to initialize openai client")
+        try:
+            prompt = get_generic_prompt(
+                self.plant_name, self.plant_type, user_voice_msg
+            )
+            print("prompt:", prompt)
+            res = self.client.chat.completions.create(
+                model=self.gpt_model,
+                messages=[{"role": "user", "content": prompt}],
+                temperature=self.temperature,
+                # max_tokens=50,
+            )
+            text = res.choices[0].message.content.strip()
+        except Exception as e:
+            raise Exception("unable to get sassy answer: ", e)
+        return text
 
     def get_sassy_answer(
         self,
