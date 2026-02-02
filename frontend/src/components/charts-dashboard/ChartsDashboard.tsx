@@ -6,7 +6,7 @@ import { playAudioFromBase64 } from "../utils";
 import "./ChartsDashboard.css";
 import Controls from "./Controls";
 import SensorsChart from "./SensorsChart";
-import MoodChart from "./MoodChart";
+import SassyText from "./SassyText";
 
 const ChartsDashboard = () => {
   const { connected, data, setConnected, setData } = useChartSettings();
@@ -84,11 +84,10 @@ const ChartsDashboard = () => {
   return (
     <div className="charts-dashboard">
       <div className="charts">
+        <SassyText />
         <SensorsChart data={data} />
-        <MoodChart data={data} />
       </div>
       <Controls connected={connected} setConnected={setConnected} />
-      {/* <WebSocketComponent /> */}
     </div>
   );
 };

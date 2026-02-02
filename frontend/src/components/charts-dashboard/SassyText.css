@@ -1,0 +1,21 @@
+.sassy-text {
+  margin-left: 5%;
+  margin-right: 5%;
+  padding: 5% 10%;
+  font-size: 2rem;
+  font-weight: 600;
+  max-height: 300px;
+
+  color: rgb(31, 103, 60);
+
+  /* overflow: hidden; */
+}
+
+@media screen and (min-width: 1024px) {
+  .sassy-text {
+    font-size: 2rem;
+    width: 40%;
+    padding: 0%;
+    height: 400px;
+  }
+}

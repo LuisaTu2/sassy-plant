@@ -33,7 +33,7 @@ interface StatePlotProps {
 const SensorsChart = ({ data }: StatePlotProps) => {
   return (
     <div className="sensors-chart-graphs">
-      <div className="sensors-chart-title">SENSORS CHART</div>
+      <div className="sensors-chart-title">WATER & LIGHT CHART</div>
 
       <ResponsiveContainer width="90%" height={400} className={"sensors-chart"}>
         <LineChart data={data}>

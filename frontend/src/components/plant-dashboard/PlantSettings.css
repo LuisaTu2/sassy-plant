@@ -23,7 +23,7 @@
 .plant-settings-form.open-form {
   transform: translateX(0);
   opacity: 1;
-  right: 10%;
+  right: 10.5%;
   pointer-events: auto; /* allow clicks when open */
 }
 
