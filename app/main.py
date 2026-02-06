@@ -1,3 +1,7 @@
+import asyncio
+from domain.types import PlantType
+from domain.managers.sensor_manager import start_serial_reader
+from domain.models.plant import Plant
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -26,6 +30,14 @@ def create_app() -> FastAPI:
 
 
 app = create_app()
+
+plant = Plant(name="Fern Ferndale", species=PlantType.FERN.value)
+
+
+# schedule sensor reading as a background task
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(start_serial_reader())
 
 
 if __name__ == "__main__":

@@ -37,7 +37,7 @@ const noopSass: Dispatch<SetStateAction<SassLevel>> = () => {};
 const noopBool: Dispatch<SetStateAction<boolean>> = () => {};
 
 const defaultSettings = {
-  name: "isa",
+  name: "Fernie Ferndale",
   plantType: PLANT_TYPES[0],
   voice: VOICE_TYPES[0],
   sassiness: SASS_LEVELS[0],

@@ -1,13 +1,10 @@
 import asyncio
 
+from domain.managers.sensor_manager import sensor_manager
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
-
-from api.sensor_manager import SensorManager
 
 
 router = APIRouter()
-
-sensor_manager = SensorManager()
 
 
 @router.websocket("/ws/sensors")
@@ -18,14 +15,7 @@ async def websocket_endpoint(ws: WebSocket):
     try:
         while True:
             msg = await ws.receive_json()
-            if msg.get("type") == "start_readings":
-                if not sensor_manager.reading_active:
-                    print("start readings")
-                    asyncio.create_task(sensor_manager.start_readings())
-            elif msg.get("type") == "stop_readings":
-                print("stop readings")
-                await sensor_manager.stop_readings()
-            elif msg.get("type") == "stopped_talking":
+            if msg.get("type") == "stopped_talking":
                 sensor_manager.is_talking = False
             elif msg.get("type") == "user_voice_message":
                 print("message received: ", msg.get("text"))

@@ -7,7 +7,7 @@ import random
 from fastapi import WebSocket
 
 from domain.types import (
-    LightState,
+    LightState_1,
     MessageType,
     ReadingMessage,
     Sassiness,
@@ -33,17 +33,17 @@ def get_water_state(reading):
 def get_light_state(reading):
     match reading:
         case r if r <= 10:
-            return LightState.DARK.value
+            return LightState_1.DARK.value
         case r if 10 < r <= 100:
-            return LightState.VERY_LOW.value
+            return LightState_1.VERY_LOW.value
         case r if 100 < r <= 300:
-            return LightState.LOW.value
+            return LightState_1.LOW.value
         case r if 300 < r <= 1000:
-            return LightState.OK.value
+            return LightState_1.OK.value
         case r if 1000 < r <= 10000:
-            return LightState.GREAT.value
+            return LightState_1.GREAT.value
         case r if r > 10000:
-            return LightState.INTENSE.value
+            return LightState_1.INTENSE.value
 
 
 def get_state_changes(moisture, light):
@@ -63,8 +63,8 @@ def get_state_changes(moisture, light):
         light_state_1 = get_light_state(light_1)
         light_state_2 = get_light_state(light_2)
     else:
-        light_state_1 = LightState.UNCHANGED.value
-        light_state_2 = LightState.UNCHANGED.value
+        light_state_1 = LightState_1.UNCHANGED.value
+        light_state_2 = LightState_1.UNCHANGED.value
 
     state_chage = StateChange(
         water_state_1=water_state_1,
@@ -142,3 +142,7 @@ def temperature_sassiness_mapping(sassiness: Sassiness):
         case Sassiness.EXTRA.value:
             return 1.5
     pass
+
+
+sensor_port = "/dev/ttyACM0"
+sensor_baudrate = 9600

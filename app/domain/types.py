@@ -35,7 +35,7 @@ class WaterGradient(Enum):
 # ]
 
 
-class LightState(Enum):
+class LightState_1(Enum):
     DARK = "dark"
     VERY_LOW = "very low"
     LOW = "low"
@@ -74,7 +74,7 @@ class MessageType(Enum):
 
 
 class Reading(BaseModel):
-    soil_moisture: int
+    soil_moisture: str
     light: str
     mood: str
     timestamp: str
@@ -171,7 +171,20 @@ from dataclasses import dataclass
 class StateChange:
     water_state_1: WaterState
     water_state_2: WaterState
-    light_state_1: LightState
-    light_state_2: LightState
+    light_state_1: LightState_1
+    light_state_2: LightState_1
     has_water_state_changed: bool
     has_light_state_changed: bool
+
+
+# | Condition       | Expected analogRead |
+# | --------------- | ------------------- |
+# | Dark / night    | ~0–200              |
+# | Indoor lighting | ~200–700            |
+# | Bright sunlight | ~700–1023           |
+
+
+class LightState(Enum):
+    DARK = "dark"
+    SOFT = "soft"
+    BRIGHT = " bright"
