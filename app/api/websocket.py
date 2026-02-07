@@ -1,7 +1,7 @@
-from domain.managers.websocket_manager import WebSocketManager
-from domain.managers.orchestrator_manager import OrchestratorManager
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
+from domain.managers.orchestrator_manager import OrchestratorManager
+from domain.managers.websocket_manager import WebSocketManager
 
 router = APIRouter()
 

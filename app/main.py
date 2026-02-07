@@ -1,20 +1,21 @@
 import asyncio
-from domain.managers.websocket_manager import WebSocketManager
-from domain.managers.orchestrator_manager import OrchestratorManager
-from clients.llm_client import OpenAIClient
-from domain.models.plant import Plant
-from domain.managers.sensor_manager import (
-    SensorManager,
-    start_serial_reader,
-)
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.http import create_plant_router
-from api.websocket import create_ws_router, router as ws_router
+from api.websocket import create_ws_router
+from api.websocket import router as ws_router
+from clients.llm_client import OpenAIClient
 from config import settings
-
+from domain.managers.orchestrator_manager import OrchestratorManager
+from domain.managers.sensor_manager import (
+    SensorManager,
+    start_serial_reader,
+)
+from domain.managers.websocket_manager import WebSocketManager
+from domain.models.plant import Plant
 
 plant = Plant()
 llm_client = OpenAIClient()

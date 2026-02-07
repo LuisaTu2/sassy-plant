@@ -1,5 +1,6 @@
-from domain.types import MessageType
 from fastapi import WebSocket, WebSocketDisconnect
+
+from domain.types import MessageType
 
 
 class WebSocketManager:

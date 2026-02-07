@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 
-
 # TODO : UPDATE
 # class SensorManager(ABC):
 #     @abstractmethod

@@ -1,6 +1,7 @@
 from fastapi import APIRouter
-from domain.types import PlantSettings
+
 from domain.models.plant import Plant
+from domain.types import PlantSettings
 
 
 def create_plant_router(plant: Plant):

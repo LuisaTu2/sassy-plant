@@ -1,17 +1,15 @@
 import asyncio
 
-from domain.managers.websocket_manager import WebSocketManager
 from clients.llm_client import OpenAIClient
 from clients.utils import get_base_prompt, get_state_change_prompt
 from domain.managers.sensor_manager import SensorManager
+from domain.managers.websocket_manager import WebSocketManager
 from domain.models.plant import Plant
-
 from domain.types import (
     AudioType,
-    MessageType,
+    DataPoint,
     LightState,
     MessageType,
-    DataPoint,
 )
 
 

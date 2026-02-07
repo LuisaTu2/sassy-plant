@@ -1,4 +1,4 @@
-from domain.types import Voice, PlantMood, PlantType
+from domain.types import PlantMood, PlantType, Voice
 
 
 class Plant:

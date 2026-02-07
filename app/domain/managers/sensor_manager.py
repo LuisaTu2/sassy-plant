@@ -1,16 +1,16 @@
 # global manager
 import asyncio
-import serial_asyncio
 import datetime
+import json
 from collections import deque
 
-import json
+import serial_asyncio
+
 from domain.types import LightState
 from domain.utils import (
-    sensor_port,
     sensor_baudrate,
+    sensor_port,
 )
-import datetime
 
 
 class SensorManager(asyncio.Protocol):
