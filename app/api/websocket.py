@@ -1,25 +1,24 @@
-import asyncio
-
-from domain.managers.sensor_manager import sensor_manager
+from domain.managers.websocket_manager import WebSocketManager
+from domain.managers.orchestrator_manager import OrchestratorManager
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
 
 router = APIRouter()
 
 
-@router.websocket("/ws/sensors")
-async def websocket_endpoint(ws: WebSocket):
-    await ws.accept()
-    sensor_manager.clients.append(ws)
+def create_ws_router(ws_manager: WebSocketManager, orchestrator: OrchestratorManager):
+    router = APIRouter()
 
-    try:
-        while True:
-            msg = await ws.receive_json()
-            if msg.get("type") == "stopped_talking":
-                sensor_manager.is_talking = False
-            elif msg.get("type") == "user_voice_message":
-                print("message received: ", msg.get("text"))
-                await sensor_manager.answer_user_voice_message(msg.get("text"))
-    except WebSocketDisconnect:
-        sensor_manager.clients.remove(ws)
-        print("Client disconnected")
+    @router.websocket("/ws/sensors")
+    async def websocket_endpoint(ws: WebSocket):
+        await ws_manager.connect(ws)
+        try:
+            while True:
+                msg = await ws.receive_json()
+                print("received message: ", msg)
+                orchestrator.handle_ws_message(msg)
+        except WebSocketDisconnect:
+            ws_manager.disconnect(ws)
+            print("websocket disconnected")
+
+    return router

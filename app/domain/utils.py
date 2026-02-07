@@ -9,7 +9,6 @@ from fastapi import WebSocket
 from domain.types import (
     LightState_1,
     MessageType,
-    ReadingMessage,
     Sassiness,
     StateChange,
     WaterState,
@@ -120,7 +119,7 @@ async def simulate_and_send_readings(websocket: WebSocket):
             first_reading = plant_data
         if i == 19:
             last_reading = plant_data
-        message: ReadingMessage = {
+        message = {
             "type": MessageType.READING.value,
             "payload": plant_data,
         }

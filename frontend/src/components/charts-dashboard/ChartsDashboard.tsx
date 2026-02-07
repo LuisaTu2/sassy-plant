@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useChartSettings } from "../contexts/ChartSettingsContext";
 import { usePlantSettings } from "../contexts/PlantSettingsContext";
-import type { MessageType, PlantState, Audio } from "../types";
+import type { MessageType, PlantState } from "../types";
 import { playAudioFromBase64 } from "../utils";
 import "./ChartsDashboard.css";
 import Controls from "./Controls";
@@ -30,16 +30,16 @@ const ChartsDashboard = () => {
       try {
         const message = JSON.parse(event.data);
         const messageType: MessageType = message["type"];
-        if (messageType === "reading") {
+        if (messageType === "data_point") {
           const plantState = message["payload"] as PlantState;
           setData((prev) => [...prev.slice(-MAX_POINTS + 1), plantState]);
         } else {
           (async () => {
             setIsTalking(true);
-            const text = message["payload"]["text"];
-            console.log("text: ", text);
+            const payload = message["payload"];
+            const text = payload["text"];
             setSassyText(text);
-            await playAudioFromBase64((message.payload as Audio).audio);
+            await playAudioFromBase64(payload["audio"]);
             console.log("stopped talking");
             webSocket.send(
               JSON.stringify({

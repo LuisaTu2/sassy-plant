@@ -1,4 +1,4 @@
-export type MessageType = "reading" | "voice";
+export type MessageType = "data_point" | "text_and_audio";
 export type Message = {
   type: MessageType;
   payload: PlantState | Audio;

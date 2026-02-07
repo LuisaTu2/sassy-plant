@@ -69,20 +69,14 @@ class PlantReading(BaseModel):
 
 
 class MessageType(Enum):
-    READING = "reading"
-    AUDIO = "audio"
+    DATA_POINT = "data_point"
+    TEXT_AND_AUDIO = "text_and_audio"
 
 
-class Reading(BaseModel):
+class DataPoint(BaseModel):
     soil_moisture: str
     light: str
-    mood: str
     timestamp: str
-
-
-class ReadingMessage(BaseModel):
-    type: MessageType.READING.value
-    payload: Reading
 
 
 class AudioType(Enum):
@@ -92,11 +86,6 @@ class AudioType(Enum):
     FLAC = "flac"  # for lossless audio compression, favoured by audio enthusiasts for archiving
     WAV = "wav"  # uncompressed WAV audio, suitable for low-latency applications to avoid decoding overhead
     PCM = "pcm"  # similar to WAV but contains the raw samples in 24kHz (16-bit signed, low-endian), without the header.
-
-
-class AudioMessage(BaseModel):
-    type: MessageType.AUDIO.value
-    payload: AudioType
 
 
 class Voice(Enum):
@@ -151,7 +140,7 @@ class Sassiness(Enum):
 
 class PlantSettings(BaseModel):
     name: str
-    plant_type: PlantType
+    type: PlantType
     voice: Voice
     sassiness: Sassiness
 
@@ -186,5 +175,5 @@ class StateChange:
 
 class LightState(Enum):
     DARK = "dark"
-    SOFT = "soft"
+    AMBIENT = "ambient"
     BRIGHT = " bright"
