@@ -88,22 +88,25 @@ class SensorManager(asyncio.Protocol):
         finally:
             self.is_talking = False
 
-    # async def answer_user_voice_message(self, user_voice_msg):
-    #     reply = llm_client.get_voice_msg_answer(user_voice_msg)
-    #     print("sassy reply: ", reply)
-    #     audio_b64 = await asyncio.to_thread(llm_client.get_audio, reply)
-    #     message = json.dumps(
-    #         {
-    #             "type": "voice",
-    #             "payload": {
-    #                 "audio": audio_b64,
-    #                 "format": AudioType.WAV.value,
-    #                 "text": reply,
-    #             },
-    #         }
-    #     )
-    #     await self.broadcast(message)
-    #     return reply
+    async def answer_user_voice_message(self, user_voice_msg):
+        reply = llm_client.get_voice_msg_answer(user_voice_msg)
+        print("sassy reply: ", reply)
+        audio_b64 = await asyncio.to_thread(llm_client.get_audio, reply)
+        message = json.dumps(
+            {
+                "type": "voice",
+                "payload": {
+                    "audio": audio_b64,
+                    "format": AudioType.WAV.value,
+                    "text": reply,
+                },
+            }
+        )
+        # await self.broadcast(message)
+
+        for ws in self.clients:
+            await ws.send_text(message)
+        return reply
 
     def connection_made(self, transport):
         self.transport = transport

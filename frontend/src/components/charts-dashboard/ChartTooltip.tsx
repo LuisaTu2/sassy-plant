@@ -14,15 +14,22 @@ const ChartTooltip = ({
   return (
     <div className="tooltip-wrapper">
       <div>
-        <strong>Time:</strong>{" "}
-        {/* {new Date(point.timestamp).toLocaleTimeString("en-US", {
+        <strong>time:</strong>{" "}
+        {new Date(
+          point.timestamp.replace(" ", "T").slice(0, 23),
+        ).toLocaleString("en-US", {
           hour12: false,
-          fractionalSecondDigits: 1,
-        })} */}
-        {point.timestamp}
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })}
       </div>
       <div>
-        <strong>Soil Moisture:</strong> {point.soil_moisture.toFixed(2)}
+        <strong>soil moisture: </strong>
+        {point.soil_moisture}
       </div>
     </div>
   );
