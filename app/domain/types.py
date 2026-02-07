@@ -2,71 +2,6 @@ from enum import Enum
 
 from pydantic import BaseModel
 
-# 850–950	Bone dry	🚨 Bad – severely thirsty
-# 700–850	Dry	⚠️ Needs water soon
-# 450–700	Moist	✅ Good / ideal
-# 300–450	Wet	😐 Okay short-term
-# < 300	Saturated	❌ Bad – risk of root rot
-
-
-class WaterState(Enum):
-    EXTRA_DRY = "extra dry"
-    DRY = "dry"
-    MOIST = "moist"
-    WET = "wet"
-    OVERWATERED = "overwatered"
-    UNCHANGED = "unchanged"
-
-
-class WaterGradient(Enum):
-    EXTRA_DRY = "#FFFFFF"
-    DRY = "#B3D1FF"
-    MOIST = "#66A3FF"
-    WET = "#3366CC"
-    OVERWATERED = "#003399"
-
-
-# MOISTURE_GRADIENT_5 = [
-#     "#FFFFFF",  # very dry / start
-#     "#B3D1FF",  # light blue
-#     "#66A3FF",  # medium blue
-#     "#3366CC",  # rich blue
-#     "#003399",  # deep dark blue / fully wet
-# ]
-
-
-class LightState_1(Enum):
-    DARK = "dark"
-    VERY_LOW = "very low"
-    LOW = "low"
-    OK = "ok"
-    GREAT = "great"
-    INTENSE = "intense"
-    UNCHANGED = "unchanged"
-
-
-class LightGradient(Enum):
-    DARK = "#000000"
-    VERY_LOW = "#333333"
-    LOW = "#666666"
-    OK = "#999999"
-    GREAT = "#CCCCCC"
-    INTENSE = "#FFFFFF"
-
-
-class PlantMood(Enum):
-    HAPPY = "happy"
-    SAD = "sad"
-    SLEEPY = "sleepy"
-    EXTRA_SASSY = "extra_sassy"
-    ANGRY = "angry"
-
-
-class PlantReading(BaseModel):
-    soil_moisture: int
-    light: int
-    mood: PlantMood
-
 
 class MessageType(Enum):
     DATA_POINT = "data_point"
@@ -114,22 +49,6 @@ class PlantType(Enum):
     SNAKE_PLANT = "snake plant"
 
 
-# class VoiceType(Enum):
-#     ALLOY = "alloy"
-#     ASH = "ash"
-#     BALLAD = "ballad"
-#     CORAL = "coral"
-#     ECHO = "echo"
-#     FABLE = "fable"
-#     NOVA = "nova"
-#     ONYX = "onyx"
-#     SAGE = "sage"
-#     SHIMMER = "shimmer"
-#     VERSE = "verse"
-#     MARIN = "marin"
-#     CEDAR = "cedar"
-
-
 class Sassiness(Enum):
     LOW = "low"
     MILD = "mild"
@@ -145,27 +64,6 @@ class PlantSettings(BaseModel):
     sassiness: Sassiness
 
 
-current_plant_settings: dict = {
-    "name": "Maria",
-    "plant_type": "BASIL",
-    "voice": "ALLOY",
-    "sassiness": "HIGH",
-}
-
-
-from dataclasses import dataclass
-
-
-@dataclass
-class StateChange:
-    water_state_1: WaterState
-    water_state_2: WaterState
-    light_state_1: LightState_1
-    light_state_2: LightState_1
-    has_water_state_changed: bool
-    has_light_state_changed: bool
-
-
 # | Condition       | Expected analogRead |
 # | --------------- | ------------------- |
 # | Dark / night    | ~0–200              |
@@ -177,3 +75,11 @@ class LightState(Enum):
     DARK = "dark"
     AMBIENT = "ambient"
     BRIGHT = " bright"
+
+
+class PlantMood(Enum):
+    HAPPY = "happy"
+    SAD = "sad"
+    SLEEPY = "sleepy"
+    EXTRA_SASSY = "extra_sassy"
+    ANGRY = "angry"
