@@ -5,12 +5,14 @@ def get_base_prompt(
     plant_name: str,
     plant_type: PlantType,
     sass_level: SassLevel,
+    days_since_last_watered: int,
     user_input,
 ):
     return f"""
             Your name is {plant_name} and you are a virtual {plant_type} plant with a sassy personality.
             Keep responses short and witty. Respond in 2 complete sentences.
             Human says: "{user_input}". You respond in-character with a {sass_level} level of sass.
+            You were last watered {days_since_last_watered} days ago.
             """
 
 

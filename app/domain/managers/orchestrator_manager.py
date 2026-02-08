@@ -77,6 +77,7 @@ class OrchestratorManager:
                     self.plant.name,
                     self.plant.type,
                     self.plant.sassiness,
+                    self.plant.days_since_last_watered,
                     user_input,
                 )
             else:

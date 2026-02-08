@@ -1,14 +1,11 @@
 import asyncio
-from pathlib import Path
 
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 
 from api.http import create_plant_router
 from api.websocket import create_ws_router
-from api.websocket import router as ws_router
 from clients.llm_client import OpenAIClient
 from config import settings
 from domain.managers.orchestrator_manager import OrchestratorManager
@@ -57,13 +54,6 @@ app = create_app()
 @app.on_event("startup")
 async def startup_event():
     asyncio.create_task(start_serial_reader(sensor_manager))
-
-
-AUDIO_ROOT = Path(__file__).parent / "audio"
-AUDIO_ROOT.mkdir(exist_ok=True)
-
-
-app.mount("/audio", StaticFiles(directory=AUDIO_ROOT), name="audio")
 
 
 if __name__ == "__main__":
