@@ -6,22 +6,21 @@ from collections import deque
 
 import serial_asyncio
 
-from domain.types import LightState
-from domain.utils import (
-    sensor_baudrate,
-    sensor_port,
-)
+from domain.types import LightState, WaterState
+
+sensor_port = "/dev/ttyACM0"
+sensor_baudrate = 9600
 
 
 class SensorManager(asyncio.Protocol):
     def __init__(self):
         self.water_readings = deque()
         self.light_readings = deque()
-        self.light_states = deque()
         self.current_light_state: LightState | None = None
+        self.current_water_state: WaterState | None = None
         self.buffer = b""
         self.publish_data_point = lambda *args, **kwargs: None  # callback
-        self.make_plant_talk_on_state_change = lambda *args, **kwargs: None
+        self.make_plant_talk = lambda *args, **kwargs: None
 
     def connection_made(self, transport):
         self.transport = transport
@@ -54,24 +53,51 @@ class SensorManager(asyncio.Protocol):
             self.water_readings.popleft()
             self.light_readings.popleft()
         if timestamp.second % 5 == 0:
-            new_state = self.get_updated_state()
-            if self.current_light_state is None:
-                self.current_light_state = new_state
-                return
-            if new_state != self.current_light_state:
-                asyncio.create_task(
-                    self.make_plant_talk_on_state_change(
-                        light_state=self.current_light_state,
-                        new_light_state=new_state,
-                    )
-                )
-                self.current_light_state = new_state
+            self.handle_state_change()
 
-    def get_updated_state(
+    def handle_state_change(self):
+        new_light_state = self.get_updated_light_state()
+        new_water_state = self.get_updated_water_state()
+        print(
+            self.current_light_state,
+            new_light_state,
+            self.current_water_state,
+            new_water_state,
+            "\n\n",
+        )
+        if self.current_light_state is None:
+            self.current_light_state = new_light_state
+            self.current_water_state = new_water_state
+            return
+
+        if (
+            new_light_state == self.current_light_state
+            and new_water_state == self.current_water_state
+        ):
+            return
+
+        asyncio.create_task(
+            self.make_plant_talk(
+                light_state=self.current_light_state,
+                new_light_state=new_light_state,
+                water_state=self.current_water_state,
+                new_water_state=new_water_state,
+            )
+        )
+
+        if new_light_state != self.current_light_state:
+            self.current_light_state = new_light_state
+
+        if new_water_state != self.current_water_state:
+            self.current_water_state = new_water_state
+
+        return
+
+    def get_updated_light_state(
         self,
     ):
         average_light_value = sum(self.light_readings) / len(self.light_readings)
-        # print("average light value: ", average_light_value)
+        print("average light value: ", average_light_value)
         return self.light_to_state_mapping(average_light_value)
 
     def light_to_state_mapping(self, light):
@@ -82,6 +108,22 @@ class SensorManager(asyncio.Protocol):
                 return LightState.AMBIENT.value
             case light if light >= 700:
                 return LightState.BRIGHT.value
+
+    def get_updated_water_state(
+        self,
+    ):
+        average_water_value = sum(self.water_readings) / len(self.water_readings)
+        print("average water value: ", average_water_value)
+        return self.water_to_state_mapping(average_water_value)
+
+    def water_to_state_mapping(self, water):
+        match water:
+            case water if water >= 600:
+                return WaterState.DRY.value
+            case water if 250 <= water < 600:
+                return WaterState.OPTIMAL.value
+            case water if water < 250:
+                return WaterState.OVERWATERED.value
 
 
 # lambda is used to specify instance of sensor manager as instantiated in here

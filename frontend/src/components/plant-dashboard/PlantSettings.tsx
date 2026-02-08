@@ -30,14 +30,14 @@ const PlantSettings = () => {
     e.preventDefault();
     const request_body = JSON.stringify({
       name: name,
-      plant_type: plantType,
+      type: plantType,
       voice: voice,
       sassiness,
     });
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:9000/set-plant-settings/",
+        "http://127.0.0.1:9000/update-plant-settings/",
         {
           method: "POST",
           headers: {
@@ -79,6 +79,39 @@ const PlantSettings = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isFormOpen, setIsFormOpen]);
+
+  const fetchPlantSettings = async () => {
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:9000/get-plant-settings/",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      setName(result["name"]);
+      setPlantType(result["type"]);
+      setVoice(result["voice"]);
+      setSassiness(result["sassiness"]);
+      // setPlantType(result["type"]);
+      console.log("result:", result);
+    } catch (error) {
+      console.error("an error occurred:", error);
+    } finally {
+      setIsFormOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPlantSettings();
+  }, []);
 
   return (
     <div

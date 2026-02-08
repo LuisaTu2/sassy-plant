@@ -4,14 +4,13 @@ import { usePlantSettings } from "../contexts/PlantSettingsContext";
 import type { MessageType, PlantState } from "../types";
 import { playAudioFromBase64 } from "../utils";
 import "./ChartsDashboard.css";
-import Controls from "./Controls";
 import SensorsChart from "./SensorsChart";
 import SassyText from "./SassyText";
 
 const ChartsDashboard = () => {
-  const { connected, data, setConnected, setData } = useChartSettings();
+  const { data, setData } = useChartSettings();
   const { setIsTalking, setSassyText } = usePlantSettings();
-  const [isReading, setIsReading] = useState<boolean>(false);
+  // const [isReading, setIsReading] = useState<boolean>(false);
   const MAX_POINTS = 300;
   const wsRef = useRef<WebSocket | null>(null);
 
@@ -57,34 +56,9 @@ const ChartsDashboard = () => {
 
     return () => {
       webSocket.close();
-      console.log("WebSocket closed on unmount");
+      console.log("websocket closed on unmount");
     };
   }, []); // renders only once
-
-  useEffect(() => {
-    if (wsRef == null || wsRef.current == null) {
-      return;
-    }
-    if (connected) {
-      setIsReading(true);
-      wsRef.current &&
-        wsRef.current.send(
-          JSON.stringify({
-            type: "start_readings",
-          }),
-        );
-    } else {
-      if (isReading) {
-        setIsReading(false);
-        wsRef.current &&
-          wsRef.current.send(
-            JSON.stringify({
-              type: "stop_readings",
-            }),
-          );
-      }
-    }
-  }, [connected]);
 
   useEffect(() => {
     if (isListening) {
@@ -95,8 +69,7 @@ const ChartsDashboard = () => {
 
       recognition.onresult = (event: any) => {
         const text = event.results[0][0].transcript;
-        console.log("speech text: ", text);
-        // send text here
+        console.log("user input: ", text);
         wsRef.current &&
           wsRef.current.send(
             JSON.stringify({
@@ -128,7 +101,7 @@ const ChartsDashboard = () => {
         <SassyText />
         <SensorsChart data={data} />
       </div>
-      <Controls connected={connected} setConnected={setConnected} />
+      {/* <Controls connected={connected} setConnected={setConnected} /> */}
       <button
         onClick={toggleListening}
         className={`mic-button ${isListening ? "talking" : ""}`}

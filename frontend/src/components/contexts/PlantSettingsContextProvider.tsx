@@ -14,7 +14,7 @@ export const PlantSettingsProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const [name, setName] = useState<string>("isa");
+  const [name, setName] = useState<string>("");
   const [plantType, setPlantType] = useState<PlantType>(PLANT_TYPES[0]);
   const [voice, setVoice] = useState<VoiceType>(VOICE_TYPES[0]);
   const [sassiness, setSassiness] = useState<SassLevel>(SASS_LEVELS[1]);

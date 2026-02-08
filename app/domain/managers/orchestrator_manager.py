@@ -1,4 +1,5 @@
 import asyncio
+from pathlib import Path
 
 from clients.llm_client import OpenAIClient
 from clients.utils import get_base_prompt, get_state_change_prompt
@@ -10,6 +11,7 @@ from domain.types import (
     DataPoint,
     LightState,
     MessageType,
+    WaterState,
 )
 
 
@@ -26,11 +28,9 @@ class OrchestratorManager:
         self.llm_client = llm_client
         self.websocket_manager = websocket_manager
 
-        # register callback from sensor manager
+        # register callbacks from sensor manager
         self.sensor_manager.publish_data_point = self.publish_data_point
-        self.sensor_manager.make_plant_talk_on_state_change = (
-            self.make_plant_talk_on_state_change
-        )
+        self.sensor_manager.make_plant_talk = self.make_plant_talk
 
     def publish_data_point(self, data, timestamp):
         print("data and timestamp: ", data, timestamp)
@@ -59,13 +59,29 @@ class OrchestratorManager:
             )
         )
 
-    async def make_plant_talk_on_state_change(
-        self, light_state: LightState, new_light_state: LightState
+    async def make_plant_talk(
+        self,
+        light_state: LightState = None,
+        new_light_state: LightState = None,
+        water_state: WaterState = None,
+        new_water_state: WaterState = None,
+        user_input=None,
     ):
         try:
-            prompt = get_state_change_prompt(
-                self.plant.name, self.plant.type, light_state, new_light_state
-            )
+            if self.plant.is_talking:
+                return
+            prompt = ""
+            if user_input is not None:
+                prompt = get_base_prompt(self.plant.name, self.plant.type, user_input)
+            else:
+                prompt = get_state_change_prompt(
+                    self.plant.name,
+                    self.plant.type,
+                    light_state,
+                    new_light_state,
+                    water_state,
+                    new_water_state,
+                )
             text = await asyncio.to_thread(self.llm_client.get_text_response, prompt)
             audio_b64 = await asyncio.to_thread(
                 self.llm_client.get_audio_response, text, self.plant.voice
@@ -75,24 +91,12 @@ class OrchestratorManager:
         except Exception as e:
             print("error when making plant talk on state change:", e)
 
-    async def make_plant_respond_to_user_input(self, user_input):
-        try:
-            prompt = get_base_prompt(self.plant.name, self.plant.type, user_input)
-            text = await asyncio.to_thread(self.llm_client.get_text_response, prompt)
-            audio_b64 = await asyncio.to_thread(
-                self.llm_client.get_audio_response, text, self.plant.voice
-            )
-            audio_b64 = audio_b64.replace("\n", "").replace(" ", "")
-            self.publish_text_and_audio(text, audio=audio_b64)
-        except Exception as e:
-            print("error when making plant talk after user input:", e)
-
     def handle_ws_message(self, message: dict):
         try:
             if message["type"] == "stopped_talking":
                 self.plant.is_talking = False
             else:
                 user_input = message["text"]
-                asyncio.create_task(self.make_plant_respond_to_user_input(user_input))
+                asyncio.create_task(self.make_plant_talk(user_input))
         except Exception as e:
             print("unable to process message from websocket: ", e)

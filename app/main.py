@@ -17,6 +17,11 @@ from domain.managers.sensor_manager import (
 from domain.managers.websocket_manager import WebSocketManager
 from domain.models.plant import Plant
 
+
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
+
+
 plant = Plant()
 llm_client = OpenAIClient()
 sensor_manager = SensorManager()
@@ -55,6 +60,13 @@ app = create_app()
 @app.on_event("startup")
 async def startup_event():
     asyncio.create_task(start_serial_reader(sensor_manager))
+
+
+AUDIO_ROOT = Path(__file__).parent / "audio"
+AUDIO_ROOT.mkdir(exist_ok=True)
+
+
+app.mount("/audio", StaticFiles(directory=AUDIO_ROOT), name="audio")
 
 
 if __name__ == "__main__":

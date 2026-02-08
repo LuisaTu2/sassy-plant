@@ -77,9 +77,14 @@ class LightState(Enum):
     BRIGHT = " bright"
 
 
-class PlantMood(Enum):
-    HAPPY = "happy"
-    SAD = "sad"
-    SLEEPY = "sleepy"
-    EXTRA_SASSY = "extra_sassy"
-    ANGRY = "angry"
+# ≥ 600 → DRY
+
+# 250–600 → OPTIMAL
+
+# < 250 → SATURATED
+
+
+class WaterState(Enum):
+    DRY = "dry"
+    OPTIMAL = "optimal"
+    OVERWATERED = "overwatered"
