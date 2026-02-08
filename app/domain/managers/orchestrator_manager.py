@@ -2,7 +2,7 @@ import asyncio
 from pathlib import Path
 
 from clients.llm_client import OpenAIClient
-from clients.utils import get_base_prompt, get_state_change_prompt
+from clients.prompts import get_base_prompt, get_state_change_prompt
 from domain.managers.sensor_manager import SensorManager
 from domain.managers.websocket_manager import WebSocketManager
 from domain.models.plant import Plant
