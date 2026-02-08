@@ -49,7 +49,7 @@ class PlantType(Enum):
     SNAKE_PLANT = "snake plant"
 
 
-class Sassiness(Enum):
+class SassLevel(Enum):
     LOW = "low"
     MILD = "mild"
     MEDIUM = "medium"
@@ -61,7 +61,7 @@ class PlantSettings(BaseModel):
     name: str
     type: PlantType
     voice: Voice
-    sassiness: Sassiness
+    sassiness: SassLevel
 
 
 # | Condition       | Expected analogRead |

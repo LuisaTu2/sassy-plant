@@ -100,8 +100,6 @@ const PlantSettings = () => {
       setPlantType(result["type"]);
       setVoice(result["voice"]);
       setSassiness(result["sassiness"]);
-      // setPlantType(result["type"]);
-      console.log("result:", result);
     } catch (error) {
       console.error("an error occurred:", error);
     } finally {

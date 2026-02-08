@@ -1,8 +1,10 @@
 import asyncio
+from pathlib import Path
 
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from api.http import create_plant_router
 from api.websocket import create_ws_router
@@ -16,11 +18,6 @@ from domain.managers.sensor_manager import (
 )
 from domain.managers.websocket_manager import WebSocketManager
 from domain.models.plant import Plant
-
-
-from fastapi.staticfiles import StaticFiles
-from pathlib import Path
-
 
 plant = Plant()
 llm_client = OpenAIClient()

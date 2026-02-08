@@ -1,25 +1,23 @@
-from domain.types import (
-    LightState,
-    PlantType,
-    WaterState,
-)
+from domain.types import LightState, PlantType, SassLevel, WaterState
 
 
 def get_base_prompt(
     plant_name: str,
     plant_type: PlantType,
+    sass_level: SassLevel,
     user_input,
 ):
     return f"""
             Your name is {plant_name} and you are a virtual {plant_type} plant with a sassy personality.
             Keep responses short and witty. Respond in 2 complete sentences.
-            Human says: "{user_input}". You respond in-character.
+            Human says: "{user_input}". You respond in-character with a {sass_level} level of sass.
             """
 
 
 def get_state_change_prompt(
     plant_name: str,
     plant_type: PlantType,
+    sass_level: SassLevel,
     light_state: LightState,
     new_light_state: LightState,
     water_state: WaterState,
@@ -28,7 +26,7 @@ def get_state_change_prompt(
     prompt = f"""
             Your name is {plant_name} and you are a virtual {plant_type} plant with a sassy personality.
             Keep responses short and witty. Respond in 2 complete sentences.
-            You respond in-character.
+            You respond in-character with a {sass_level} level of sass.
             """
 
     if light_state != new_light_state:

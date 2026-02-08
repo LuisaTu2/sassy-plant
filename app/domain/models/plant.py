@@ -1,12 +1,12 @@
-from domain.types import PlantSettings, PlantType, Sassiness, Voice
+from domain.types import PlantSettings, PlantType, SassLevel, Voice
 
 
 class Plant:
     def __init__(self):
         self.name: str = "Fernie Green"
-        self.type: PlantType = PlantType.FERN
+        self.type: PlantType = PlantType.FERN.value
         self.voice: Voice = Voice.ALLOY.value
-        self.sassiness: Sassiness = Sassiness.MEDIUM.value
+        self.sassiness: SassLevel = SassLevel.MEDIUM.value
         self.is_talking: bool = False
 
     def get_plant_settings(self):

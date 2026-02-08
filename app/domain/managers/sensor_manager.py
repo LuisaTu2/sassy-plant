@@ -59,10 +59,11 @@ class SensorManager(asyncio.Protocol):
         new_light_state = self.get_updated_light_state()
         new_water_state = self.get_updated_water_state()
         print(
-            self.current_light_state,
-            new_light_state,
             self.current_water_state,
             new_water_state,
+            "·",
+            self.current_light_state,
+            new_light_state,
             "\n\n",
         )
         if self.current_light_state is None:
@@ -97,7 +98,7 @@ class SensorManager(asyncio.Protocol):
         self,
     ):
         average_light_value = sum(self.light_readings) / len(self.light_readings)
-        print("average light value: ", average_light_value)
+        print("\n\naverage light value: ", average_light_value)
         return self.light_to_state_mapping(average_light_value)
 
     def light_to_state_mapping(self, light):

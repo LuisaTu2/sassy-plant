@@ -71,19 +71,26 @@ class OrchestratorManager:
             if self.plant.is_talking:
                 return
             self.plant.is_talking = True
-
             prompt = ""
             if user_input is not None:
-                prompt = get_base_prompt(self.plant.name, self.plant.type, user_input)
+                prompt = get_base_prompt(
+                    self.plant.name,
+                    self.plant.type,
+                    self.plant.sassiness,
+                    user_input,
+                )
             else:
                 prompt = get_state_change_prompt(
                     self.plant.name,
                     self.plant.type,
+                    self.plant.sassiness,
                     light_state,
                     new_light_state,
                     water_state,
                     new_water_state,
                 )
+
+            print("\nplant is set to talk: \n", prompt)
             text = await asyncio.to_thread(self.llm_client.get_text_response, prompt)
             audio_b64 = await asyncio.to_thread(
                 self.llm_client.get_audio_response, text, self.plant.voice
@@ -98,7 +105,7 @@ class OrchestratorManager:
             if message["type"] == "stopped_talking":
                 self.plant.is_talking = False
             else:
-                print("message: ", message)
+                # print("message: ", message)
                 user_input = message["text"]
                 asyncio.create_task(self.make_plant_talk(user_input=user_input))
         except Exception as e:

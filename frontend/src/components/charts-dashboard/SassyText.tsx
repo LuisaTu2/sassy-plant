@@ -22,7 +22,7 @@ const SassyText = ({ wsRef }: SassyTextProps) => {
 
       recognition.onresult = (event: any) => {
         const text = event.results[0][0].transcript;
-        console.log("user input: ", text, wsRef.current);
+        console.log("user input: ", text);
         wsRef.current &&
           wsRef.current.send(
             JSON.stringify({

@@ -51,7 +51,7 @@ class OpenAIClient(LLMClient):
                 # max_tokens=50,
             )
             text = res.choices[0].message.content.strip()
-            print("received text response from llm")
+            # print("received text response from llm")
             return text
         except Exception as e:
             raise Exception("unable to get text response: ", e)
@@ -67,7 +67,7 @@ class OpenAIClient(LLMClient):
             )
             audio_bytes = response.read()  # WAV bytes
             audio_b64 = base64.b64encode(audio_bytes).decode("utf-8")
-            print("received audio response from llm")
+            # print("received audio response from llm")
             return audio_b64
         except Exception as e:
             raise Exception("unable to get audio response: ", e)
