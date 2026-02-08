@@ -9,7 +9,8 @@ import SassyText from "./SassyText";
 
 const ChartsDashboard = () => {
   const { data, setData } = useChartSettings();
-  const { setIsTalking, setSassyText } = usePlantSettings();
+  const { setIsTalking, setSassyText, setDaysSinceLastWatered } =
+    usePlantSettings();
   const MAX_POINTS = 300;
 
   const wsRef = useRef<WebSocket | null>(null);
@@ -27,7 +28,7 @@ const ChartsDashboard = () => {
         if (messageType === "data_point") {
           const plantState = message["payload"] as PlantState;
           setData((prev) => [...prev.slice(-MAX_POINTS + 1), plantState]);
-        } else {
+        } else if (messageType === "text_and_audio") {
           (async () => {
             setIsTalking(true);
             const payload = message["payload"];
@@ -43,6 +44,8 @@ const ChartsDashboard = () => {
 
             setIsTalking(false);
           })();
+        } else {
+          setDaysSinceLastWatered(0);
         }
       } catch (err) {
         console.error("Failed to parse WebSocket message:", err);

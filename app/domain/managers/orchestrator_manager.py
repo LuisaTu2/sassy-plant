@@ -1,11 +1,13 @@
 import asyncio
+import datetime
+import json
 from pathlib import Path
 
 from clients.llm_client import OpenAIClient
 from clients.prompts import get_base_prompt, get_state_change_prompt
 from domain.managers.sensor_manager import SensorManager
 from domain.managers.websocket_manager import WebSocketManager
-from domain.models.plant import Plant
+from domain.models.plant import MEMORY_FILE, Plant
 from domain.types import (
     AudioType,
     DataPoint,
@@ -31,6 +33,7 @@ class OrchestratorManager:
         # register callbacks from sensor manager
         self.sensor_manager.publish_data_point = self.publish_data_point
         self.sensor_manager.make_plant_talk = self.make_plant_talk
+        self.sensor_manager.update_last_watered = self.update_last_watered
 
     def publish_data_point(self, data, timestamp):
         print("data and timestamp: ", data, timestamp)
@@ -59,6 +62,13 @@ class OrchestratorManager:
             )
         )
 
+    def publish_update_last_watered(self):
+        asyncio.create_task(
+            self.websocket_manager.broadcast(
+                message_type=MessageType.UPDATE_DAYS_LAST_WATERED.value, payload={}
+            )
+        )
+
     async def make_plant_talk(
         self,
         light_state: LightState = None,
@@ -68,6 +78,7 @@ class OrchestratorManager:
         user_input: str = None,
     ):
         try:
+            print("is plant talking? ", self.plant.is_talking)
             if self.plant.is_talking:
                 return
             self.plant.is_talking = True
@@ -111,3 +122,24 @@ class OrchestratorManager:
                 asyncio.create_task(self.make_plant_talk(user_input=user_input))
         except Exception as e:
             print("unable to process message from websocket: ", e)
+
+    def update_last_watered(self, last_watered_ts: datetime):
+        try:
+            with open(MEMORY_FILE, "r") as f:
+                memory = json.load(f)
+            plant_memory = memory.get(self.plant.id, {})
+            self.plant.last_watered = str(last_watered_ts)
+            plant_memory["last_watered"] = str(last_watered_ts)
+            time_passed = datetime.datetime.now().date() - last_watered_ts.date()
+            self.days_since_last_watered = time_passed.days
+
+            memory[self.plant.id] = plant_memory
+            with open(MEMORY_FILE, "w") as f:
+                json.dump(memory, f, indent=4)  # indent=4 makes the JSON readable
+
+            print(
+                "successfully updated when last watered: ", self.days_since_last_watered
+            )
+            self.publish_update_last_watered()
+        except Exception as e:
+            print(f"unable to update last time {self.plant.name} was watered", e)

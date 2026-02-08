@@ -6,6 +6,7 @@ from pydantic import BaseModel
 class MessageType(Enum):
     DATA_POINT = "data_point"
     TEXT_AND_AUDIO = "text_and_audio"
+    UPDATE_DAYS_LAST_WATERED = "update_days_last_watered"
 
 
 class DataPoint(BaseModel):

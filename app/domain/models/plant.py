@@ -34,9 +34,7 @@ class Plant:
             with open(MEMORY_FILE) as f:
                 memory = json.load(f)
             plant_memory = memory.get(self.id)
-            last_watered = datetime.datetime.fromisoformat(
-                plant_memory["last_time_watered"]
-            )
+            last_watered = datetime.datetime.fromisoformat(plant_memory["last_watered"])
             self.last_watered = last_watered
             time_passed = datetime.datetime.now().date() - last_watered.date()
             self.days_since_last_watered = time_passed.days

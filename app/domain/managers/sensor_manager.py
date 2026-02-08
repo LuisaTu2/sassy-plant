@@ -21,6 +21,7 @@ class SensorManager(asyncio.Protocol):
         self.buffer = b""
         self.publish_data_point = lambda *args, **kwargs: None  # callback
         self.make_plant_talk = lambda *args, **kwargs: None
+        self.update_last_watered = lambda *args, **kwargs: None
 
     def connection_made(self, transport):
         self.transport = transport
@@ -53,9 +54,9 @@ class SensorManager(asyncio.Protocol):
             self.water_readings.popleft()
             self.light_readings.popleft()
         if timestamp.second % 5 == 0:
-            self.handle_state_change()
+            self.handle_state_change(timestamp)
 
-    def handle_state_change(self):
+    def handle_state_change(self, timestamp: datetime):
         new_light_state = self.get_updated_light_state()
         new_water_state = self.get_updated_water_state()
         print(
@@ -90,8 +91,13 @@ class SensorManager(asyncio.Protocol):
             self.current_light_state = new_light_state
 
         if new_water_state != self.current_water_state:
-            self.current_water_state = new_water_state
+            is_plant_being_watered = self.is_plant_being_watered(
+                self.current_water_state, new_water_state
+            )
+            if is_plant_being_watered:
+                self.update_last_watered(timestamp)
 
+            self.current_water_state = new_water_state
         return
 
     def get_updated_light_state(
@@ -125,6 +131,20 @@ class SensorManager(asyncio.Protocol):
                 return WaterState.OPTIMAL.value
             case water if water < 250:
                 return WaterState.OVERWATERED.value
+
+    def is_plant_being_watered(
+        self, current_water_state: WaterState, new_water_state: WaterState
+    ):
+        if current_water_state == WaterState.DRY.value and (
+            new_water_state == WaterState.OPTIMAL.value
+            or new_water_state == WaterState.OVERWATERED.value
+        ):
+            return True
+        if (
+            current_water_state == WaterState.OPTIMAL.value
+            and new_water_state == WaterState.OVERWATERED.value
+        ):
+            return True
 
 
 # lambda is used to specify instance of sensor manager as instantiated in here
