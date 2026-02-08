@@ -1,4 +1,4 @@
-export type MessageType = "data_point" | "text_and_audio";
+export type MessageType = "data_point" | "state_change";
 export type Message = {
   type: MessageType;
   payload: PlantState | Audio;
@@ -54,3 +54,11 @@ export type PlantSettings = {
   sassLevel: SassLevel;
   days_since_last_watered: number;
 };
+
+export type EventType =
+  | "drying"
+  | "watering"
+  | "good_night"
+  | "good_morning"
+  | "wear_sunglasses"
+  | "take_off_sunglasses";

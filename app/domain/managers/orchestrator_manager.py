@@ -11,6 +11,7 @@ from domain.models.plant import MEMORY_FILE, Plant
 from domain.types import (
     AudioType,
     DataPoint,
+    EventType,
     LightState,
     MessageType,
     WaterState,
@@ -49,16 +50,17 @@ class OrchestratorManager:
             )
         )
 
-    def publish_text_and_audio(self, text: str, audio: str):
+    def publish_state_change(self, text: str, audio: str, event_type: EventType):
         payload = {
             "audio": audio,
             "format": AudioType.WAV.value,
             "text": text,
+            "event": event_type,
         }
 
         asyncio.create_task(
             self.websocket_manager.broadcast(
-                message_type=MessageType.TEXT_AND_AUDIO.value, payload=payload
+                message_type=MessageType.STATE_CHANGE.value, payload=payload
             )
         )
 
@@ -76,6 +78,7 @@ class OrchestratorManager:
         water_state: WaterState = None,
         new_water_state: WaterState = None,
         user_input: str = None,
+        event_type: EventType = None,
     ):
         try:
             print("is plant talking? ", self.plant.is_talking)
@@ -93,13 +96,14 @@ class OrchestratorManager:
                 )
             else:
                 prompt = get_state_change_prompt(
-                    self.plant.name,
-                    self.plant.type,
-                    self.plant.sassiness,
-                    light_state,
-                    new_light_state,
-                    water_state,
-                    new_water_state,
+                    plant_name=self.plant.name,
+                    plant_type=self.plant.type,
+                    sass_level=self.plant.sassiness,
+                    light_state=light_state,
+                    new_light_state=new_light_state,
+                    water_state=water_state,
+                    new_water_state=new_water_state,
+                    event_type=event_type,
                 )
 
             print("\nplant is set to talk: \n", prompt)
@@ -108,7 +112,7 @@ class OrchestratorManager:
                 self.llm_client.get_audio_response, text, self.plant.voice
             )
             audio_b64 = audio_b64.replace("\n", "").replace(" ", "")
-            self.publish_text_and_audio(text, audio=audio_b64)
+            self.publish_state_change(text=text, audio=audio_b64, event_type=event_type)
         except Exception as e:
             print("error when making plant talk on state change:", e)
 
@@ -140,6 +144,7 @@ class OrchestratorManager:
             print(
                 "successfully updated when last watered: ", self.days_since_last_watered
             )
-            self.publish_update_last_watered()
+            # this one is now handled as part of the event
+            # self.publish_update_last_watered()
         except Exception as e:
             print(f"unable to update last time {self.plant.name} was watered", e)

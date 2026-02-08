@@ -6,7 +6,7 @@ from collections import deque
 
 import serial_asyncio
 
-from domain.types import LightState, WaterState
+from domain.types import EventType, LightState, WaterState
 
 sensor_port = "/dev/ttyACM0"
 sensor_baudrate = 9600
@@ -54,29 +54,44 @@ class SensorManager(asyncio.Protocol):
             self.water_readings.popleft()
             self.light_readings.popleft()
         if timestamp.second % 5 == 0:
-            self.handle_state_change(timestamp)
+            new_light_state = self.get_updated_light_state()
+            new_water_state = self.get_updated_water_state()
+            print(
+                self.current_water_state,
+                new_water_state,
+                "·",
+                self.current_light_state,
+                new_light_state,
+                "\n\n",
+            )
+            if not self.has_state_changed(
+                new_light_state=new_light_state, new_water_state=new_water_state
+            ):
+                return
+            self.handle_state_change(
+                new_light_state=new_light_state,
+                new_water_state=new_water_state,
+                timestamp=timestamp,
+            )
 
-    def handle_state_change(self, timestamp: datetime):
-        new_light_state = self.get_updated_light_state()
-        new_water_state = self.get_updated_water_state()
-        print(
-            self.current_water_state,
-            new_water_state,
-            "·",
-            self.current_light_state,
-            new_light_state,
-            "\n\n",
-        )
+    def handle_state_change(
+        self,
+        new_light_state: LightState,
+        new_water_state: WaterState,
+        timestamp: datetime,
+    ):
+
         if self.current_light_state is None:
             self.current_light_state = new_light_state
             self.current_water_state = new_water_state
             return
 
-        if (
-            new_light_state == self.current_light_state
-            and new_water_state == self.current_water_state
-        ):
-            return
+        event_type = self.get_event_type(
+            new_light_state=new_light_state, new_water_state=new_water_state
+        )
+
+        if event_type == EventType.WATERING.value:
+            self.update_last_watered(timestamp)
 
         asyncio.create_task(
             self.make_plant_talk(
@@ -84,20 +99,12 @@ class SensorManager(asyncio.Protocol):
                 new_light_state=new_light_state,
                 water_state=self.current_water_state,
                 new_water_state=new_water_state,
+                event_type=event_type,
             )
         )
+        self.current_light_state = new_light_state
+        self.current_water_state = new_water_state
 
-        if new_light_state != self.current_light_state:
-            self.current_light_state = new_light_state
-
-        if new_water_state != self.current_water_state:
-            is_plant_being_watered = self.is_plant_being_watered(
-                self.current_water_state, new_water_state
-            )
-            if is_plant_being_watered:
-                self.update_last_watered(timestamp)
-
-            self.current_water_state = new_water_state
         return
 
     def get_updated_light_state(
@@ -132,19 +139,46 @@ class SensorManager(asyncio.Protocol):
             case water if water < 250:
                 return WaterState.OVERWATERED.value
 
-    def is_plant_being_watered(
-        self, current_water_state: WaterState, new_water_state: WaterState
+    def has_state_changed(
+        self, new_light_state: LightState, new_water_state: WaterState
     ):
-        if current_water_state == WaterState.DRY.value and (
-            new_water_state == WaterState.OPTIMAL.value
-            or new_water_state == WaterState.OVERWATERED.value
-        ):
-            return True
-        if (
-            current_water_state == WaterState.OPTIMAL.value
-            and new_water_state == WaterState.OVERWATERED.value
-        ):
-            return True
+        return (
+            self.current_light_state != new_light_state
+            or self.current_water_state != new_water_state
+        )
+
+    def get_event_type(
+        self,
+        new_light_state: LightState,
+        new_water_state: WaterState,
+    ):
+        # currently handles one state change at a time
+        # change in light
+        event_type: EventType = ""
+        if new_light_state != self.current_light_state:
+            if new_light_state == LightState.DARK.value:
+                event_type = EventType.GOOD_NIGHT.value
+            elif new_light_state == LightState.BRIGHT.value:
+                event_type = EventType.WEAR_SUNGLASSES.value
+            else:
+                if self.current_light_state == LightState.DARK.value:
+                    event_type = EventType.GOOD_MORNING.value
+                else:
+                    event_type = EventType.TAKE_OFF_SUNGLASSES.value
+            return event_type
+
+        # change in water levels
+        if new_water_state != self.current_water_state:
+            if new_water_state == WaterState.DRY.value:
+                event_type = EventType.DRYING.value
+            elif new_water_state == WaterState.OVERWATERED.value:
+                event_type == EventType.WATERING.value
+            else:
+                if self.current_water_state == WaterState.DRY.value:
+                    event_type = EventType.WATERING.value
+                else:
+                    event_type = EventType.DRYING.value
+            return event_type
 
 
 # lambda is used to specify instance of sensor manager as instantiated in here

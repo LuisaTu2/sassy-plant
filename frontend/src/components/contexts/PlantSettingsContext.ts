@@ -11,6 +11,7 @@ import {
   VOICE_TYPES,
   PLANT_TYPES,
   SASS_LEVELS,
+  type EventType,
 } from "../types";
 
 interface PlantSettings {
@@ -22,6 +23,7 @@ interface PlantSettings {
   isFormOpen: boolean;
   sassyText: string;
   daysSinceLastWatered: number;
+  event: EventType | null; // better on a different context but for now leave here
   setName: Dispatch<SetStateAction<string>>;
   setPlantType: Dispatch<SetStateAction<PlantType>>;
   setVoice: Dispatch<SetStateAction<VoiceType>>;
@@ -30,6 +32,7 @@ interface PlantSettings {
   setIsFormOpen: Dispatch<SetStateAction<boolean>>;
   setSassyText: Dispatch<SetStateAction<string>>;
   setDaysSinceLastWatered: Dispatch<SetStateAction<number>>;
+  setEvent: Dispatch<SetStateAction<EventType | null>>;
 }
 
 const noop: Dispatch<SetStateAction<string>> = () => {};
@@ -38,6 +41,7 @@ const noopVoice: Dispatch<SetStateAction<VoiceType>> = () => {};
 const noopSass: Dispatch<SetStateAction<SassLevel>> = () => {};
 const noopBool: Dispatch<SetStateAction<boolean>> = () => {};
 const noopNumber: Dispatch<SetStateAction<number>> = () => {};
+const noopEvent: Dispatch<SetStateAction<EventType | null>> = () => {};
 
 const defaultSettings = {
   name: "Fernie Ferndale",
@@ -48,6 +52,7 @@ const defaultSettings = {
   isFormOpen: false,
   sassyText: "",
   daysSinceLastWatered: 0,
+  event: null,
   setName: noop,
   setVoice: noopVoice,
   setPlantType: noopPlantType,
@@ -56,6 +61,7 @@ const defaultSettings = {
   setIsFormOpen: noopBool,
   setSassyText: noop,
   setDaysSinceLastWatered: noopNumber,
+  setEvent: noopEvent,
 };
 export const PlantSettingsContext =
   createContext<PlantSettings>(defaultSettings);

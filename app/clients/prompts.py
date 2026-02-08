@@ -1,4 +1,4 @@
-from domain.types import LightState, PlantType, SassLevel, WaterState
+from domain.types import EventType, LightState, PlantType, SassLevel, WaterState
 
 
 def get_base_prompt(
@@ -24,10 +24,11 @@ def get_state_change_prompt(
     new_light_state: LightState,
     water_state: WaterState,
     new_water_state: WaterState,
+    event_type: EventType = None,
 ):
     prompt = f"""
             Your name is {plant_name} and you are a virtual {plant_type} plant with a sassy personality.
-            Keep responses short and witty. Respond in 2 complete sentences.
+            Keep responses short and witty. Respond in 2-3 complete sentences.
             You respond in-character with a {sass_level} level of sass.
             """
 
@@ -40,5 +41,5 @@ def get_state_change_prompt(
         prompt += f"""
             Comment on how the light level has gone from {water_state} to {new_water_state}. Adjust mood accordingly.
         """
-
+    # TODO: add commend on event type
     return prompt

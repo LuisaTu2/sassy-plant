@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 class MessageType(Enum):
     DATA_POINT = "data_point"
-    TEXT_AND_AUDIO = "text_and_audio"
+    STATE_CHANGE = "state_change"
     UPDATE_DAYS_LAST_WATERED = "update_days_last_watered"
 
 
@@ -90,3 +90,12 @@ class WaterState(Enum):
     DRY = "dry"
     OPTIMAL = "optimal"
     OVERWATERED = "overwatered"
+
+
+class EventType(Enum):
+    DRYING = "drying"
+    WATERING = "watering"
+    GOOD_NIGHT = "good_night"
+    GOOD_MORNING = "good_morning"
+    WEAR_SUNGLASSES = "wear_sunglasses"
+    TAKE_OFF_SUNGLASSES = "take_off_sunglasses"
