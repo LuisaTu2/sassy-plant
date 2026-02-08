@@ -4,28 +4,42 @@
   /* height: 600px; */
   /* margin-top: 10px; */
   /* margin-left: 5%; */
-  border-radius: 5px;
-  border: 2px solid rgb(171, 207, 171);
+  /* border: 2px solid rgb(171, 207, 171); */
+  /* background: linear-gradient(
+    to bottom,
+    rgba(237, 245, 239, 0.8) 90%,
+    rgba(108, 248, 159, 0.4) 80%,
+    rgba(108, 248, 159, 0.8) 50%
+  ); */
   border-radius: 10px;
-  /* background-color: rgb(245, 248, 246); */
+  background-color: rgb(87, 126, 100);
+}
+
+.sensors-chart {
+  background-color: white;
+  margin-left: 5%;
+  margin-bottom: 5%;
+  padding: 70px;
+  border: none;
+  border-radius: 10px;
 }
 
 .sensors-chart-title {
   width: 100%;
-  margin-top: 30px;
+  margin-top: 2%;
   margin-bottom: 30px;
   text-align: center;
-  color: rgb(70, 122, 70);
-  font-size: 2rem;
+  color: rgb(248, 250, 248);
+  font-size: 1.5rem;
   font-weight: 600;
 }
 .sensors-chart {
   padding: 10px 0;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1600px) {
   .sensors-chart-graphs {
-    width: 40%;
+    /* width: 47.5%; */
     margin-left: 0;
   }
 }
@@ -37,7 +51,7 @@
 .recharts-legend-wrapper {
   /* font-family: "Inter", sans-serif; */
   /* top: 2rem; */
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: #9ec3b3;
   /* move it down/right a bit */

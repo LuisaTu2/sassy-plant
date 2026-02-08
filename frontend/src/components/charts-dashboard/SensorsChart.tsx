@@ -35,7 +35,7 @@ const SensorsChart = ({ data }: StatePlotProps) => {
     <div className="sensors-chart-graphs">
       <div className="sensors-chart-title">water & light monitoring</div>
 
-      <ResponsiveContainer width="90%" height={400} className={"sensors-chart"}>
+      <ResponsiveContainer width="90%" height={300} className={"sensors-chart"}>
         <LineChart data={data}>
           <XAxis dataKey="timestamp" tickFormatter={formatTime} />
           <YAxis />
@@ -43,15 +43,15 @@ const SensorsChart = ({ data }: StatePlotProps) => {
             type="monotone"
             dataKey="soil_moisture"
             stroke="#15bac6"
-            strokeWidth={"5px"}
+            strokeWidth={"3px"}
             dot={false}
             isAnimationActive={false}
           />
           <Line
             type="monotone"
             dataKey="light"
-            stroke="#d68942"
-            strokeWidth={"5px"}
+            stroke="#f3ae36"
+            strokeWidth={"3px"}
             dot={false}
             isAnimationActive={false}
           />

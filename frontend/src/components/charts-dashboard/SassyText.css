@@ -1,21 +1,55 @@
 .sassy-text {
-  margin-left: 5%;
-  margin-right: 5%;
-  padding: 5% 10%;
+  width: 80%;
   font-size: 2rem;
-  font-weight: 600;
-  max-height: 300px;
+  font-weight: 500;
+  /* max-height: 300px; */
+  padding: 10%;
+  color: #0c5c3d;
+  /* color: rgb(248, 250, 248); */
 
-  color: rgb(31, 103, 60);
-
-  /* overflow: hidden; */
+  /* border: 2px solid rgb(171, 207, 171); */
+  border-radius: 10px;
+  /* background-color: yellow; */
+  /* overflow: hidden;   */
+  background: linear-gradient(
+    to bottom,
+    rgba(237, 245, 239, 0.8) 50%,
+    rgb(140, 171, 150, 0.8) 99% /* rgba(237, 245, 239, 0.8) 80% */
+  );
+  /* background-color: rgb(140, 171, 150); */
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1600px) {
   .sassy-text {
-    font-size: 2rem;
-    width: 40%;
-    padding: 0%;
-    height: 400px;
+    font-size: 1.5rem;
+    width: 45.5%;
+    padding: 2% 5%;
   }
+}
+
+.sassy-text-title {
+  width: 100%;
+  margin-top: 2%;
+  text-align: center;
+  /* color: rgb(70, 122, 70); */
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.sassy-text-details {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.sassy-text-detail {
+  /* width: 100%; */
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+}
+
+.sassy-text-detail-title {
+  width: 15%;
 }

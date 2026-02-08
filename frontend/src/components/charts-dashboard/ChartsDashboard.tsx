@@ -10,7 +10,6 @@ import SassyText from "./SassyText";
 const ChartsDashboard = () => {
   const { data, setData } = useChartSettings();
   const { setIsTalking, setSassyText } = usePlantSettings();
-  // const [isReading, setIsReading] = useState<boolean>(false);
   const MAX_POINTS = 300;
   const wsRef = useRef<WebSocket | null>(null);
 
