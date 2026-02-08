@@ -1,8 +1,52 @@
+import { useEffect, useState } from "react";
 import { usePlantSettings } from "../contexts/PlantSettingsContext";
 import "./SassyText.css";
 
-const SassyText = () => {
+interface SassyTextProps {
+  wsRef: React.RefObject<WebSocket | null>;
+}
+
+const SassyText = ({ wsRef }: SassyTextProps) => {
   const { name, isTalking, sassyText, plantType, voice } = usePlantSettings();
+  const [isListening, setIsListening] = useState(false);
+  const SpeechRecognition =
+    (window as any).SpeechRecognition ||
+    (window as any).webkitSpeechRecognition;
+
+  useEffect(() => {
+    if (isListening) {
+      const recognition = new SpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onresult = (event: any) => {
+        const text = event.results[0][0].transcript;
+        console.log("user input: ", text, wsRef.current);
+        wsRef.current &&
+          wsRef.current.send(
+            JSON.stringify({
+              type: "user_voice_message",
+              text,
+            }),
+          );
+      };
+      recognition.onerror = (e: any) => {
+        console.error("speech error", e);
+      };
+      recognition.start();
+    }
+  }, [isListening]);
+
+  const toggleListening = () => {
+    if (isListening) {
+      // stopListening();
+      setIsListening(false);
+    } else {
+      // startListening();
+      setIsListening(true);
+    }
+  };
 
   return (
     <div className="sassy-text">
@@ -23,8 +67,15 @@ const SassyText = () => {
           </div>
         </div>
       )}
-
-      {sassyText && isTalking ? sassyText : ``}
+      <div className="mic-button-wrapper">
+        <button
+          onClick={toggleListening}
+          className={`mic-button ${isListening ? "talking" : ""}`}
+        ></button>
+      </div>
+      <div className="sassy-text-text">
+        {sassyText && isTalking ? sassyText : ""}
+      </div>
     </div>
   );
 };

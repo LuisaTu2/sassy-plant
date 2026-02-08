@@ -65,11 +65,13 @@ class OrchestratorManager:
         new_light_state: LightState = None,
         water_state: WaterState = None,
         new_water_state: WaterState = None,
-        user_input=None,
+        user_input: str = None,
     ):
         try:
             if self.plant.is_talking:
                 return
+            self.plant.is_talking = True
+
             prompt = ""
             if user_input is not None:
                 prompt = get_base_prompt(self.plant.name, self.plant.type, user_input)
@@ -96,6 +98,7 @@ class OrchestratorManager:
             if message["type"] == "stopped_talking":
                 self.plant.is_talking = False
             else:
+                print("message: ", message)
                 user_input = message["text"]
                 asyncio.create_task(self.make_plant_talk(user_input=user_input))
         except Exception as e:

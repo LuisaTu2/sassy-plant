@@ -1,6 +1,6 @@
 .sassy-text {
   width: 80%;
-  font-size: 2rem;
+  font-size: 1.2rem;
   font-weight: 500;
   /* max-height: 300px; */
   padding: 10%;
@@ -52,4 +52,72 @@
 
 .sassy-text-detail-title {
   width: 15%;
+}
+
+/* .sassy-text-text {
+  height: 0px;
+}
+
+@media screen and (min-width: 1600px) {
+  .sassy-text-text {
+    height: 150px;
+  }
+} */
+
+.mic-button-wrapper {
+  width: 100%;
+  margin-top: 5%;
+  text-align: center;
+}
+.mic-button {
+  /* position: relative; */
+  /* margin: 10px 0 30px 100px; */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  background: radial-gradient(circle, rgb(127, 228, 18) 0%, white 100%);
+
+  /* Gentle bounce */
+  animation: gentle-bounce 3s ease-in-out infinite;
+  transition:
+    background 0.3s,
+    transform 0.3s;
+}
+
+/* Idle gentle bounce keyframes */
+@keyframes gentle-bounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Pulsing animation when talking */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.talking {
+  background: radial-gradient(circle, rgb(248, 247, 248) 0%, white 100%);
+  animation: pulse 1s ease-in-out infinite;
 }

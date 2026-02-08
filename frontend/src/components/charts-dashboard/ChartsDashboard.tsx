@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useChartSettings } from "../contexts/ChartSettingsContext";
 import { usePlantSettings } from "../contexts/PlantSettingsContext";
 import type { MessageType, PlantState } from "../types";
@@ -11,12 +11,8 @@ const ChartsDashboard = () => {
   const { data, setData } = useChartSettings();
   const { setIsTalking, setSassyText } = usePlantSettings();
   const MAX_POINTS = 300;
-  const wsRef = useRef<WebSocket | null>(null);
 
-  const [isListening, setIsListening] = useState(false);
-  const SpeechRecognition =
-    (window as any).SpeechRecognition ||
-    (window as any).webkitSpeechRecognition;
+  const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
     wsRef.current = new WebSocket(
@@ -59,51 +55,12 @@ const ChartsDashboard = () => {
     };
   }, []); // renders only once
 
-  useEffect(() => {
-    if (isListening) {
-      const recognition = new SpeechRecognition();
-      recognition.lang = "en-US";
-      recognition.continuous = false;
-      recognition.interimResults = false;
-
-      recognition.onresult = (event: any) => {
-        const text = event.results[0][0].transcript;
-        console.log("user input: ", text);
-        wsRef.current &&
-          wsRef.current.send(
-            JSON.stringify({
-              type: "user_voice_message",
-              text,
-            }),
-          );
-      };
-      recognition.onerror = (e: any) => {
-        console.error("Speech error", e);
-      };
-      recognition.start();
-    }
-  }, [isListening]);
-
-  const toggleListening = () => {
-    if (isListening) {
-      // stopListening();
-      setIsListening(false);
-    } else {
-      // startListening();
-      setIsListening(true);
-    }
-  };
-
   return (
     <div className="charts-dashboard">
       <div className="charts">
-        <SassyText />
+        <SassyText wsRef={wsRef} />
         <SensorsChart data={data} />
       </div>
-      <button
-        onClick={toggleListening}
-        className={`mic-button ${isListening ? "talking" : ""}`}
-      ></button>
     </div>
   );
 };
