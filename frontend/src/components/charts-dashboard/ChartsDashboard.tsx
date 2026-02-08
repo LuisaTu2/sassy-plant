@@ -101,13 +101,10 @@ const ChartsDashboard = () => {
         <SassyText />
         <SensorsChart data={data} />
       </div>
-      {/* <Controls connected={connected} setConnected={setConnected} /> */}
       <button
         onClick={toggleListening}
         className={`mic-button ${isListening ? "talking" : ""}`}
-      >
-        {/* Optional: icon or leave blank for just the circle */}
-      </button>
+      ></button>
     </div>
   );
 };

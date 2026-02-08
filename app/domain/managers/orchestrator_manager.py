@@ -97,6 +97,6 @@ class OrchestratorManager:
                 self.plant.is_talking = False
             else:
                 user_input = message["text"]
-                asyncio.create_task(self.make_plant_talk(user_input))
+                asyncio.create_task(self.make_plant_talk(user_input=user_input))
         except Exception as e:
             print("unable to process message from websocket: ", e)

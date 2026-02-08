@@ -19,10 +19,10 @@ type Point = {
 const formatTime = (t: string) =>
   new Date(t).toLocaleTimeString("en-US", {
     hour12: false,
-    hour: "2-digit",
+    // hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    fractionalSecondDigits: 1,
+    // fractionalSecondDigits: 1,
   });
 
 interface StatePlotProps {
@@ -33,7 +33,7 @@ interface StatePlotProps {
 const SensorsChart = ({ data }: StatePlotProps) => {
   return (
     <div className="sensors-chart-graphs">
-      <div className="sensors-chart-title">WATER & LIGHT CHART</div>
+      <div className="sensors-chart-title">water & light monitoring</div>
 
       <ResponsiveContainer width="90%" height={400} className={"sensors-chart"}>
         <LineChart data={data}>
@@ -42,16 +42,16 @@ const SensorsChart = ({ data }: StatePlotProps) => {
           <Line
             type="monotone"
             dataKey="soil_moisture"
-            stroke="#2f7edd"
-            strokeWidth={"3px"}
+            stroke="#15bac6"
+            strokeWidth={"5px"}
             dot={false}
             isAnimationActive={false}
           />
           <Line
             type="monotone"
             dataKey="light"
-            stroke="#ca7424"
-            strokeWidth={"3px"}
+            stroke="#d68942"
+            strokeWidth={"5px"}
             dot={false}
             isAnimationActive={false}
           />

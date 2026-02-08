@@ -7,11 +7,6 @@ const Plant = () => {
   return (
     <div className="plant-section">
       <div className={isTalking ? "plant jump" : "plant"}>🪴</div>
-      {/* <div className={`plant-greetings ${sassyText ? "sassy" : ""}`}>
-        {sassyText && isTalking
-          ? sassyText
-          : `Hi there, I'm ${name} a sassy ${plantType}!`}
-      </div> */}
     </div>
   );
 };

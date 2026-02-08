@@ -13,7 +13,7 @@
   /* margin: 10px 0 50px 5%; */
   /* background-color: aqua; */
   text-align: center;
-  padding: 5%;
+  padding: 5% 0 3% 0;
 
   animation: bob 4s ease-in-out infinite;
 }
