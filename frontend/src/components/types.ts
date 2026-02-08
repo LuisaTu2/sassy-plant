@@ -52,4 +52,5 @@ export type PlantSettings = {
   type: PlantType;
   voice: VoiceType;
   sassLevel: SassLevel;
+  days_since_last_watered: number;
 };

@@ -21,7 +21,7 @@
 
 @media screen and (min-width: 1600px) {
   .sassy-text {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     width: 45.5%;
     padding: 2% 5%;
   }
@@ -72,8 +72,8 @@
 .mic-button {
   /* position: relative; */
   /* margin: 10px 0 30px 100px; */
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: none;
   outline: none;
@@ -117,7 +117,17 @@
   }
 }
 
-.talking {
+.listening {
   background: radial-gradient(circle, rgb(248, 247, 248) 0%, white 100%);
   animation: pulse 1s ease-in-out infinite;
+}
+
+.plant-talking {
+  background: radial-gradient(
+    circle,
+    rgb(246, 244, 246) 50%,
+    rgb(133, 132, 133) 100%
+  );
+  animation: none;
+  cursor: not-allowed;
 }

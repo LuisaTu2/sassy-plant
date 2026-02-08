@@ -114,7 +114,7 @@
 
 /* Submit button */
 .plant-settings-form button[type="submit"] {
-  color: #d9dfd9;
+  color: #f5f8f5;
   background-color: #6c986e;
   margin-top: 1rem;
   padding: 0.6rem 1.2rem;
@@ -127,6 +127,6 @@
 }
 
 .plant-settings-form button[type="submit"]:hover {
-  background-color: #4d5f4d;
-  color: #9bcd9d;
+  background-color: #9baa9b;
+  /* color: #68de6c; */
 }

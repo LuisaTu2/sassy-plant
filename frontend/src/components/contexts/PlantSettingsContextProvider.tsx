@@ -21,6 +21,7 @@ export const PlantSettingsProvider = ({
   const [isTalking, setIsTalking] = useState<boolean>(false);
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
   const [sassyText, setSassyText] = useState<string>("");
+  const [daysSinceLastWatered, setDaysSinceLastWatered] = useState<number>(0);
 
   return (
     <PlantSettingsContext.Provider
@@ -32,6 +33,7 @@ export const PlantSettingsProvider = ({
         isTalking,
         isFormOpen,
         sassyText,
+        daysSinceLastWatered,
         setName,
         setPlantType,
         setVoice,
@@ -39,6 +41,7 @@ export const PlantSettingsProvider = ({
         setIsTalking,
         setIsFormOpen,
         setSassyText,
+        setDaysSinceLastWatered,
       }}
     >
       {children}

@@ -21,7 +21,11 @@ class Plant:
 
     def get_plant_settings(self):
         plant_settings = PlantSettings(
-            name=self.name, type=self.type, voice=self.voice, sassiness=self.sassiness
+            name=self.name,
+            type=self.type,
+            voice=self.voice,
+            sassiness=self.sassiness,
+            days_since_last_watered=self.days_since_last_watered,
         )
         return plant_settings
 

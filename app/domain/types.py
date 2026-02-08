@@ -62,6 +62,7 @@ class PlantSettings(BaseModel):
     type: PlantType
     voice: Voice
     sassiness: SassLevel
+    days_since_last_watered: int
 
 
 # | Condition       | Expected analogRead |

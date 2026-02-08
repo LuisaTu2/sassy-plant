@@ -106,7 +106,7 @@ class OrchestratorManager:
             if message["type"] == "stopped_talking":
                 self.plant.is_talking = False
             else:
-                # print("message: ", message)
+                print("is water talking? ", self.plant.is_talking)
                 user_input = message["text"]
                 asyncio.create_task(self.make_plant_talk(user_input=user_input))
         except Exception as e:

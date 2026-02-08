@@ -21,6 +21,7 @@ interface PlantSettings {
   isTalking: boolean;
   isFormOpen: boolean;
   sassyText: string;
+  daysSinceLastWatered: number;
   setName: Dispatch<SetStateAction<string>>;
   setPlantType: Dispatch<SetStateAction<PlantType>>;
   setVoice: Dispatch<SetStateAction<VoiceType>>;
@@ -28,6 +29,7 @@ interface PlantSettings {
   setIsTalking: Dispatch<SetStateAction<boolean>>;
   setIsFormOpen: Dispatch<SetStateAction<boolean>>;
   setSassyText: Dispatch<SetStateAction<string>>;
+  setDaysSinceLastWatered: Dispatch<SetStateAction<number>>;
 }
 
 const noop: Dispatch<SetStateAction<string>> = () => {};
@@ -35,6 +37,7 @@ const noopPlantType: Dispatch<SetStateAction<PlantType>> = () => {};
 const noopVoice: Dispatch<SetStateAction<VoiceType>> = () => {};
 const noopSass: Dispatch<SetStateAction<SassLevel>> = () => {};
 const noopBool: Dispatch<SetStateAction<boolean>> = () => {};
+const noopNumber: Dispatch<SetStateAction<number>> = () => {};
 
 const defaultSettings = {
   name: "Fernie Ferndale",
@@ -44,6 +47,7 @@ const defaultSettings = {
   isTalking: false,
   isFormOpen: false,
   sassyText: "",
+  daysSinceLastWatered: 0,
   setName: noop,
   setVoice: noopVoice,
   setPlantType: noopPlantType,
@@ -51,6 +55,7 @@ const defaultSettings = {
   setIsTalking: noopBool,
   setIsFormOpen: noopBool,
   setSassyText: noop,
+  setDaysSinceLastWatered: noopNumber,
 };
 export const PlantSettingsContext =
   createContext<PlantSettings>(defaultSettings);

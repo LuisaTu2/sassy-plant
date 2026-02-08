@@ -22,6 +22,7 @@ const PlantSettings = () => {
     setVoice,
     setSassiness,
     setIsFormOpen,
+    setDaysSinceLastWatered,
   } = usePlantSettings();
 
   const plantSettingsRef = useRef<HTMLDivElement>(null);
@@ -100,6 +101,7 @@ const PlantSettings = () => {
       setPlantType(result["type"]);
       setVoice(result["voice"]);
       setSassiness(result["sassiness"]);
+      setDaysSinceLastWatered(result["days_since_last_watered"]);
     } catch (error) {
       console.error("an error occurred:", error);
     } finally {

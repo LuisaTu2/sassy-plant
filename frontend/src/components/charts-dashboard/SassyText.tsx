@@ -7,7 +7,8 @@ interface SassyTextProps {
 }
 
 const SassyText = ({ wsRef }: SassyTextProps) => {
-  const { name, isTalking, sassyText, plantType, voice } = usePlantSettings();
+  const { name, isTalking, sassyText, plantType, voice, daysSinceLastWatered } =
+    usePlantSettings();
   const [isListening, setIsListening] = useState(false);
   const SpeechRecognition =
     (window as any).SpeechRecognition ||
@@ -65,12 +66,18 @@ const SassyText = ({ wsRef }: SassyTextProps) => {
             <div className="sassy-text-detail-title">voice: </div>
             <div className="sassy-text-detail-value">{voice}</div>
           </div>
+          <div className="sassy-text-detail">
+            <div className="sassy-text-detail-title">watered:</div>
+            <div className="sassy-text-detail-value">
+              {daysSinceLastWatered} days ago
+            </div>
+          </div>
         </div>
       )}
       <div className="mic-button-wrapper">
         <button
           onClick={toggleListening}
-          className={`mic-button ${isListening ? "talking" : ""}`}
+          className={`mic-button ${isListening ? "listening" : ""} ${isTalking ? "plant-talking" : ""}`}
         ></button>
       </div>
       <div className="sassy-text-text">
