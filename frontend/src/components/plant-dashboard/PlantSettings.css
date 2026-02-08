@@ -1,37 +1,34 @@
 .plant-settings-form {
-  position: fixed;
+  position: absolute;
   top: 95px;
-  right: 0%;
-  width: 350px;
-  /* height: 100%; */
-  /* background: #4569a4; */
-  background: linear-gradient(to bottom, #bacfc5 0%, #89b8a3 100%);
-  color: #416455;
-  /* box-shadow: -2px 0 12px rgba(0, 0, 0, 0.25); */
-  transform: translateX(50px);
-  opacity: 0;
-  pointer-events: none; /* prevents clicks while hidden */
-  transition:
-    transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
-    opacity 0.5s ease-in-out;
+  right: 12%;
+  width: 370px;
+  border-radius: 5px;
   padding: 1.5rem;
+  padding-top: 0.5rem;
+
+  background: linear-gradient(to bottom, #bacfc5 0%, #d3e4dc 100%);
+  color: #355648;
+  /* transition:
+    transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 0.5s ease-in-out; */
+
+  opacity: 0; /* start hidden */
+  pointer-events: none; /* disable clicks when hidden */
+  transition: opacity 0.2s ease-in-out; /* only fade effect */
   overflow-y: auto;
   z-index: 1000;
-
-  border-radius: 5px;
 }
 .plant-settings-form.open-form {
-  transform: translateX(0);
   opacity: 1;
-  right: 10.5%;
   pointer-events: auto; /* allow clicks when open */
 }
 
 .close-btn-wrapper {
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   flex-direction: row-reverse;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   z-index: 800;
 }
 .close-btn {
@@ -40,9 +37,9 @@
   width: 30px;
   align-items: end;
   background-color: none;
-  font-size: 2rem;
-  font-weight: 500;
-  color: #708c80;
+  font-size: 3rem;
+  /* font-weight: 500; */
+  color: #ddece6;
   border: none;
   background-color: transparent;
 }
@@ -66,7 +63,7 @@
 .plant-settings-input-label {
   width: 40%;
   margin-top: 8px;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 500;
 }
 
@@ -77,7 +74,7 @@
   width: 100%;
   padding: 0.5rem 0.75rem;
   margin-bottom: 1rem;
-  font-size: 1rem;
+  font-size: 1.2rem;
   background-color: #d9e8e1; /* dark blue */
   border: 1px solid #b5c1bc;
   border-radius: 6px;
@@ -112,24 +109,19 @@
 /* Placeholder text for input */
 .plant-settings-form input::placeholder {
   /* color: #b0b8c1; */
-  color: black;
-}
-
-/* Labels */
-.plant-settings-form label {
-  /* font-weight: 600; */
+  color: rgb(145, 133, 133);
 }
 
 /* Submit button */
 .plant-settings-form button[type="submit"] {
-  color: #506451;
-  background-color: #9bcd9d;
+  color: #d9dfd9;
+  background-color: #6c986e;
   margin-top: 1rem;
   padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.3rem;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
