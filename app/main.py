@@ -54,6 +54,7 @@ app = create_app()
 @app.on_event("startup")
 async def startup_event():
     asyncio.create_task(start_serial_reader(sensor_manager))
+    asyncio.create_task(orchestrator_manager.start_reading())
 
 
 if __name__ == "__main__":

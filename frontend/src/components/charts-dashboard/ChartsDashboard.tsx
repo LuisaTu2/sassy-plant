@@ -22,6 +22,51 @@ const ChartsDashboard = () => {
     setEvent(eventType);
   };
 
+  // this is understood to contain text and audio for talking
+  const handlePlantStateChange = async (message: any, websocket: WebSocket) => {
+    try {
+      const payload = message["payload"];
+      const eventType = payload["event"];
+      handleEvent(eventType);
+
+      const text = payload["text"];
+      const audio = payload["audio"];
+
+      // update text
+      setSassyText(text);
+      setIsTalking(true);
+
+      // update audio
+      await playAudioFromBase64(audio);
+
+      // handle after talking
+      setIsTalking(false);
+      setSassyText("");
+
+      // send notification that plant has stopped talking
+      console.log("plant stopped talking");
+      websocket.send(
+        JSON.stringify({
+          type: "stopped_talking",
+        }),
+      );
+    } catch (error) {
+      console.log("unable to handle plant state change: ", error);
+    }
+  };
+
+  // this is understood to contain text and audio for talking
+  const handlePlantStateChangeNoAudio = (message: any) => {
+    try {
+      const payload = message["payload"];
+      const eventType = payload["event"];
+      handleEvent(eventType);
+      // TODO: handle animation
+    } catch (error) {
+      console.log("unable to handle plant state change: ", error);
+    }
+  };
+
   useEffect(() => {
     wsRef.current = new WebSocket(
       `${import.meta.env.VITE_API_WS_URL}/ws/sensors`,
@@ -36,25 +81,11 @@ const ChartsDashboard = () => {
           const plantState = message["payload"] as PlantState;
           setData((prev) => [...prev.slice(-MAX_POINTS + 1), plantState]);
         } else if (messageType === "state_change") {
-          (async () => {
-            setIsTalking(true);
-            const payload = message["payload"];
-            const text = payload["text"];
-            const eventType = payload["event"];
-            handleEvent(eventType);
-            setSassyText(text);
-            await playAudioFromBase64(payload["audio"]);
-            console.log("stopped talking");
-            webSocket.send(
-              JSON.stringify({
-                type: "stopped_talking",
-              }),
-            );
-
-            setIsTalking(false);
-            setEvent(null);
-            // TODO: stop animation
-          })();
+          handlePlantStateChange(message, webSocket);
+        } else if (messageType === "state_change_no_audio") {
+          handlePlantStateChangeNoAudio(message);
+        } else if (messageType === "respond_to_human") {
+          console.log("will be implementing here");
         }
       } catch (err) {
         console.error("Failed to parse WebSocket message:", err);

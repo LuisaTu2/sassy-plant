@@ -16,7 +16,7 @@ def create_ws_router(ws_manager: WebSocketManager, orchestrator: OrchestratorMan
             while True:
                 msg = await ws.receive_json()
                 print("\n\nreceived message from user: ", msg, "\n\n")
-                orchestrator.handle_ws_message(msg)
+                await orchestrator.handle_ws_message(msg)
         except WebSocketDisconnect:
             ws_manager.disconnect(ws)
             print("websocket disconnected")

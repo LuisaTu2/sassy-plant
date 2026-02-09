@@ -33,9 +33,164 @@ class OrchestratorManager:
 
         # register callbacks from sensor manager
         self.sensor_manager.publish_data_point = self.publish_data_point
-        self.sensor_manager.make_plant_talk = self.make_plant_talk
-        self.sensor_manager.update_last_watered = self.update_last_watered
 
+    async def start_reading(self):
+        while True:
+            # wait until roughly 5s interval
+            await asyncio.sleep(5)
+            now = datetime.datetime.now()
+
+            avg_light: float = self.sensor_manager.get_avg_light_reading()
+            avg_water: float = self.sensor_manager.get_avg_water_reading()
+
+            # not enough readings yet
+            if avg_light < 0 or avg_water < 0:
+                continue
+
+            new_light_state: LightState = self.plant.get_light_state(avg_light)
+            new_water_state: WaterState = self.plant.get_water_state(avg_water)
+            print("light and water states: ", new_light_state, new_water_state)
+
+            # first state change is recorded
+            if self.plant.light_state == None:
+                self.plant.update_states(
+                    new_light_state=new_light_state, new_water_state=new_water_state
+                )
+                continue
+
+            # no state change
+            if (
+                self.plant.light_state == new_light_state
+                and self.plant.water_state == new_water_state
+            ):
+                continue
+
+            # a state change occurred
+            print(
+                self.plant.light_state,
+                "-->",
+                new_light_state,
+                "·",
+                self.plant.water_state,
+                "-->",
+                new_water_state,
+            )
+
+            await self.handle_state_change(
+                new_light_state=new_light_state,
+                new_water_state=new_water_state,
+                timestamp=now,
+            )
+
+    async def handle_state_change(
+        self,
+        new_light_state: LightState,
+        new_water_state: WaterState,
+        timestamp: datetime,
+    ):
+        try:
+            event: EventType = self.get_event_type(
+                new_light_state=new_light_state, new_water_state=new_water_state
+            )
+            if event == EventType.WATERING.value:
+                self.plant.update_last_watered(timestamp)
+
+            if self.plant.is_talking:
+                self.publish_state_change_no_audio(event_type=event)
+            else:
+                self.plant.is_talking = True
+                text, audio = await self.get_text_and_audio(
+                    light_state=self.plant.light_state,
+                    water_state=self.plant.water_state,
+                    new_light_state=new_light_state,
+                    new_water_state=new_water_state,
+                    event_type=event,
+                )
+                self.publish_state_change(text=text, audio=audio, event_type=event)
+
+            # finally, update the state of the plant
+            self.plant.update_states(
+                new_light_state=new_light_state, new_water_state=new_water_state
+            )
+        except Exception as e:
+            print(f"unable to update {self.plant.id}'s state: ", e)
+
+    async def get_text_and_audio(
+        self,
+        light_state: LightState = None,
+        new_light_state: LightState = None,
+        water_state: WaterState = None,
+        new_water_state: WaterState = None,
+        user_input: str = None,
+        event_type: EventType = None,
+    ):
+        try:
+            prompt = ""
+            if user_input is not None:
+                prompt = get_base_prompt(
+                    self.plant.name,
+                    self.plant.type,
+                    self.plant.sassiness,
+                    self.plant.days_since_last_watered,
+                    user_input,
+                )
+            else:
+                prompt = get_state_change_prompt(
+                    plant_name=self.plant.name,
+                    plant_type=self.plant.type,
+                    sass_level=self.plant.sassiness,
+                    light_state=light_state,
+                    new_light_state=new_light_state,
+                    water_state=water_state,
+                    new_water_state=new_water_state,
+                    event_type=event_type,
+                )
+
+            text = await asyncio.to_thread(self.llm_client.get_text_response, prompt)
+            audio_b64 = await asyncio.to_thread(
+                self.llm_client.get_audio_response, text, self.plant.voice
+            )
+            audio_b64 = audio_b64.replace("\n", "").replace(" ", "")
+            return text, audio_b64
+        except Exception as e:
+            print("error when making plant talk on state change:", e)
+
+    def get_event_type(
+        self,
+        new_light_state: LightState,
+        new_water_state: WaterState,
+    ):
+        # currently prioritizing light change vs water
+        # and handles one state change at a time
+
+        # change in light
+        event_type: EventType = ""
+        if new_light_state != self.plant.light_state:
+            if new_light_state == LightState.DARK.value:
+                event_type = EventType.GOOD_NIGHT.value
+            elif new_light_state == LightState.BRIGHT.value:
+                event_type = EventType.WEAR_SUNGLASSES.value
+            else:
+                if self.plant.light_state == LightState.DARK.value:
+                    event_type = EventType.GOOD_MORNING.value
+                else:
+                    event_type = EventType.TAKE_OFF_SUNGLASSES.value
+            return event_type
+
+        # change in water levels
+        if new_water_state != self.plant.water_state:
+            if new_water_state == WaterState.DRY.value:
+                event_type = EventType.DRYING.value
+            elif new_water_state == WaterState.OVERWATERED.value:
+                event_type = EventType.WATERING.value
+            else:
+                if self.plant.water_state == WaterState.DRY.value:
+                    event_type = EventType.WATERING.value
+                else:
+                    event_type = EventType.DRYING.value
+        return event_type
+
+    # handle notifications
     def publish_data_point(self, data, timestamp):
         # print("data and timestamp: ", data, timestamp)
 
@@ -65,87 +220,28 @@ class OrchestratorManager:
             )
         )
 
-    def publish_update_last_watered(self):
+    def publish_state_change_no_audio(self, event_type: EventType):
+        payload = {
+            "event": event_type,
+        }
+        print("publishing state change, no audio: ", event_type)
+
         asyncio.create_task(
             self.websocket_manager.broadcast(
-                message_type=MessageType.UPDATE_DAYS_LAST_WATERED.value, payload={}
+                message_type=MessageType.STATE_CHANGE_NO_AUDIO.value, payload=payload
             )
         )
 
-    async def make_plant_talk(
-        self,
-        light_state: LightState = None,
-        new_light_state: LightState = None,
-        water_state: WaterState = None,
-        new_water_state: WaterState = None,
-        user_input: str = None,
-        event_type: EventType = None,
-    ):
-        try:
-            print("is plant talking? ", self.plant.is_talking)
-            if self.plant.is_talking:
-                return
-            self.plant.is_talking = True
-            prompt = ""
-            if user_input is not None:
-                prompt = get_base_prompt(
-                    self.plant.name,
-                    self.plant.type,
-                    self.plant.sassiness,
-                    self.plant.days_since_last_watered,
-                    user_input,
-                )
-            else:
-                prompt = get_state_change_prompt(
-                    plant_name=self.plant.name,
-                    plant_type=self.plant.type,
-                    sass_level=self.plant.sassiness,
-                    light_state=light_state,
-                    new_light_state=new_light_state,
-                    water_state=water_state,
-                    new_water_state=new_water_state,
-                    event_type=event_type,
-                )
-
-            print("\nplant is set to talk: \n", prompt)
-            text = await asyncio.to_thread(self.llm_client.get_text_response, prompt)
-            audio_b64 = await asyncio.to_thread(
-                self.llm_client.get_audio_response, text, self.plant.voice
-            )
-            audio_b64 = audio_b64.replace("\n", "").replace(" ", "")
-            self.publish_state_change(text=text, audio=audio_b64, event_type=event_type)
-        except Exception as e:
-            print("error when making plant talk on state change:", e)
-
-    def handle_ws_message(self, message: dict):
+    async def handle_ws_message(self, message: dict):
         try:
             if message["type"] == "stopped_talking":
                 self.plant.is_talking = False
             else:
                 print("is water talking? ", self.plant.is_talking)
                 user_input = message["text"]
-                asyncio.create_task(self.make_plant_talk(user_input=user_input))
+                # asyncio.create_task(self.make_plant_talk(user_input=user_input))
+                # TODO : update
+                # text, audio = await self.get_text_and_audio(user_input=user_input)
+                print("user input: ", user_input)
         except Exception as e:
             print("unable to process message from websocket: ", e)
-
-    def update_last_watered(self, last_watered_ts: datetime):
-        try:
-            with open(MEMORY_FILE, "r") as f:
-                memory = json.load(f)
-            plant_memory = memory.get(self.plant.id, {})
-            self.plant.last_watered = str(last_watered_ts)
-            plant_memory["last_watered"] = str(last_watered_ts)
-            time_passed = datetime.datetime.now().date() - last_watered_ts.date()
-            self.days_since_last_watered = time_passed.days
-
-            memory[self.plant.id] = plant_memory
-            with open(MEMORY_FILE, "w") as f:
-                json.dump(memory, f, indent=4)  # indent=4 makes the JSON readable
-
-            print(
-                "successfully updated when last watered: ", self.days_since_last_watered
-            )
-            # this one is now handled as part of the event
-            # self.publish_update_last_watered()
-        except Exception as e:
-            print(f"unable to update last time {self.plant.name} was watered", e)

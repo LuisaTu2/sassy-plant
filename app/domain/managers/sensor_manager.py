@@ -6,7 +6,6 @@ from collections import deque
 
 import serial_asyncio
 
-from domain.types import EventType, LightState, WaterState
 
 sensor_port = "/dev/ttyACM0"
 sensor_baudrate = 9600
@@ -16,12 +15,9 @@ class SensorManager(asyncio.Protocol):
     def __init__(self):
         self.water_readings = deque()
         self.light_readings = deque()
-        self.current_light_state: LightState | None = None
-        self.current_water_state: WaterState | None = None
         self.buffer = b""
+
         self.publish_data_point = lambda *args, **kwargs: None  # callback
-        self.make_plant_talk = lambda *args, **kwargs: None
-        self.update_last_watered = lambda *args, **kwargs: None
 
     def connection_made(self, transport):
         self.transport = transport
@@ -53,132 +49,18 @@ class SensorManager(asyncio.Protocol):
         if len(self.water_readings) >= 6:
             self.water_readings.popleft()
             self.light_readings.popleft()
-        if timestamp.second % 5 == 0:
-            new_light_state = self.get_updated_light_state()
-            new_water_state = self.get_updated_water_state()
-            print(
-                self.current_water_state,
-                "-->",
-                new_water_state,
-                "·",
-                self.current_light_state,
-                "-->",
-                new_light_state,
-                "\n\n",
-            )
-            if self.has_state_changed(
-                new_light_state=new_light_state, new_water_state=new_water_state
-            ):
-                self.handle_state_change(
-                    new_light_state=new_light_state,
-                    new_water_state=new_water_state,
-                    timestamp=timestamp,
-                )
-
-    def handle_state_change(
-        self,
-        new_light_state: LightState,
-        new_water_state: WaterState,
-        timestamp: datetime,
-    ):
-
-        if self.current_light_state is None:
-            self.current_light_state = new_light_state
-            self.current_water_state = new_water_state
-            return
-
-        event_type = self.get_event_type(
-            new_light_state=new_light_state, new_water_state=new_water_state
-        )
-        if event_type == EventType.WATERING.value:
-            self.update_last_watered(timestamp)
-
-        asyncio.create_task(
-            self.make_plant_talk(
-                light_state=self.current_light_state,
-                new_light_state=new_light_state,
-                water_state=self.current_water_state,
-                new_water_state=new_water_state,
-                event_type=event_type,
-            )
-        )
-        self.current_light_state = new_light_state
-        self.current_water_state = new_water_state
 
         return
 
-    def get_updated_light_state(
-        self,
-    ):
-        average_light_value = sum(self.light_readings) / len(self.light_readings)
-        print("\n\naverage light value: ", average_light_value)
-        return self.light_to_state_mapping(average_light_value)
+    def get_avg_light_reading(self):
+        if not len(self.light_readings):
+            return -1
+        return sum(self.light_readings) / len(self.light_readings)
 
-    def light_to_state_mapping(self, light):
-        match light:
-            case light if light < 200:
-                return LightState.DARK.value
-            case light if 200 <= light < 700:
-                return LightState.AMBIENT.value
-            case light if light >= 700:
-                return LightState.BRIGHT.value
-
-    def get_updated_water_state(
-        self,
-    ):
-        average_water_value = sum(self.water_readings) / len(self.water_readings)
-        print("average water value: ", average_water_value)
-        return self.water_to_state_mapping(average_water_value)
-
-    def water_to_state_mapping(self, water):
-        match water:
-            case water if water >= 600:
-                return WaterState.DRY.value
-            case water if 250 <= water < 600:
-                return WaterState.OPTIMAL.value
-            case water if water < 250:
-                return WaterState.OVERWATERED.value
-
-    def has_state_changed(
-        self, new_light_state: LightState, new_water_state: WaterState
-    ):
-        return (
-            self.current_light_state != new_light_state
-            or self.current_water_state != new_water_state
-        )
-
-    def get_event_type(
-        self,
-        new_light_state: LightState,
-        new_water_state: WaterState,
-    ):
-        # currently handles one state change at a time
-        # change in light
-        event_type: EventType = ""
-        if new_light_state != self.current_light_state:
-            if new_light_state == LightState.DARK.value:
-                event_type = EventType.GOOD_NIGHT.value
-            elif new_light_state == LightState.BRIGHT.value:
-                event_type = EventType.WEAR_SUNGLASSES.value
-            else:
-                if self.current_light_state == LightState.DARK.value:
-                    event_type = EventType.GOOD_MORNING.value
-                else:
-                    event_type = EventType.TAKE_OFF_SUNGLASSES.value
-            # return event_type
-
-        # change in water levels
-        if new_water_state != self.current_water_state:
-            if new_water_state == WaterState.DRY.value:
-                event_type = EventType.DRYING.value
-            elif new_water_state == WaterState.OVERWATERED.value:
-                event_type = EventType.WATERING.value
-            else:
-                if self.current_water_state == WaterState.DRY.value:
-                    event_type = EventType.WATERING.value
-                else:
-                    event_type = EventType.DRYING.value
-        return event_type
+    def get_avg_water_reading(self):
+        if not len(self.water_readings):
+            return -1
+        return sum(self.water_readings) / len(self.water_readings)
 
 
 # lambda is used to specify instance of sensor manager as instantiated in here
