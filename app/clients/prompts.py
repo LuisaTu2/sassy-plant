@@ -39,7 +39,7 @@ def get_state_change_prompt(
 
     if water_state != new_water_state:
         prompt += f"""
-            Comment on how the light level has gone from {water_state} to {new_water_state}. Adjust mood accordingly.
+            Comment on how the water level has gone from {water_state} to {new_water_state}. Adjust mood accordingly.
         """
     # TODO: add commend on event type
     return prompt

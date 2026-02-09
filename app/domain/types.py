@@ -48,6 +48,7 @@ class PlantType(Enum):
     BAMBOO = "bamboo"
     BASIL = "basil"
     SNAKE_PLANT = "snake plant"
+    SWISS_CHEESE = "swiss cheese"
 
 
 class SassLevel(Enum):

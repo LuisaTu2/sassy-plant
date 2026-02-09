@@ -21,6 +21,7 @@ export const PLANT_TYPES = [
   "bamboo",
   "basil",
   "snake plant",
+  "swiss cheese",
 ] as const;
 
 export type PlantType = (typeof PLANT_TYPES)[number];

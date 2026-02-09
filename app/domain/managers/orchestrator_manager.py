@@ -37,7 +37,7 @@ class OrchestratorManager:
         self.sensor_manager.update_last_watered = self.update_last_watered
 
     def publish_data_point(self, data, timestamp):
-        print("data and timestamp: ", data, timestamp)
+        # print("data and timestamp: ", data, timestamp)
 
         payload = DataPoint(
             soil_moisture=str(data["water"]),
@@ -57,6 +57,7 @@ class OrchestratorManager:
             "text": text,
             "event": event_type,
         }
+        print("publishing state change: ", event_type)
 
         asyncio.create_task(
             self.websocket_manager.broadcast(
