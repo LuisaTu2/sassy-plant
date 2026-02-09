@@ -47,8 +47,8 @@ class OrchestratorManager:
             if avg_light < 0 or avg_water < 0:
                 continue
 
-            new_light_state: LightState = self.plant.get_light_state(avg_light)
-            new_water_state: WaterState = self.plant.get_water_state(avg_water)
+            new_light_state: LightState = self.plant.map_to_light_state(avg_light)
+            new_water_state: WaterState = self.plant.map_to_water_state(avg_water)
             print("light and water states: ", new_light_state, new_water_state)
 
             # first state change is recorded

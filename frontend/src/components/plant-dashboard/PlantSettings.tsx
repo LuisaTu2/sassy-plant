@@ -109,8 +109,31 @@ const PlantSettings = () => {
     }
   };
 
+  const fetchPlantStates = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:9000/get-plant-states/", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const [light, _] = await response.json();
+      console.log("result fetch plant states: ", light);
+      // TODO: set background
+    } catch (error) {
+      console.error("an error occurred:", error);
+    } finally {
+      setIsFormOpen(false);
+    }
+  };
+
   useEffect(() => {
     fetchPlantSettings();
+    fetchPlantStates();
   }, []);
 
   return (

@@ -11,6 +11,10 @@ def create_plant_router(plant: Plant):
     async def get_plant_settings():
         return plant.get_plant_settings()
 
+    @router.get("/get-plant-states")
+    async def get_plant_states():
+        return plant.get_states()
+
     @router.post("/update-plant-settings")
     async def update_plant_settings(settings: PlantSettings):
         plant.name = settings.name

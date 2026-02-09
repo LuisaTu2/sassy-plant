@@ -41,6 +41,32 @@ class Plant:
         )
         return plant_settings
 
+    def map_to_light_state(self, light):
+        match light:
+            case light if light < 200:
+                return LightState.DARK.value
+            case light if 200 <= light < 700:
+                return LightState.AMBIENT.value
+            case light if light >= 700:
+                return LightState.BRIGHT.value
+
+    def map_to_water_state(self, water):
+        match water:
+            case water if water >= 600:
+                return WaterState.DRY.value
+            case water if 250 <= water < 600:
+                return WaterState.OPTIMAL.value
+            case water if water < 250:
+                return WaterState.OVERWATERED.value
+
+    def get_states(self):
+        return self.light_state, self.water_state
+
+    def update_states(self, new_light_state: LightState, new_water_state: WaterState):
+        self.light_state = new_light_state
+        self.water_state = new_water_state
+        pass
+
     def get_last_watered(self):
         try:
             with open(MEMORY_FILE) as f:
@@ -69,31 +95,6 @@ class Plant:
             with open(MEMORY_FILE, "w") as f:
                 json.dump(memory, f, indent=4)  # indent=4 makes the JSON readable
 
-            print(
-                "successfully updated when last watered: ", self.days_since_last_watered
-            )
+            print("successfully updated last watered: ", self.days_since_last_watered)
         except Exception as e:
             print(f"unable to update last time {self.name} was watered", e)
-
-    def get_light_state(self, light):
-        match light:
-            case light if light < 200:
-                return LightState.DARK.value
-            case light if 200 <= light < 700:
-                return LightState.AMBIENT.value
-            case light if light >= 700:
-                return LightState.BRIGHT.value
-
-    def get_water_state(self, water):
-        match water:
-            case water if water >= 600:
-                return WaterState.DRY.value
-            case water if 250 <= water < 600:
-                return WaterState.OPTIMAL.value
-            case water if water < 250:
-                return WaterState.OVERWATERED.value
-
-    def update_states(self, new_light_state: LightState, new_water_state: WaterState):
-        self.light_state = new_light_state
-        self.water_state = new_water_state
-        pass
