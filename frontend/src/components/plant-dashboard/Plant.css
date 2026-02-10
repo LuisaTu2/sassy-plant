@@ -156,3 +156,36 @@
   background-size: contain;
   background-position: center;
 }
+
+.watercan {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  right: 20%;
+  background-image: url("src/assets/watercan.jpg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+
+  animation: wobble 2s ease-in-out infinite;
+  /* transform: rotate(20deg);  */
+  transform-origin: center; /* rotate around the center of the image */
+}
+
+@keyframes wobble {
+  0% {
+    transform: rotate(25deg);
+  }
+  25% {
+    transform: rotate(23deg);
+  }
+  50% {
+    transform: rotate(20deg);
+  }
+  75% {
+    transform: rotate(23deg);
+  }
+  100% {
+    transform: rotate(25deg);
+  }
+}

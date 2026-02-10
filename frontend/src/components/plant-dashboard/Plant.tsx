@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePlantSettings } from "../contexts/PlantSettingsContext";
 import "./Plant.css";
-// import monstera from "../../assets/monstera.jpg";
 
 const Plant = () => {
   const { isTalking, event, lightState, plantType, setLightState } =
     usePlantSettings();
+
+  const [animation, setAnimation] = useState<string>("");
 
   useEffect(() => {
     if (event === null) {
@@ -25,7 +26,8 @@ const Plant = () => {
 
     // handle water state changes
     if (event === "watering") {
-      // TODO: short animation
+      setAnimation("watering");
+      setTimeout(() => setAnimation(""), 30000);
     }
   }, [event]);
 
@@ -36,6 +38,7 @@ const Plant = () => {
         {lightState === "bright" && (
           <div className={`sunglasses ${isTalking ? "jump" : ""}`}></div>
         )}
+        {animation === "watering" && <div className="watercan"></div>}
         {plantType === "swiss cheese" ? (
           <div className={`plant plant-monstera ${isTalking ? "jump" : ""}`} />
         ) : (
