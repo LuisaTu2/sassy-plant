@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import WebSocket, WebSocketDisconnect
 
 from domain.types import MessageType
@@ -5,7 +7,7 @@ from domain.types import MessageType
 
 class WebSocketManager:
     def __init__(self):
-        self.clients: WebSocket = []
+        self.clients: List[WebSocket] = []
 
     async def connect(self, ws: WebSocket):
         await ws.accept()

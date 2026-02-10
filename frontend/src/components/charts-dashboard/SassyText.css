@@ -131,11 +131,11 @@
 }
 
 .plant-talking {
-  background: radial-gradient(
+  /* background: radial-gradient(
     circle,
     rgb(246, 244, 246) 50%,
     rgb(133, 132, 133) 100%
-  );
+  ); */
   animation: none;
   cursor: not-allowed;
 }
