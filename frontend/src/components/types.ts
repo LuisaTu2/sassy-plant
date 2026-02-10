@@ -2,7 +2,7 @@ export type MessageType =
   | "data_point"
   | "state_change"
   | "state_change_no_audio"
-  | "respond_to_human";
+  | "audio_chunk";
 
 export type Audio = {
   audio: string;

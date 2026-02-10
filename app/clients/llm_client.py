@@ -3,7 +3,12 @@ from abc import ABC, abstractmethod
 
 from openai import OpenAI
 
-from clients.constants import GPT_MODEL, GPT_MODEL_MINI_TTS, OPENAI_API_KEY
+from clients.constants import (
+    GPT_MODEL,
+    GPT_MODEL_MINI_TTS,
+    GPT_MODEL_MINI_TTS_REALTIME,
+    OPENAI_API_KEY,
+)
 from domain.types import (
     AudioType,
     Voice,
@@ -27,6 +32,7 @@ class OpenAIClient(LLMClient):
         self.client = None
         self.gpt_model: str = GPT_MODEL
         self.tts_model: str = GPT_MODEL_MINI_TTS
+        self.tts_realtime_model: str = GPT_MODEL_MINI_TTS_REALTIME
 
         self.temperature: float = 0.8
         self.audio_output_type: AudioType = AudioType.WAV.value
@@ -71,28 +77,3 @@ class OpenAIClient(LLMClient):
             return audio_b64
         except Exception as e:
             raise Exception("unable to get audio response: ", e)
-
-    # def get_audio_bytes(self, text: str, voice: Voice) -> bytes:
-    #     response = self.client.audio.speech.create(
-    #         model=self.tts_model,
-    #         voice=voice,
-    #         input=text,
-    #         response_format=self.audio_output_type,  # make sure this is raw bytes
-    #         speed=self.speed,
-    #     )
-    #     audio_bytes = response.read()  # raw WAV bytes
-    #     return audio_bytes
-
-    # NEED TO PAY FOR STREAMING!
-    # def get_audio_stream(self, text, voice):
-    #     try:
-    #         stream = self.client.audio.speech.create( # udpate the create here
-    #             model=self.tts_model,
-    #             voice=voice,
-    #             input=text,
-    #             # response_format=self.audio_output_type,
-    #             # speed=self.speed,
-    #         )
-    #         return stream
-    #     except Exception as e:
-    #         raise Exception("unable to get audio stream: ", e)

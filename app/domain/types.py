@@ -9,6 +9,7 @@ class MessageType(Enum):
     STATE_CHANGE = "state_change"
     STATE_CHANGE_NO_AUDIO = "state_change_no_audio"
     RESPOND_TO_HUMAN = "respond_to_human"
+    AUDIO_REALTIME = "audio_realtime"
 
 
 class DataPoint(BaseModel):
