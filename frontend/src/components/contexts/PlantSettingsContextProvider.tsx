@@ -5,7 +5,9 @@ import {
   SASS_LEVELS,
   VOICE_TYPES,
   type EventType,
+  type PlantLightState,
   type PlantType,
+  type PlantWaterState,
   type SassLevel,
   type VoiceType,
 } from "../types";
@@ -24,6 +26,8 @@ export const PlantSettingsProvider = ({
   const [sassyText, setSassyText] = useState<string>("");
   const [daysSinceLastWatered, setDaysSinceLastWatered] = useState<number>(0);
   const [event, setEvent] = useState<EventType | null>(null);
+  const [lightState, setLightState] = useState<PlantLightState | null>(null);
+  const [waterState, setWaterState] = useState<PlantWaterState | null>(null);
 
   return (
     <PlantSettingsContext.Provider
@@ -37,6 +41,8 @@ export const PlantSettingsProvider = ({
         sassyText,
         daysSinceLastWatered,
         event,
+        lightState,
+        waterState,
         setName,
         setPlantType,
         setVoice,
@@ -46,6 +52,8 @@ export const PlantSettingsProvider = ({
         setSassyText,
         setDaysSinceLastWatered,
         setEvent,
+        setLightState,
+        setWaterState,
       }}
     >
       {children}

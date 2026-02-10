@@ -5,7 +5,7 @@
 .charts {
   width: 90%;
   margin-left: 5%;
-  padding-bottom: 5%;
+  padding-bottom: 0%;
   gap: 10px;
   display: flex;
   flex-direction: column;

@@ -56,6 +56,10 @@ export type PlantSettings = {
   days_since_last_watered: number;
 };
 
+export type PlantLightState = "dark" | "ambient" | "bright";
+
+export type PlantWaterState = "dry" | "optimal" | "overwatered";
+
 export type EventType =
   | "drying"
   | "watering"

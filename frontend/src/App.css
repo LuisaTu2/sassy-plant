@@ -7,6 +7,8 @@
 }
 
 .app {
+  margin: 0;
+  padding: 0;
   /* width: 80%; */
   /* margin-left: 10%; */
   /* background-color: rgb(207, 198, 216); */
@@ -23,18 +25,19 @@
 .dashboard {
   width: 80%;
   /* background-color: rgb(200, 219, 208); */
-  background-color: white;
   margin-top: 20px;
   margin-left: 10%;
+  padding: 0;
+  margin-bottom: 0;
   border-radius: 10px;
 }
 
 .footer {
   /* position: fixed; */
-  margin-top: 8px;
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-bottom: 5px;
+  /* margin-top: 5px; */
+  /* margin-left: 10%; */
+  margin-right: 14%;
+  margin-bottom: 10px;
   font-size: 1rem;
   color: aliceblue;
   text-align: right;

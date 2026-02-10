@@ -21,7 +21,7 @@
 
 @media screen and (min-width: 1600px) {
   .sassy-text {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     width: 45.5%;
     padding: 2% 5%;
   }
@@ -54,15 +54,15 @@
   width: 15%;
 }
 
-/* .sassy-text-text {
-  height: 0px;
+.sassy-text-text {
+  /* height: 0px; */
 }
 
 @media screen and (min-width: 1600px) {
   .sassy-text-text {
-    height: 150px;
+    font-size: 1rem;
   }
-} */
+}
 
 .mic-button-wrapper {
   width: 100%;

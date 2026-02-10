@@ -5,7 +5,7 @@ import Menu from "./Menu";
 
 const PlantDashboard = () => {
   return (
-    <div className="plant-dasboard">
+    <div className="plant-dashboard">
       <Menu />
       <Plant />
       <PlantSettings />

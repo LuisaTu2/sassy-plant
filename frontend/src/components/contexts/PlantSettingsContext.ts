@@ -12,6 +12,8 @@ import {
   PLANT_TYPES,
   SASS_LEVELS,
   type EventType,
+  type PlantLightState,
+  type PlantWaterState,
 } from "../types";
 
 interface PlantSettings {
@@ -24,6 +26,8 @@ interface PlantSettings {
   sassyText: string;
   daysSinceLastWatered: number;
   event: EventType | null; // better on a different context but for now leave here
+  lightState: PlantLightState | null;
+  waterState: PlantWaterState | null;
   setName: Dispatch<SetStateAction<string>>;
   setPlantType: Dispatch<SetStateAction<PlantType>>;
   setVoice: Dispatch<SetStateAction<VoiceType>>;
@@ -33,6 +37,8 @@ interface PlantSettings {
   setSassyText: Dispatch<SetStateAction<string>>;
   setDaysSinceLastWatered: Dispatch<SetStateAction<number>>;
   setEvent: Dispatch<SetStateAction<EventType | null>>;
+  setLightState: Dispatch<SetStateAction<PlantLightState | null>>;
+  setWaterState: Dispatch<SetStateAction<PlantWaterState | null>>;
 }
 
 const noop: Dispatch<SetStateAction<string>> = () => {};
@@ -42,6 +48,12 @@ const noopSass: Dispatch<SetStateAction<SassLevel>> = () => {};
 const noopBool: Dispatch<SetStateAction<boolean>> = () => {};
 const noopNumber: Dispatch<SetStateAction<number>> = () => {};
 const noopEvent: Dispatch<SetStateAction<EventType | null>> = () => {};
+const noopLightState: Dispatch<
+  SetStateAction<PlantLightState | null>
+> = () => {};
+const noopWaterState: Dispatch<
+  SetStateAction<PlantWaterState | null>
+> = () => {};
 
 const defaultSettings = {
   name: "Fernie Ferndale",
@@ -53,6 +65,8 @@ const defaultSettings = {
   sassyText: "",
   daysSinceLastWatered: 0,
   event: null,
+  lightState: null,
+  waterState: null,
   setName: noop,
   setVoice: noopVoice,
   setPlantType: noopPlantType,
@@ -62,6 +76,8 @@ const defaultSettings = {
   setSassyText: noop,
   setDaysSinceLastWatered: noopNumber,
   setEvent: noopEvent,
+  setLightState: noopLightState,
+  setWaterState: noopWaterState,
 };
 export const PlantSettingsContext =
   createContext<PlantSettings>(defaultSettings);

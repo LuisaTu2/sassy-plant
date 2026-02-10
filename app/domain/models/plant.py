@@ -17,7 +17,7 @@ MEMORY_FILE = "domain/models/memories.json"
 class Plant:
     def __init__(self):
         self.id: str = "plant_0"
-        self.name: str = "Lady Monstera McGreen, Queen of Swiss Cheesia"
+        self.name: str = "Lady Monstera Green, Queen of Swiss Cheesia"
         self.type: PlantType = PlantType.SWISS_CHEESE.value
         self.voice: Voice = Voice.ALLOY.value
         self.sassiness: SassLevel = SassLevel.MEDIUM.value

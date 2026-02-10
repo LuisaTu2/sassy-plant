@@ -23,6 +23,8 @@ const PlantSettings = () => {
     setSassiness,
     setIsFormOpen,
     setDaysSinceLastWatered,
+    setLightState,
+    setWaterState,
   } = usePlantSettings();
 
   const plantSettingsRef = useRef<HTMLDivElement>(null);
@@ -121,8 +123,9 @@ const PlantSettings = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const [light, _] = await response.json();
-      console.log("result fetch plant states: ", light);
+      const [light, water] = await response.json();
+      setLightState(light);
+      setWaterState(water);
       // TODO: set background
     } catch (error) {
       console.error("an error occurred:", error);
