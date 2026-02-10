@@ -232,16 +232,39 @@ class OrchestratorManager:
             )
         )
 
+    def publish_response_to_human(
+        self,
+        text: str,
+        audio: str,
+    ):
+        try:
+            payload = {
+                "audio": audio,
+                "format": AudioType.WAV.value,
+                "text": text,
+            }
+            print("responding to human")
+
+            asyncio.create_task(
+                self.websocket_manager.broadcast(
+                    message_type=MessageType.RESPOND_TO_HUMAN.value,
+                    payload=payload,
+                )
+            )
+
+        except Exception as e:
+            print("unable to respond to human: ", e)
+
     async def handle_ws_message(self, message: dict):
         try:
             if message["type"] == "stopped_talking":
                 self.plant.is_talking = False
             else:
                 print("is water talking? ", self.plant.is_talking)
+                if self.plant.is_talking:
+                    return
                 user_input = message["text"]
-                # asyncio.create_task(self.make_plant_talk(user_input=user_input))
-                # TODO : update
-                # text, audio = await self.get_text_and_audio(user_input=user_input)
-                print("user input: ", user_input)
+                text, audio = await self.get_text_and_audio(user_input=user_input)
+                self.publish_response_to_human(text=text, audio=audio)
         except Exception as e:
-            print("unable to process message from websocket: ", e)
+            print("unable to respond to human message: ", e)

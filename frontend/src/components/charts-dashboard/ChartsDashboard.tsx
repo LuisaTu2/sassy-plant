@@ -22,8 +22,7 @@ const ChartsDashboard = () => {
     setEvent(eventType);
   };
 
-  // this is understood to contain text and audio for talking
-  const handlePlantStateChange = async (message: any, websocket: WebSocket) => {
+  const handlePlantStateChange = async (message: any, webSocket: WebSocket) => {
     try {
       const payload = message["payload"];
       const eventType = payload["event"];
@@ -32,6 +31,43 @@ const ChartsDashboard = () => {
       const text = payload["text"];
       const audio = payload["audio"];
 
+      handleTalking(text, audio, webSocket);
+    } catch (error) {
+      console.log("unable to handle plant state change: ", error);
+    }
+  };
+
+  // this is understood to contain text and audio for talking
+  const handlePlantStateChangeNoAudio = (message: any) => {
+    try {
+      const payload = message["payload"];
+      const eventType = payload["event"];
+      handleEvent(eventType);
+      // TODO: handle animation
+    } catch (error) {
+      console.log("unable to handle plant state change: ", error);
+    }
+  };
+
+  const handleResponseToHuman = async (message: any, webSocket: WebSocket) => {
+    try {
+      const payload = message["payload"];
+
+      const text = payload["text"];
+      const audio = payload["audio"];
+
+      handleTalking(text, audio, webSocket);
+    } catch (error) {
+      console.log("unable to handle plant state change: ", error);
+    }
+  };
+
+  const handleTalking = async (
+    text: string,
+    audio: string,
+    webSocket: WebSocket,
+  ) => {
+    try {
       // update text
       setSassyText(text);
       setIsTalking(true);
@@ -45,23 +81,11 @@ const ChartsDashboard = () => {
 
       // send notification that plant has stopped talking
       console.log("plant stopped talking");
-      websocket.send(
+      webSocket.send(
         JSON.stringify({
           type: "stopped_talking",
         }),
       );
-    } catch (error) {
-      console.log("unable to handle plant state change: ", error);
-    }
-  };
-
-  // this is understood to contain text and audio for talking
-  const handlePlantStateChangeNoAudio = (message: any) => {
-    try {
-      const payload = message["payload"];
-      const eventType = payload["event"];
-      handleEvent(eventType);
-      // TODO: handle animation
     } catch (error) {
       console.log("unable to handle plant state change: ", error);
     }
@@ -85,7 +109,7 @@ const ChartsDashboard = () => {
         } else if (messageType === "state_change_no_audio") {
           handlePlantStateChangeNoAudio(message);
         } else if (messageType === "respond_to_human") {
-          console.log("will be implementing here");
+          handleResponseToHuman(message, webSocket);
         }
       } catch (err) {
         console.error("Failed to parse WebSocket message:", err);

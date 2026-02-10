@@ -1,8 +1,8 @@
-export type MessageType = "data_point" | "state_change";
-export type Message = {
-  type: MessageType;
-  payload: PlantState | Audio;
-};
+export type MessageType =
+  | "data_point"
+  | "state_change"
+  | "state_change_no_audio"
+  | "respond_to_human";
 
 export type Audio = {
   audio: string;
