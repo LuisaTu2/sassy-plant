@@ -9,34 +9,34 @@ const Plant = () => {
     lightState,
     plantType,
     // waterState,
-    // setLightState,
-    // setWaterState,
+    setLightState,
+    setWaterState,
   } = usePlantSettings();
 
   const [animation, setAnimation] = useState<string>("");
 
-  // const fetchPlantStates = async () => {
-  //   try {
-  //     const response = await fetch("http://127.0.0.1:9000/get-plant-states/", {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
+  const fetchPlantStates = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:9000/get-plant-states/", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-  //     const [light, water] = await response.json();
-  //     setLightState(light);
-  //     setWaterState(water);
-  //     // TODO: set background
-  //   } catch (error) {
-  //     console.error("an error occurred:", error);
-  //   } finally {
-  //     console.log("fetched states");
-  //   }
-  // };
+      const [light, water] = await response.json();
+      setLightState(light);
+      setWaterState(water);
+      // TODO: set background
+    } catch (error) {
+      console.error("an error occurred:", error);
+    } finally {
+      console.log("fetched states");
+    }
+  };
 
   useEffect(() => {
     if (event === null) {
@@ -59,7 +59,7 @@ const Plant = () => {
       setAnimation("watering");
       setTimeout(() => setAnimation(""), 20000);
     }
-    // fetchPlantStates();
+    fetchPlantStates();
   }, [event]);
 
   return (

@@ -6,6 +6,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
+  ReferenceArea,
 } from "recharts";
 import ChartTooltip from "./ChartTooltip";
 import "./SensorsChart.css";
@@ -37,8 +38,22 @@ const SensorsChart = ({ data }: StatePlotProps) => {
 
       <ResponsiveContainer width="90%" height={300} className={"sensors-chart"}>
         <LineChart data={data}>
+          <defs>
+            {/* Gradient for happy state */}
+            <linearGradient id="happyGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#daf5eb" stopOpacity={0.4} />
+              <stop offset="50%" stopColor="#64daaf" stopOpacity={0.6} />
+              <stop offset="100%" stopColor="#daf5eb" stopOpacity={0.4} />
+            </linearGradient>
+          </defs>
           <XAxis dataKey="timestamp" tickFormatter={formatTime} />
-          <YAxis />
+          <YAxis domain={[0, 1]} />
+          <ReferenceArea
+            y1={0.2}
+            y2={0.8}
+            fill="url(#happyGradient)"
+            stroke="none"
+          />
           <Line
             type="monotone"
             dataKey="soil_moisture"
