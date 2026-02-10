@@ -83,9 +83,7 @@ class LightState(Enum):
 
 
 # ≥ 600 → DRY
-
 # 250–600 → OPTIMAL
-
 # < 250 → SATURATED
 
 

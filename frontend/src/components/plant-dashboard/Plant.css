@@ -189,3 +189,13 @@
     transform: rotate(25deg);
   }
 }
+
+.plant-state-details {
+  width: 100%;
+  /* position: ; */
+  /* background-color: turquoise; */
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  color: white;
+}
