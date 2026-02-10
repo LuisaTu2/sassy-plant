@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -65,7 +66,7 @@ class PlantSettings(BaseModel):
     type: PlantType
     voice: Voice
     sassiness: SassLevel
-    days_since_last_watered: int
+    days_since_last_watered: Optional[int] = None
 
 
 # | Condition       | Expected analogRead |
