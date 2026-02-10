@@ -27,7 +27,7 @@ const Plant = () => {
     // handle water state changes
     if (event === "watering") {
       setAnimation("watering");
-      setTimeout(() => setAnimation(""), 30000);
+      setTimeout(() => setAnimation(""), 20000);
     }
   }, [event]);
 
