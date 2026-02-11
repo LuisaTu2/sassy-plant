@@ -8,7 +8,6 @@ const Plant = () => {
     event,
     lightState,
     plantType,
-    // waterState,
     setLightState,
     setWaterState,
   } = usePlantSettings();
@@ -42,17 +41,6 @@ const Plant = () => {
     if (event === null) {
       return;
     }
-
-    // console.log("EVENT: ", event);
-
-    // handle light state changes
-    // if (event === "good_night") {
-    //   setLightState("dark");
-    // } else if (event === "good_morning" || event === "take_off_sunglasses") {
-    //   setLightState("ambient");
-    // } else if (event === "wear_sunglasses") {
-    //   setLightState("bright");
-    // }
 
     // handle water state changes
     if (event === "watering") {

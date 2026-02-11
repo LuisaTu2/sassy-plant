@@ -10,11 +10,7 @@ import {
 } from "recharts";
 import ChartTooltip from "./ChartTooltip";
 import "./SensorsChart.css";
-
-type Point = {
-  timestamp: string;
-  soil_moisture: number;
-};
+import { useChartSettings } from "../contexts/ChartSettingsContext";
 
 // Tick formatter as a constant
 const formatTime = (t: string) =>
@@ -26,12 +22,9 @@ const formatTime = (t: string) =>
     // fractionalSecondDigits: 1,
   });
 
-interface StatePlotProps {
-  data: Point[];
-}
-
 // Dashboard component as a constant arrow function
-const SensorsChart = ({ data }: StatePlotProps) => {
+const SensorsChart = () => {
+  const { data } = useChartSettings();
   return (
     <div className="sensors-chart-graphs">
       <div className="sensors-chart-title">water & light monitoring</div>

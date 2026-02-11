@@ -3,10 +3,10 @@ import { usePlantSettings } from "../contexts/PlantSettingsContext";
 import "./SassyText.css";
 
 interface SassyTextProps {
-  wsRef: React.RefObject<WebSocket | null>;
+  sendWsMessage: (msgType: string, msg: string) => void;
 }
 
-const SassyText = ({ wsRef }: SassyTextProps) => {
+const SassyText = ({ sendWsMessage }: SassyTextProps) => {
   const { name, isTalking, sassyText, plantType, voice, daysSinceLastWatered } =
     usePlantSettings();
   const [isListening, setIsListening] = useState(false);
@@ -24,13 +24,7 @@ const SassyText = ({ wsRef }: SassyTextProps) => {
       recognition.onresult = (event: any) => {
         const text = event.results[0][0].transcript;
         console.log("user input: ", text);
-        wsRef.current &&
-          wsRef.current.send(
-            JSON.stringify({
-              type: "user_voice_message",
-              text,
-            }),
-          );
+        sendWsMessage("user_voice_message", text);
       };
       recognition.onerror = (e: any) => {
         console.error("speech error", e);

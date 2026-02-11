@@ -199,11 +199,9 @@ class OrchestratorManager:
 
     # handle notifications
     def publish_data_point(self, data, timestamp):
-        water = data["water"]
-        light = data["light"]
         payload = DataPoint(
-            soil_moisture=str(1 - water / 1000),
-            light=str(light / 1023),
+            soil_moisture=str(1 - data["water"] / 1000),
+            light=str(data["light"] / 1023),
             timestamp=str(timestamp),
         )
         asyncio.create_task(
