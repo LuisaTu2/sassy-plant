@@ -96,7 +96,9 @@ const ChartsDashboard = () => {
       `${import.meta.env.VITE_API_WS_URL}/ws/sensors`,
     );
     const webSocket = wsRef.current;
-    webSocket.onopen = () => console.log("Connected to WebSocket server");
+    webSocket.onopen = () => {
+      console.log("connected to websocket server");
+    };
     webSocket.onmessage = (event: MessageEvent) => {
       try {
         const message = JSON.parse(event.data);
