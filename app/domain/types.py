@@ -80,7 +80,7 @@ class PlantSettings(BaseModel):
 class LightState(Enum):
     DARK = "dark"
     AMBIENT = "ambient"
-    BRIGHT = " bright"
+    BRIGHT = "bright"
 
 
 # ≥ 600 → DRY
@@ -101,9 +101,3 @@ class EventType(Enum):
     GOOD_MORNING = "good_morning"
     WEAR_SUNGLASSES = "wear_sunglasses"
     TAKE_OFF_SUNGLASSES = "take_off_sunglasses"
-
-
-# class AudioMessageType(IntEnum):
-#     TEXT = 1
-#     AUDIO_CHUNK = 2
-#     AUDIO_END = 3

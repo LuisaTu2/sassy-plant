@@ -276,36 +276,3 @@ class OrchestratorManager:
                 print("done talking to human")
         except Exception as e:
             print("unable to respond to human message: ", e)
-
-    # async def get_and_send_text_and_audio_stream(
-    #     self,
-    #     user_input: str = None,
-    # ):
-    #     try:
-    #         prompt = get_base_prompt(
-    #             self.plant.name,
-    #             self.plant.type,
-    #             self.plant.sassiness,
-    #             self.plant.days_since_last_watered,
-    #             user_input,
-    #         )
-
-    #         text = await asyncio.to_thread(self.llm_client.get_text_response, prompt)
-
-    #         print("streaming audio")
-    #         audio_bytes = self.llm_client.get_audio_bytes(
-    #             text=text, voice=self.plant.voice
-    #         )
-    #         chunk_size = 4096
-    #         for i in range(0, len(audio_bytes), chunk_size):
-    #             chunk = audio_bytes[i : i + chunk_size]
-    #             await self.websocket_manager.broadcast_bytes(
-    #                 chunk=chunk, audio_msg_type=AudioMessageType.AUDIO_CHUNK.value
-    #             )
-    #         # send end message
-    #         await self.websocket_manager.broadcast_bytes(
-    #             chunk=chunk, audio_msg_type=AudioMessageType.AUDIO_END.value
-    #         )
-    #         return
-    #     except Exception as e:
-    #         print("error when making plant talk on talking to human:", e)
