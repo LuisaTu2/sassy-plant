@@ -9,7 +9,6 @@
 
   /* border: 2px solid rgb(171, 207, 171); */
   border-radius: 10px;
-  /* background-color: yellow; */
   /* overflow: hidden;   */
   background: linear-gradient(
     to bottom,
@@ -42,17 +41,29 @@
   display: flex;
   flex-direction: column;
   margin-top: 20px;
+  padding: 0;
+  margin: 0;
 }
 
 .sassy-text-detail {
   /* width: 100%; */
   display: flex;
   flex-direction: row;
-  gap: 50px;
+  /* gap: 50px; */
+}
+
+@media screen and (max-width: 1600px) {
+  .sassy-text-detail {
+    font-size: 0.8rem;
+  }
 }
 
 .sassy-text-detail-title {
-  width: 15%;
+  width: 30%;
+}
+
+.sassy-text-detail-value {
+  width: 70%;
 }
 
 .sassy-text-text {

@@ -8,17 +8,62 @@
   /* background-color: coral; */
   z-index: 1000;
   border-radius: 10px;
+  border: none;
 
   text-align: left;
-  font-size: 2rem;
+  font-size: 1.5rem;
   padding: 0% 5% 2% 5%;
 
   /* background: linear-gradient(135deg, #ff7f73, #ffb3a7);
   color: #2b2b2b; */
 
-  background: linear-gradient(135deg, #f7887e, #fac3bf);
+  background: linear-gradient(135deg, #f89a91, #fdccc8);
   color: #271d1d;
 
   /* background: linear-gradient(135deg, #ff6f61, #ff9472, #ffc3a0);
   color: #2e2a2a; */
+}
+
+.notes-btn-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.notes-btn {
+  font-size: 2rem;
+  position: absolute;
+  right: 0%;
+  top: 20px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: white;
+  font-weight: 600;
+}
+
+.notes-btn:hover {
+  color: #5a4545;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.linkedin-qr-code-wrapper {
+  position: relative;
+}
+.linkedin-qr-code {
+  position: absolute;
+  width: 15%;
+  bottom: 80px;
+  right: 200px;
+  /* height: 100px; */
+}
+
+.linkedin-connect {
+  position: absolute;
+  /* width: 15%; */
+  bottom: 320px;
+  right: 200px;
 }
