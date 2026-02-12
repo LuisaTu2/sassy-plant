@@ -33,7 +33,7 @@
 }
 
 .footer {
-  /* position: fixed; */
+  /* position: relative; */
   /* margin-top: 5px; */
   /* margin-left: 10%; */
   margin-right: 14%;
@@ -41,4 +41,9 @@
   font-size: 1rem;
   color: aliceblue;
   text-align: right;
+}
+
+.maple-leaf {
+  font-size: 1.1rem;
+  cursor: pointer;
 }

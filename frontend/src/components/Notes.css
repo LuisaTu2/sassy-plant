@@ -1,0 +1,24 @@
+.notes {
+  position: fixed;
+  top: 100px;
+  /* bottom: 10%; */
+  left: 12%;
+  /* height: 800px; */
+  width: 65%;
+  /* background-color: coral; */
+  z-index: 1000;
+  border-radius: 10px;
+
+  text-align: left;
+  font-size: 2rem;
+  padding: 0% 5% 2% 5%;
+
+  /* background: linear-gradient(135deg, #ff7f73, #ffb3a7);
+  color: #2b2b2b; */
+
+  background: linear-gradient(135deg, #f7887e, #fac3bf);
+  color: #271d1d;
+
+  /* background: linear-gradient(135deg, #ff6f61, #ff9472, #ffc3a0);
+  color: #2e2a2a; */
+}
