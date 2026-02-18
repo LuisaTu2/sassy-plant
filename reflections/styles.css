@@ -35,6 +35,9 @@ body {
   min-width: 320px;
   /* max-width: 1280px; */
   color: var(--color-text);
+  /* color: beige; */
+  /* background-color: rgb(51, 53, 52); */
+
   background-color: var(--color-bg);
   font-family: var(--font-body);
   font-size: 1.1rem;
@@ -51,6 +54,8 @@ Desktops	≥1280px	1280px or responsive */
 .root {
   width: 80%;
   margin-left: 10%;
+  /* padding: 0 2%; */
+
   /* background-color: #e7f4ee; */
 }
 @media (min-width: 640px) {
@@ -73,11 +78,12 @@ Desktops	≥1280px	1280px or responsive */
 }
 
 .header-title {
-  font-size: 1.4rem;
+  font-size: 1.7rem;
   padding: 20px 0 0px 0;
   margin-top: 24px;
   text-align: center;
-  color: rgb(44, 109, 69);
+  /* color: rgb(44, 109, 69); */
+  color: #214f3e;
   font-weight: 600;
 }
 @media (min-width: 1000px) {
@@ -91,13 +97,13 @@ Desktops	≥1280px	1280px or responsive */
   font-style: italic;
   padding: 0 0 20px 0;
   text-align: center;
-  color: #868a91;
+  color: #a3a6ab;
 }
 @media (min-width: 1000px) {
   .header-sub-title {
     /* width: 70%; */
     /* margin-left: 10%; */
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -105,13 +111,16 @@ Desktops	≥1280px	1280px or responsive */
   font-size: 1.5rem;
   font-weight: 600;
   padding: 10px 0;
-  color: #43b3a9;
+
+  /* color: rgb(73, 160, 147); */
+  color: #3b9876;
 }
 
 a {
   text-decoration: none;
   /* color: #4c4f56; */
-  color: #3b82f6;
+  /* color: #3b82f6; */
+  /* color: #a3a6ab; */
   /* font-weight: bold; */
 }
 
@@ -242,12 +251,19 @@ button.copied {
   font-style: italic;
 } /* comments */
 .highlight {
-  color: rgba(213, 63, 156, 0.8);
+  /* color: rgba(213, 63, 156, 0.8); */
+  /* color: rgb(50, 197, 143); */
+  color: #3eadad;
+
+  /* color: rgb(108, 180, 135); */
   font-weight: 600;
 }
 
 .highlight-link {
-  color: rgb(59, 169, 200);
+  /* color: rgb(59, 169, 200); */
+  color: #26bd85;
+
+  /* color: rgb(108, 180, 135); */
   font-weight: 600;
 }
 .highlight-link:hover {
@@ -324,7 +340,10 @@ button.copied {
   gap: 0px;
   /* margin-right: 5%; */
   margin-bottom: 36px;
-  color: #7c91d1;
+  /* color: #7c91d1; */
+  color: #a3a6ab;
+
+  font-size: 1.1rem;
 }
 
 .footer {
@@ -344,9 +363,17 @@ button.copied {
 }
 
 .website {
-  font-size: 1rem;
-  /* color: rgb(179, 79, 151); */
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgb(122, 146, 131);
+  /* color: rgb(205, 193, 201); */
+  /* color: #a3a6ab; */
   /* font-weight: 600; */
+}
+
+a {
+  font-weight: 600;
+  color: rgb(122, 146, 131);
 }
 
 .schematics {
