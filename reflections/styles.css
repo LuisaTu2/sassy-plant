@@ -74,6 +74,7 @@ Desktops	≥1280px	1280px or responsive */
 .header-title {
   font-size: 2.2rem;
   padding: 20px 0 0px 0;
+  margin-top: 24px;
   text-align: center;
   color: rgb(44, 109, 69);
   font-weight: 600;
@@ -304,4 +305,16 @@ button.copied {
   text-decoration: none;
   font-weight: 600;
   color: #69bf97;
+}
+
+.date-author {
+  width: 100%;
+  /* background-color: red; */
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 0px;
+  /* margin-right: 5%; */
+  margin-bottom: 36px;
+  color: #7c91d1;
 }
