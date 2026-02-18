@@ -1,0 +1,298 @@
+:root {
+  /* ===== Base Colors ===== */
+  --color-primary: #63a166;
+  --color-primary-hover: #2f5c32;
+
+  --color-bg: #fafafa; /* background (off-white) */
+  --color-text: #2c2d31; /* main text */
+  --color-text-muted: #666666; /* secondary text */
+  --color-heading: #0f172a; /* dark slate for headings */
+  --color-border: #e5e5e5; /* subtle dividers */
+
+  /* ===== Accents ===== */
+  --color-accent: #0070f3; /* blue accent for links, highlights */
+  --color-accent-hover: #0059c9; /* hover blue */
+  --color-highlight-bg: #fff9e6; /* pale warm yellow for emphasis */
+
+  /* ===== Code / Quote Blocks ===== */
+  --color-code-bg: #f4f4f5; /* light neutral gray background */
+  --color-code-text: #0e0e0e; /* readable code color */
+
+  /* ===== Font Families ===== */
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-code: "Source Code Pro", monospace;
+
+  /* ===== Sizing ===== */
+  --max-content-width: 720px;
+  --line-height: 1.75;
+  --radius: 6px;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  max-width: 1280px;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  line-height: var(--line-height);
+  text-align: justify;
+}
+
+/* Device Type	Common Width	Recommended Min Width for Layout
+Small phones	320px (e.g. older iPhones SE)	320px (absolute minimum)
+Regular phones	360–430px (modern iPhones, Androids)	375–400px (sweet spot)
+Tablets	768–1024px	768px
+Desktops	≥1280px	1280px or responsive */
+
+.root {
+  width: 80%;
+  margin-left: 10%;
+}
+@media (min-width: 640px) {
+  .root {
+    width: 60%;
+    margin-left: 20%;
+  }
+}
+@media (min-width: 1000px) {
+  .root {
+    width: 70%;
+    margin-left: 25%;
+    font-size: 1.2rem;
+  }
+}
+
+.header {
+  width: 100%;
+  /* background-color: rgb(128, 113, 143); */
+}
+
+.header-title {
+  font-size: 2.2rem;
+  padding: 20px 0 0px 0;
+  text-align: center;
+  color: rgb(44, 109, 69);
+  font-weight: 600;
+}
+@media (max-width: 400px) {
+  .header-title {
+    font-size: 1.6rem;
+  }
+}
+
+.header-sub-title {
+  font-size: 0.9rem;
+  font-style: italic;
+  padding: 0 0 20px 0;
+  text-align: center;
+  color: #868a91;
+}
+@media (min-width: 1000px) {
+  .header-sub-title {
+    /* width: 70%; */
+    /* margin-left: 10%; */
+    font-size: 1.3rem;
+  }
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 10px 0;
+  color: #43b3a9;
+}
+
+a {
+  text-decoration: none;
+  color: #4c4f56;
+  font-weight: bold;
+}
+
+/* ===== code snippet ===== */
+.code-container {
+  position: relative;
+  background: #f4f5f6; /* light neutral background */
+  color: #1e293b;
+  border: 1px solid #e5e5e5; /* subtle border */
+  border-radius: 8px;
+  padding: 0px 0 0 10px;
+  margin: 20px 0;
+  overflow-x: auto;
+  font-family: "Source Code Pro", monospace;
+  font-size: 0.65rem;
+}
+
+pre {
+  margin: 0;
+}
+
+code {
+  display: block;
+  white-space: pre;
+  line-height: 1.5;
+  color: #1e293b;
+}
+
+.code-snippet-nginx,
+.code-snippet-vite {
+  margin: 0;
+  padding: 0;
+}
+
+/* COPY BUTTON */
+
+/* Syntax Highlighting */
+.keyword {
+  color: #d73a49;
+  font-weight: 600;
+} /* e.g., def, return */
+.function {
+  color: #6f42c1;
+} /* function names */
+.builtin {
+  color: #005cc5;
+} /* print, len, etc. */
+.string {
+  color: #032f62;
+} /* string literals */
+.comment {
+  color: #6a737d;
+  font-style: italic;
+} /* comments */
+.number {
+  color: #005cc5;
+} /* numbers */
+
+.json-key {
+  color: #d73a49;
+} /* red keys */
+.json-string {
+  color: #032f62;
+} /* dark blue strings */
+.json-number {
+  color: #005cc5;
+} /* blue numbers */
+.json-boolean {
+  color: #6f42c1;
+} /* purple booleans */
+.json-null {
+  color: #6a737d;
+  font-style: italic;
+} /* gray nulls */
+
+/* Container for code snippet */
+
+/* Copy Button */
+button.copy-btn-nginx,
+button.copy-btn-vite {
+  position: absolute;
+  width: 70px;
+  top: 0.6rem;
+  right: 0.6rem;
+  background: #7dae89; /* sage green */
+  color: #fafafa;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0.25rem 0.6rem;
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+button.copy-btn-nginx:hover,
+button.copy-btn-vite:hover {
+  background: #5c8a6a;
+  transform: translateY(-1px);
+}
+button.copied {
+  background: #3bba7f !important;
+  color: #fafafa !important;
+}
+
+/* Syntax highlighting for Nginx config */
+.keyword {
+  color: #22863a;
+  font-weight: 600;
+} /* http, server, location */
+.directive {
+  color: #2c7a7b;
+} /* listen, root, index, proxy_* */
+.string {
+  color: #0b7285;
+} /* paths and endpoints */
+.variable {
+  color: #3b82f6;
+} /* $host, $remote_addr */
+.comment {
+  color: #6b7280;
+  font-style: italic;
+} /* comments */
+.highlight {
+  color: rgba(213, 63, 156, 0.8);
+  font-weight: 600;
+}
+
+.prompt-container {
+  background: #eaf4ea; /* light sage-green for a gentle highlight */
+  border-left: 4px solid #7dae89; /* accent color */
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  font-family: "Source Code Pro", monospace;
+  font-size: 0.65rem;
+  line-height: 1.5;
+  color: #1f2937; /* dark text for readability */
+  overflow-x: auto; /* allow horizontal scroll if needed */
+  white-space: pre-wrap; /* preserve line breaks */
+}
+
+/* Optional: highlight variables inside the prompt */
+.prompt-container .variable {
+  color: #3b82f6; /* blue for variables like {self.language} */
+  font-weight: 600;
+}
+
+.chisme-img {
+  width: 80%;
+  margin: 0px 0 20px 0;
+  padding: 0;
+}
+
+.list-title {
+  color: #1b416d;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.list-text {
+  color: #8799ae;
+  font-size: 0.85rem;
+  margin: 0 0px 15px 0;
+  width: 80%;
+}
+
+.list-images {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.img-incorrect {
+  width: 50%;
+  margin-left: 10%;
+  /* width: 250px; */
+  /* height: 300px; */
+}
+
+.chisme {
+  text-decoration: none;
+  font-weight: 600;
+  color: #69bf97;
+}
