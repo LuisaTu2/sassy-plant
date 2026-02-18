@@ -237,6 +237,15 @@ button.copied {
   font-weight: 600;
 }
 
+.highlight-link {
+  color: rgb(59, 169, 200);
+  font-weight: 600;
+}
+.highlight-link:hover {
+  cursor: pointer;
+  color: rgba(93, 116, 99, 0.6);
+}
+
 .prompt-container {
   background: #eaf4ea; /* light sage-green for a gentle highlight */
   border-left: 4px solid #7dae89; /* accent color */

@@ -19,85 +19,81 @@
         </div>
       </div>
 
-      <div class="section-title">intro</div>
+      <div class="section-title">Intro</div>
 
-      Last summer I tried gardening at home for the first time. Armed with
-      recycled coffee cups and cheap soil, I germinated store-bought seeds
-      indoors, tracked frost dates and finally planted the surviving seedlings
-      in my small yard in mid-spring.
-
-      <br />
-      <br />
-
-      I quickly realized that plants had their own care needs and in a way,
-      showed different <span class="highlight">personalities</span>. Tomatoes
-      and marigolds almost craved a bit of neglect, while basil and roses would
-      give me the middle leaf and dramatically wilt when the pH level wasn’t
-      just right. Go figure.
+      Last summer I tried gardening for the very first time. Armed with recycled
+      coffee cups and cheap soil, I germinated store-bought seeds indoors,
+      tracked frost dates and planted the surviving seedlings in my small yard.
 
       <br />
       <br />
 
-      I admire gardeners who find their hobby relaxing. If basil could talk, she
-      would surely be a little cranky one, always complaining about something.
-      So when I came across the
-      <span class="highlight">voice AI hackathon</span> opportunity, I thought:
-      why not use AI to make a sassy plant talk to me?
+      I quickly realized that plants showed different
+      <span class="highlight">personalities</span> based on their care and
+      needs. Tomatoes and marigolds almost craved a bit of neglect, while basil
+      and roses would show me the middle leaf and dramatically wilt when the pH
+      level wasn’t just right.
+
+      <br />
+      <br />
+      If basil could have spoken, she would surely have been a cranky one,
+      always complaining about something! So when I came across the
+      <a class="highlight-link" href="https://luma.com/4av8ffhb?tk=ZlAcOu"
+        >voice AI hackathon</a
+      >
+      opportunity, I thought: why not use AI to make a sassy plant talk to me?
 
       <br />
       <br />
 
-      <div class="section-title">the sassiest of plants</div>
+      <div class="section-title">The Sassiest of Houseplants</div>
 
       Meet the one and only,
       <span class="highlight">Lady Monstera Deliciosa</span>! She is native to
       the tropical forests of southern Mexico, and is also known as the “Swiss
-      cheese plant” due to the holes, or “eyes,” that develop in her leaves,
+      cheese plant” due to the holes or “eyes,” that develop in her leaves,
       resembling the holes in Emmental cheese.
 
       <br />
       <br />
-      These holes and splits, called <i>fenestrations</i>, are an evolutionary
-      adaptation, and they help the plant maximize sunlight and let rain pass
-      through to its roots in dense jungle environments.
+      These holes and splits are called <i>fenestrations</i>, and they are an
+      evolutionary adaptation that help the plant maximize sunlight and let rain
+      pass through to its roots in dense jungle environments.
       <br />
       <br />
 
-      With her dramatic and "cheesy" deep green leaves, my recently adopted
-      Monstera would make the perfect
+      With her dramatic and "cheesy" green leaves, it was easy to pick my
+      Monstera plant as the perfect
       <span class="highlight">sassy talking plant</span>!
       <br />
 
       <br />
       <br />
 
-      <div class="section-title">tech details</div>
+      <div class="section-title">Tech Details</div>
 
-      Water and light are of course the basic needs for any plant to survive. I
-      used a phototransistor and a soil moisture sensor to probe the plant's
-      light and water levels. I connected both sensors to an arduino via a USB
-      cable. Here is the schema:
-
-      <br />
-      <br />
-
-      The arduino sends data from the sensors to the backend via
-      <span class="highlight">asynchronous serial communication</span> in 1
-      second intervals. I used FastAPI (python) for the backend, React for the
-      front-end and a combination of websockets and http for communication
-      across the stack.
+      In order to understand the plant's state at any point in time, I connected
+      a
+      <span class="highlight">phototransistor</span> and a
+      <span class="highlight">soil moisture</span> sensor to an Arduino. Here is
+      the schema:
 
       <br />
       <br />
 
-      I am fairly new to <span class="highlight">websockets</span>, so it was
-      really cool implementing a two-way street communication channel between
-      backend and frontend.
+      The <span class="highlight">Arduino</span> collects the sensors data and
+      sends it over to the back-end (a Python FastAPI application) via
+      asynchronous serial communication. The data is then processed and
+      displayed in React on the front-end. I used a combination of WebSocket and
+      Http for communication across the stack. I am fairly new to
+      <span class="highlight">WebSocket</span>, so it was really cool
+      implementing a two-way street communication channel between back-end and
+      front-end.
 
       <br />
       <br />
 
-      I used gpt-4o by OpenAI to handle
+      I used GPT-4o by OpenAI to handle
       <span class="highlight">text-to-speech (TTS)</span> communication and give
       Lady Monstera her voice.
 
@@ -105,27 +101,12 @@
       <br />
 
       <br />
-      <br />
+      <div class="section-title">She is Alive</div>
 
-      <br />
-      <br />
-
-      <br />
-      <br />
-
-      <br />
-      <br />
-
-      <br />
-      <br />
-      <div class="section-title">from sensor data to speech</div>
-
-      Seeing the plant’s internal state in real time was absolutely thrilling!
-      With the data streaming every second, all I had to do was visualize,
-      analyze, and “translate" it into a plant-like persona. I decided to track
-      water and light changes over 5-second intervals, and let the plant comment
-      on significant state changes, of course always with a sassy attitude. Here
-      is how Lady Monstera recently handled an abrupt dimming of the lights:
+      Seeing the plant’s internal state read in real time was absolutely
+      thrilling! I tracked water and light changes over 5-second intervals, and
+      let the plant comment on significant state changes. Here is how Lady
+      Monstera recently handled an abrupt dimming of the lights:
 
       <br />
       <br />
@@ -154,26 +135,23 @@
       <br />
       <br />
       <br />
-      <div class="section-title">observations and next steps</div>
+      <div class="section-title">Reflections and Future Opportunities</div>
 
       <ul>
         <li>
-          from a technical perspective, I opted for
+          I opted for
           <span class="highlight">text-to-speech</span> instead of realtime
           speech. Realtime was very sensitive to ambient noise, difficult to
-          control and it quickly became too expensive to play around with. I
-          believe a small delay in response is perfectly acceptable for a
-          talking plant.
+          control and it quickly became too expensive to experiment with.
         </li>
         <li>
-          it would be fun to <span class="highlight">gamify</span> the
-          experience, with multiple plants talking to each other, and implement
-          different plant personalities based on each plant’s needs, and even
-          connect hobbyist gardeners so that plants within a circle of friends
-          could gossip about their owners 🤭.
+          It would be fun to <span class="highlight">gamify</span> the
+          experience, with multiple plants talking to each other, each with
+          distinct personalities based on their needs. Maybe even connect
+          hobbyist gardeners and let their plants gossip about their owners 🤭
         </li>
         <li>
-          ultimately, I hope this project helps us get
+          Ultimately, I hope this project helps us get
           <span class="highlight">closer to our house plants</span> and the
           nature around us, reduce house plant neglect and make interacting with
           our green friends a little more entertaining and curiosity driven.
@@ -183,28 +161,45 @@
       <br />
       <br />
 
-      <div class="section-title">thank you, fellow hackers!</div>
-      This was my first ever real-world hackathon and I loved every minute of
-      it. Coding next to other hackers, exchanging ideas and simply absorbing
-      the energy and enthusiasm in the room, has left an indelible mark on me.
-      It has given me the confidence to keep building, no matter how silly or
-      small the initial idea might seem.
+      <div class="section-title">Thank You, Fellow Hackers!</div>
+      <a class="highlight-link" href="https://luma.com/4av8ffhb?tk=ZlAcOu"
+        >Waterloo Voice AI hackathon</a
+      >
+      was my first ever real-world hackathon and I loved every minute of it.
+      Coding next to other hackers, exchanging ideas and simply absorbing the
+      energy and enthusiasm in the room has left an indelible mark on me. It has
+      given me the confidence to keep building, no matter how silly or small the
+      initial idea might seem.
       <br />
       <br />
-      <span class="highlight">Thank you</span> to the organizers and judges, in
-      particular Ian Pillon, Mike , Ti Guo and Prabal for your dedication and
-      support.
+      A big <span class="highlight">thank you</span> to the organizers and
+      judges, in particular
+      <a class="highlight-link" href="https://www.linkedin.com/in/ianpilon/"
+        >Ian Pillon</a
+      >,
+      <a class="highlight-link" href="https://www.linkedin.com/in/mikebirdtech/"
+        >Mike Bird</a
+      >,
+      <a class="highlight-link" href="https://www.linkedin.com/in/ti-guo/"
+        >Ti Guo</a
+      >
+      and
+      <a class="highlight-link" href="https://www.linkedin.com/in/prabal1997/"
+        >Prabal Gupta</a
+      >
+
+      for your dedication and support.
       <br />
-      <br />Keep hacking and see you at the next one!
+      <br />Keep hacking and see you all at the next one!
 
       <br />
       <br />
 
       <strong>note</strong>
       <br />
-      As a rule of green thumb (yes, I am proud of this one 🙈🌱), dont leaf
+      As a rule of green thumb (yes, I am proud of this one 🙈🌱), don't leaf
       your plants unattended for too long. Also, singing to them improves their
-      greenery and promotes lushious, beat-loving flowers!
+      greenery and promotes luscious, beat-loving flowers!
 
       <br />
       <br />
