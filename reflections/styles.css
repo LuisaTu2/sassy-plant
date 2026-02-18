@@ -33,7 +33,7 @@ body {
   margin: 0;
   padding: 0;
   min-width: 320px;
-  max-width: 1280px;
+  /* max-width: 1280px; */
   color: var(--color-text);
   background-color: var(--color-bg);
   font-family: var(--font-body);
@@ -51,6 +51,7 @@ Desktops	≥1280px	1280px or responsive */
 .root {
   width: 80%;
   margin-left: 10%;
+  /* background-color: #e7f4ee; */
 }
 @media (min-width: 640px) {
   .root {
@@ -60,7 +61,7 @@ Desktops	≥1280px	1280px or responsive */
 }
 @media (min-width: 1000px) {
   .root {
-    width: 70%;
+    width: 50%;
     margin-left: 25%;
     font-size: 1.2rem;
   }
@@ -72,16 +73,16 @@ Desktops	≥1280px	1280px or responsive */
 }
 
 .header-title {
-  font-size: 2.2rem;
+  font-size: 1.4rem;
   padding: 20px 0 0px 0;
   margin-top: 24px;
   text-align: center;
   color: rgb(44, 109, 69);
   font-weight: 600;
 }
-@media (max-width: 400px) {
+@media (min-width: 1000px) {
   .header-title {
-    font-size: 1.6rem;
+    font-size: 2.2rem;
   }
 }
 
@@ -346,4 +347,40 @@ button.copied {
   font-size: 1rem;
   /* color: rgb(179, 79, 151); */
   /* font-weight: 600; */
+}
+
+.schematics {
+  width: 90%;
+  border-radius: 10px;
+  margin-left: 5%;
+  margin-top: 20px;
+  /* margin-bottom: 10px; */
+}
+
+.img-comment-section {
+  /* background-color: #0059c9; */
+  display: flex;
+  flex-direction: column;
+  /* gap: 5px; */
+  width: 90%;
+  margin-left: 5%;
+}
+.img-comment-title {
+  color: #0059c9;
+  /* font-size: 1.2rem; */
+  font-weight: 600;
+  text-transform: capitalize;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.square-dot {
+  font-size: 0.5rem;
+  padding-top: 10px;
+}
+
+.img-comment-text {
+  color: rgb(75, 87, 84);
+  font-size: 1.1rem;
 }

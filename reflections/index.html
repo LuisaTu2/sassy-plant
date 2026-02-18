@@ -28,8 +28,8 @@
       <div class="section-title">Intro</div>
 
       Last summer I tried gardening for the very first time. Armed with recycled
-      coffee cups and cheap soil, I germinated store-bought seeds indoors,
-      tracked frost dates and planted the surviving seedlings in my small yard.
+      coffee cups and cheap soil, I germinated store-bought seeds, tracked frost
+      dates and planted the surviving seedlings in my small yard.
 
       <br />
       <br />
@@ -49,6 +49,7 @@
       >
       opportunity, I thought: why not use AI to make a sassy plant talk to me?
 
+      <br />
       <br />
       <br />
 
@@ -75,24 +76,48 @@
 
       <br />
       <br />
+      <br />
 
       <div class="section-title">Tech Details</div>
+      <div style="text-align: left">
+        In order to understand the plant's state at any point in time, I
+        connected a
+        <span class="highlight">phototransistor</span> and a
+        <span class="highlight">soil moisture</span> sensor to an Arduino. Here
+        is the schematics:
+      </div>
+      <img
+        src="assets/schematics_plant.png"
+        alt="Description of the image"
+        class="schematics"
+      />
+      <div class="img-comment-section">
+        <div class="img-comment-title">
+          <div class="square-dot">🟦</div>
+          <div class="img-comment-title-text">Fig. 1 - Arduino setup</div>
+        </div>
+        <div class="img-comment-text">
+          <ul style="list-style-type: square">
+            <li>
+              The soil moisture sensor (SM) connects the plant to the Arduino
+              (A) via a 3.3V voltage and outputs data on A0.
+            </li>
+            <li>
+              The photo resistor connects to 5V on Arduino (A), 10 &ohm;
+              resistor. Data is read on the analog output A2.
+            </li>
+          </ul>
+        </div>
+      </div>
 
-      In order to understand the plant's state at any point in time, I connected
-      a
-      <span class="highlight">phototransistor</span> and a
-      <span class="highlight">soil moisture</span> sensor to an Arduino. Here is
-      the schema:
-
-      <br />
       <br />
 
       The <span class="highlight">Arduino</span> collects the sensors data and
       sends it over to the back-end (a Python FastAPI application) via
       asynchronous serial communication. The data is then processed and
-      displayed in React on the front-end. I used a combination of WebSocket and
-      Http for communication across the stack. I am fairly new to
-      <span class="highlight">WebSocket</span>, so it was really cool
+      displayed in React on the front-end. I used a combination of WebSockets
+      and Http for communication across the stack. I am fairly new to
+      <span class="highlight">WebSockets</span>, so it was really cool
       implementing a two-way street communication channel between back-end and
       front-end.
 
