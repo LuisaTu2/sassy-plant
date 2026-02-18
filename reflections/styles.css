@@ -364,6 +364,7 @@ button.copied {
   /* gap: 5px; */
   width: 90%;
   margin-left: 5%;
+  /* background-color: red; */
 }
 .img-comment-title {
   color: #0059c9;
@@ -383,4 +384,15 @@ button.copied {
 .img-comment-text {
   color: rgb(75, 87, 84);
   font-size: 1.1rem;
+}
+
+ul {
+  margin: 0 3%;
+
+  padding: 0;
+}
+
+li {
+  margin: 0;
+  padding: 0;
 }
