@@ -67,9 +67,19 @@
       <span class="highlight">sassy talking plant</span>!
       <br />
 
-      <br />
-      <br />
-      <br />
+      <div class="videos">
+        <video id="video-intro-0" controls>
+          <source src="assets/sassy-plant-intro-0.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <video id="video-intro-1" width="400" controls muted>
+          <source src="assets/sassy-plant-intro-1.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <button onclick="playAllVideos()" class="btn-click-both-intro">
+        play both videos
+      </button>
 
       <div class="section-title">Tech Details</div>
       <div style="text-align: left">
@@ -244,5 +254,18 @@
     </div>
 
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      window.onload = function () {
+        const videoIntro0 = document.getElementById("video-intro-0");
+        const videoIntro1 = document.getElementById("video-intro-1");
+        videoIntro0.playbackRate = 1.5;
+        videoIntro1.playbackRate = 1.5;
+      };
+
+      function playAllVideos() {
+        document.getElementById("video-intro-0").play();
+        document.getElementById("video-intro-1").play();
+      }
+    </script>
   </body>
 </html>
