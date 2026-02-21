@@ -137,17 +137,17 @@
       <br />
       <br />
 
-      <br />
-      <br />
-
-      <br />
+      <div class="video">
+        <video width="640" height="360" controls id="video-shade">
+          <source src="assets/sassy-plant-shade.mp4" type="video/mp4" />
+          <!-- Your browser does not support the video tag. -->
+        </video>
+      </div>
+      <!-- <br />
       <br />
       As you can see, she is also capable of detecting changes in light
       <span class="highlight">mid-speech</span> but doesn’t send a talking
-      notification while she is already talking.
-
-      <br />
-      <br />
+      notification while she is already talking. -->
 
       And here is how she reacted to being watered!
 
@@ -250,6 +250,10 @@
       window.onload = function () {
         const video = document.getElementById("video-intro");
         video.playbackRate = 1.25;
+      };
+      window.onload = function () {
+        const video = document.getElementById("video-shade");
+        video.playbackRate = 1.5;
       };
     </script>
   </body>
