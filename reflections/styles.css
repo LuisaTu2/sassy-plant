@@ -477,20 +477,10 @@ li {
 }
 
 video {
+  width: 90%;
+  margin-top: 32px;
+  margin-left: 5%;
+  margin-bottom: 100px;
+  min-height: 700px;
   border-radius: 15px;
-  width: 46%;
-  margin: 2%;
-  min-height: 100px;
-}
-
-.btn-click-both-intro {
-  margin-left: 2%;
-  margin-bottom: 50px;
-  background-color: rgb(104, 140, 104);
-  color: rgb(239, 246, 239);
-  border: none;
-  height: 50px;
-  padding: 5px 10px;
-  font-size: 1.3rem;
-  border-radius: 5px;
 }
