@@ -53,8 +53,8 @@
 
       Meet the one and only,
       <span class="highlight">Lady Monstera Deliciosa</span>! She is native to
-      the tropical forests of southern Mexico, and is also known as the “Swiss
-      cheese plant” due to the holes or “eyes,” that develop in her leaves,
+      the tropical forests of southern Mexico and is also known as the “Swiss
+      cheese plant” due to the holes or “eyes” that develop in her leaves,
       resembling the holes in Emmental cheese.
 
       <br />
@@ -96,8 +96,8 @@
               a 3.3V voltage and outputs data on A0.
             </li>
             <li>
-              The phototransistor (P) connects to 5V on Arduino (A), 10 &ohm;
-              resistor. Data is read on the analog output A2.
+              The phototransistor (P) connects to 5V on Arduino (A) through a 10
+              &ohm; resistor. Data is read on the analog output A2.
             </li>
           </ul>
         </div>
@@ -105,14 +105,14 @@
 
       <br />
 
-      The <span class="highlight">Arduino</span> collects the sensors' data and
-      sends it to the backend (a Python FastAPI application) via asynchronous
-      serial communication. The data is then processed and displayed in React on
-      the frontend. I used a combination of WebSockets and HTTP for
-      communication across the stack. I am fairly new to
-      <span class="highlight">WebSockets</span>, so it was really cool
-      implementing a two-way street communication channel between backend and
-      frontend.
+      The Arduino collects the sensors' data and sends it to the backend (a
+      Python FastAPI application) via
+      <span class="highlight">asynchronous serial communication</span>. The data
+      is then processed and displayed in React on the frontend. I used a
+      combination of WebSockets and HTTP for communication across the stack. I
+      am fairly new to <span class="highlight">WebSockets</span>, so it was
+      really cool implementing a two-way communication channel between backend
+      and frontend.
 
       <br />
       <br />
@@ -127,7 +127,7 @@
       <br />
       <div class="section-title">From Sensors to Speech</div>
 
-      Seeing the plant’s internal state read in real time was absolutely
+      Seeing the plant’s internal state update in real time was absolutely
       thrilling! I tracked water and light changes over 5-second intervals, and
       let the plant comment on significant state changes. Here is how Lady
       Monstera recently handled an abrupt dimming of the lights:
@@ -157,8 +157,8 @@
       </div>
 
       Notice how she records and <span class="highlight">updates</span> the last
-      time she was watered. Anything to remind you how sassy she is, and how she
-      won’t forgive you for forgetting to water her!
+      time she was watered - just another way to remind you how sassy she is,
+      and how she won’t forgive you for forgetting to water her!
 
       <br />
       <br />
@@ -180,9 +180,9 @@
         </li>
         <li>
           Ultimately, I hope this project helps us get
-          <span class="highlight">closer to our house plants</span> and the
-          nature around us, reduce house plant neglect and make interacting with
-          our green friends a little more entertaining and curiosity driven.
+          <span class="highlight">closer to our houseplants</span> and the
+          nature around us, reduce houseplant neglect and make interacting with
+          our green friends a little more entertaining and curiosity-driven.
         </li>
       </ul>
       <br />
@@ -192,7 +192,7 @@
       <div class="section-title">Thank You, Fellow Hackers!</div>
       The
       <a class="highlight-link" href="https://luma.com/4av8ffhb?tk=ZlAcOu"
-        >Waterloo Voice AI hackathon</a
+        >Waterloo Voice AI Hackathon</a
       >
       was my first real-world hackathon and I loved every minute of it. Coding
       next to other hackers, exchanging ideas and simply absorbing the energy
@@ -256,11 +256,11 @@
       };
       window.onload = function () {
         const video = document.getElementById("video-shade");
-        video.playbackRate = 1.5;
+        video.playbackRate = 1.25;
       };
       window.onload = function () {
         const video = document.getElementById("video-water");
-        video.playbackRate = 1.5;
+        video.playbackRate = 1.25;
       };
     </script>
   </body>
